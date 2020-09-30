@@ -6,7 +6,9 @@ module.exports = (sequelize, DataTypes) => {
   Timesheet.init(
     {
       name: { type: DataTypes.STRING, allowNull: false },
-      password: { type: DataTypes.STRING, allowNull: false },
+      startDate: { type: DataTypes.DATE, allowNull: false, validate: { isDate: true } },
+      isSubmitted: { type: DataTypes.BOOLEAN, allowNull: false },
+      totalHours: { type: DataTypes.INTEGER, allowNull: false },
     },
     { sequelize, tableName: 'Timesheets', modelName: 'Timesheet' }
   );
