@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: {
           min: 4,
-          max: 20,
+          max: 40,
         },
       },
     },
