@@ -6,8 +6,9 @@ import { InnerContainer } from "./styles";
 import { BaseDiv } from "src/components/generic/styles/Containers";
 import { LogBtn } from "src/components/generic/styles/Buttons";
 import { Link } from "src/components/generic/styles/Link";
+import { NavLink } from "react-router-dom";
 
-export const LoginPage = () => {
+export const Login = () => {
   return (
     <BaseDiv>
       <InnerContainer>
@@ -34,7 +35,10 @@ export const LoginPage = () => {
                 </div>
                 <div>
                   Don't have an account yet?
-                  <Link> Register</Link>
+                  <Link as={NavLink} to="/register">
+                    {" "}
+                    Register
+                  </Link>
                 </div>
               </Form>
             );
