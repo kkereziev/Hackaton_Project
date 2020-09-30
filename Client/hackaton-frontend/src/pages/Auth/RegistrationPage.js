@@ -37,7 +37,7 @@ export const RegistrationPage = () => {
                   </LogBtn>
                 </div>
                 <div>
-                  Already have an account? -->
+                  Already have an account?
                   <Link> Log In</Link>
                 </div>
               </Form>
