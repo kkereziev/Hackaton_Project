@@ -16,22 +16,22 @@ module.exports = (sequelize) => {
   Task.belongsToMany(Project, {
     through: 'ProjectsTasks',
     foreignKey: 'taskId',
-    as: 'Task',
+    as: 'TaskProject',
   });
   Project.belongsToMany(Task, {
     through: 'ProjectsTasks',
     foreignKey: 'projectId',
-    as: 'Project',
+    as: 'ProjectTask',
   });
 
   User.belongsToMany(Project, {
     through: 'UsersProjects',
     foreignKey: 'userId',
-    as: 'User',
+    as: 'UserProject',
   });
   Project.belongsToMany(User, {
     through: 'UsersProjects',
     foreignKey: 'projectId',
-    as: 'Project',
+    as: 'ProjectUser',
   });
 };
