@@ -1,6 +1,7 @@
-const auth = require('./auth');
+//const auth = require('./auth');
 const jwt = require('./jwt');
-const cookieExtractor = require('./cookieExtractor');
-const gracefulShutdown = require('./gracefulShutdown');
+//const cookieExtractor = require('./cookieExtractor');
+const findUserByUsername = require('./helper/Auth/findUserByUsername');
+const passport = require('./auth');
 
-module.exports = { gracefulShutdown, auth, jwt, cookieExtractor };
+module.exports = { findUserByUsername, passport, jwt };

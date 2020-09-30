@@ -1,14 +1,15 @@
 const passport = require('passport');
 const { Strategy: JwtStrategy } = require('passport-jwt');
-const { config } = require('../config');
-const { models } = require('../db');
+const { secret } = require('../config/config');
+const { models } = require('../db/index');
 const cookieExtractor = require('./cookieExtractor');
 
 const options = {
-  jwtFromRequest: cookieExtractor, //callback
-  secretOrKey: config.secret,
+  jwtFromRequest: cookieExtractor, // callback
+  secretOrKey: secret,
 };
 const passportConfig = new JwtStrategy(options, (jwt_payload, done) => {
+  console.log(jwt_payload);
   models.User.findOne({ where: { id: jwt_payload.id } })
     .then((user) => {
       if (user) {
@@ -18,6 +19,5 @@ const passportConfig = new JwtStrategy(options, (jwt_payload, done) => {
     })
     .catch((err) => done(err, false));
 });
-
 passport.use('JwtStrategy', passportConfig);
 module.exports = passport;
