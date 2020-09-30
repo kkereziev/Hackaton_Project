@@ -29,3 +29,5 @@
 {"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:17:40 +0000] \"POST /api/users/logout HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:17:40.340Z"}
 {"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:17:44 +0000] \"POST /api/users/login HTTP/1.1\" 200 175 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:17:44.833Z"}
 {"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:17:47 +0000] \"POST /api/users/logout HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:17:47.287Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:25:22 +0000] \"POST /api/users/login HTTP/1.1\" 200 175 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:25:22.575Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:25:25 +0000] \"POST /api/users/logout HTTP/1.1\" 200 16 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:25:25.227Z"}

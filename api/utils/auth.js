@@ -9,7 +9,6 @@ const options = {
   secretOrKey: secret,
 };
 const passportConfig = new JwtStrategy(options, (jwt_payload, done) => {
-  console.log(jwt_payload);
   models.User.findOne({ where: { id: jwt_payload.id } })
     .then((user) => {
       if (user) {
