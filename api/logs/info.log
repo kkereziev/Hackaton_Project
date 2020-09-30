@@ -1,0 +1,33 @@
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:18:39:51 +0000] \"POST /api/users/register HTTP/1.1\" 200 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T18:39:51.494Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:18:44:48 +0000] \"POST /api/users/register HTTP/1.1\" 200 175 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T18:44:48.600Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:19:43:51 +0000] \"POST /api/users/login HTTP/1.1\" 401 46 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T19:43:51.003Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:19:45:48 +0000] \"POST /api/users/login HTTP/1.1\" 401 46 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T19:45:48.018Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:19:46:06 +0000] \"POST /api/users/login HTTP/1.1\" 401 46 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T19:46:06.944Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:19:47:28 +0000] \"POST /api/users/login HTTP/1.1\" 401 46 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T19:47:28.593Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:19:48:12 +0000] \"POST /api/users/login HTTP/1.1\" 401 46 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T19:48:12.990Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:19:52:24 +0000] \"POST /api/users/login HTTP/1.1\" 200 175 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T19:52:24.103Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:19:54:23 +0000] \"POST /api/users/asd HTTP/1.1\" 500 64 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T19:54:23.194Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:19:58:34 +0000] \"POST /api/users/login HTTP/1.1\" 200 175 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T19:58:34.494Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:19:58:42 +0000] \"POST /api/users/asd HTTP/1.1\" 500 56 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T19:58:42.252Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:00:25 +0000] \"POST /api/users/login HTTP/1.1\" 200 175 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:00:25.419Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:00:31 +0000] \"POST /api/users/asd HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:00:31.555Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:01:44 +0000] \"POST /api/users/login HTTP/1.1\" 200 175 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:01:44.527Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:02:48 +0000] \"POST /api/users/login HTTP/1.1\" 200 175 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:02:48.065Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:02:57 +0000] \"POST /api/users/asd HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:02:57.064Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:03:59 +0000] \"POST /api/users/login HTTP/1.1\" 200 175 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:03:59.738Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:04:04 +0000] \"POST /api/users/asd HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:04:04.012Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:04:35 +0000] \"POST /api/users/asd HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:04:35.043Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:04:48 +0000] \"POST /api/users/asd HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:04:48.137Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:05:08 +0000] \"POST /api/users/asd HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:05:08.968Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:05:22 +0000] \"POST /api/users/asd HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:05:22.712Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:06:11 +0000] \"POST /api/users/asd HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:06:11.437Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:06:32 +0000] \"POST /api/users/asd HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:06:32.701Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:08:38 +0000] \"POST /api/users/asd HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:08:38.245Z"}
+{"message":"::1 - - [30/Sep/2020:20:11:10 +0000] \"GET /api/users/asd HTTP/1.1\" 404 152 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36\"\n","level":"info","timestamp":"2020-09-30T20:11:10.609Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:11:59 +0000] \"POST /api/users/login HTTP/1.1\" 200 175 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:11:59.913Z"}
+{"message":"::1 - - [30/Sep/2020:20:12:10 +0000] \"GET /api/users/dsa HTTP/1.1\" 404 152 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36\"\n","level":"info","timestamp":"2020-09-30T20:12:10.746Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:17:40 +0000] \"POST /api/users/logout HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:17:40.340Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:17:44 +0000] \"POST /api/users/login HTTP/1.1\" 200 175 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:17:44.833Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:17:47 +0000] \"POST /api/users/logout HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:17:47.287Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:25:22 +0000] \"POST /api/users/login HTTP/1.1\" 200 175 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:25:22.575Z"}
+{"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:25:25 +0000] \"POST /api/users/logout HTTP/1.1\" 200 16 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:25:25.227Z"}
