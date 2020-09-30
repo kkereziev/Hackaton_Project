@@ -1,12 +1,13 @@
 import React from "react";
 import { Navigation } from "./components/Navigation";
-import { DropDown } from "./components/generic/Dropdown/DropDown";
+
+import { CurrentTimeSheet } from "src/pages/CurrentTimeSheet/CurrentTimeSheet";
 
 function App() {
   return (
     <div>
       <Navigation />
-      <DropDown />
+      <CurrentTimeSheet />
     </div>
   );
 }
