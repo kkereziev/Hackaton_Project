@@ -15,17 +15,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
         validate: {
-          min: 4,
-          max: 20,
+          is: /^(?!.*\.(?:com|net))[A-Z0-9.]{5,}$/i,
         },
       },
       phash: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          min: 8,
-          max: 20,
-        },
       },
     },
     {

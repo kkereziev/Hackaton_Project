@@ -31,6 +31,7 @@
 {"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:17:47 +0000] \"POST /api/users/logout HTTP/1.1\" 401 - \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:17:47.287Z"}
 {"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:25:22 +0000] \"POST /api/users/login HTTP/1.1\" 200 175 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:25:22.575Z"}
 {"message":"::ffff:127.0.0.1 - - [30/Sep/2020:20:25:25 +0000] \"POST /api/users/logout HTTP/1.1\" 200 16 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-09-30T20:25:25.227Z"}
+<<<<<<< Updated upstream
 {"message":"::1 - - [30/Sep/2020:20:43:13 +0000] \"POST /api/users/register HTTP/1.1\" 500 62 \"-\" \"PostmanRuntime/7.26.5\"\n","level":"info","timestamp":"2020-09-30T20:43:13.422Z"}
 {"message":"::1 - - [30/Sep/2020:20:43:19 +0000] \"POST /api/users/register HTTP/1.1\" 500 62 \"-\" \"PostmanRuntime/7.26.5\"\n","level":"info","timestamp":"2020-09-30T20:43:19.882Z"}
 {"message":"::1 - - [30/Sep/2020:20:43:43 +0000] \"POST /api/users/register HTTP/1.1\" 500 62 \"-\" \"PostmanRuntime/7.26.5\"\n","level":"info","timestamp":"2020-09-30T20:43:43.109Z"}
@@ -144,6 +145,7 @@
 {"message":"::ffff:127.0.0.1 - - [01/Oct/2020:12:25:42 +0000] \"POST /api/users/login HTTP/1.1\" 401 28 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-10-01T12:25:42.105Z"}
 {"message":"::ffff:127.0.0.1 - - [01/Oct/2020:12:26:11 +0000] \"POST /api/users/login HTTP/1.1\" 400 12 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-10-01T12:26:11.288Z"}
 {"message":"::ffff:127.0.0.1 - - [01/Oct/2020:12:26:50 +0000] \"POST /api/users/login HTTP/1.1\" 400 31 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-10-01T12:26:50.349Z"}
+=======
 {"message":"::ffff:127.0.0.1 - - [01/Oct/2020:09:51:54 +0000] \"POST /register HTTP/1.1\" 404 148 \"http://localhost:3000/register\" \"Mozilla/5.0 (X11; Linux x86_64; rv:79.0) Gecko/20100101 Firefox/79.0\"\n","level":"info","timestamp":"2020-10-01T09:51:54.052Z"}
 {"message":"::ffff:127.0.0.1 - - [01/Oct/2020:09:53:12 +0000] \"POST /api/users/register HTTP/1.1\" 200 176 \"http://localhost:3000/register\" \"Mozilla/5.0 (X11; Linux x86_64; rv:79.0) Gecko/20100101 Firefox/79.0\"\n","level":"info","timestamp":"2020-10-01T09:53:12.157Z"}
 {"message":"::ffff:127.0.0.1 - - [01/Oct/2020:09:54:44 +0000] \"POST /api/users/login HTTP/1.1\" 200 176 \"http://localhost:3000/login\" \"Mozilla/5.0 (X11; Linux x86_64; rv:79.0) Gecko/20100101 Firefox/79.0\"\n","level":"info","timestamp":"2020-10-01T09:54:44.879Z"}
@@ -179,3 +181,4 @@
 {"message":"::ffff:127.0.0.1 - - [01/Oct/2020:11:51:44 +0000] \"POST /api/users/register HTTP/1.1\" 500 30 \"-\" \"Mozilla/5.0 (X11; Linux x86_64; rv:79.0) Gecko/20100101 Firefox/79.0\"\n","level":"info","timestamp":"2020-10-01T11:51:44.739Z"}
 {"message":"::ffff:127.0.0.1 - - [01/Oct/2020:11:52:18 +0000] \"POST /api/users/register HTTP/1.1\" 200 178 \"http://localhost:3000/register\" \"Mozilla/5.0 (X11; Linux x86_64; rv:79.0) Gecko/20100101 Firefox/79.0\"\n","level":"info","timestamp":"2020-10-01T11:52:18.612Z"}
 {"message":"::ffff:127.0.0.1 - - [01/Oct/2020:11:52:24 +0000] \"POST /api/users/login HTTP/1.1\" 200 178 \"http://localhost:3000/login\" \"Mozilla/5.0 (X11; Linux x86_64; rv:79.0) Gecko/20100101 Firefox/79.0\"\n","level":"info","timestamp":"2020-10-01T11:52:24.124Z"}
+>>>>>>> Stashed changes
