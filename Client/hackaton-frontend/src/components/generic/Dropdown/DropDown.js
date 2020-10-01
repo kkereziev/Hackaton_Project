@@ -1,6 +1,5 @@
 import React from "react";
 import Select from "react-select";
-import { getDateOptions } from "src/api_endpoints/timesheets";
 
 const customStyles = {
   menu: (provided, state) => ({
