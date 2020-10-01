@@ -22,6 +22,7 @@ export const DropDown = ({ placeholder, options, onChange }) => {
       placeholder={placeholder}
       menuContainerStyle={{ zIndex: 5 }}
       onChange={onChange}
+      isOptionDisabled={(option) => option.disabled === true}
       theme={(theme) => ({
         ...theme,
         colors: {

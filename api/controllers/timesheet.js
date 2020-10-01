@@ -33,7 +33,7 @@ const get = {
 const post = {
   async createTimesheet(req, res, next) {
     const { id } = req.user.dataValues;
-    const { startDate } = req.body;
+    const { startDate, name } = req.body;
     const startingDate = new Date(startDate);
     if (!(startingDate instanceof Date)) {
       res.status(404).json({ error: 'Not a date' });
@@ -43,12 +43,11 @@ const post = {
     const doesDayMatch = checkIfDateIsRight(partsOfTheSubbmitedDate, dates);
 
     if (doesDayMatch) {
-      const [startDay, startMonth, startYear] = extractPertsOfDate(startingDate);
       const finalDay = lastDay(startingDate);
 
       const [finalEndDay, finalMonth, finalYear] = extractPertsOfDate(finalDay);
-      const name = `${startMonth + 1}-${startDay}-${startYear} to ${finalMonth + 1}-${finalEndDay}-${finalYear}`;
-      const newTimesheet = await models.Timesheet.create({ name, startDate, isSubmitted: false, userId: id, totalHours: 0 });
+      const timesheetName = `${name} to ${finalMonth + 1}-${finalEndDay}-${finalYear}`;
+      const newTimesheet = await models.Timesheet.create({ name: timesheetName, startDate, isSubmitted: false, userId: id, totalHours: 0 });
       res.send(newTimesheet);
     } else {
       res.status(422).send({ error: 'Invalid starting date' });

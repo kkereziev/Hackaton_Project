@@ -7,34 +7,43 @@ import {
 import { Title, TitleDiv } from "src/components/generic/styles/Title";
 import { NextBtn } from "src/components/generic/styles/Buttons";
 import { DropDown } from "../../components/generic/Dropdown/DropDown";
+import { getDates, createTimesheet } from "src/api_endpoints/timesheets";
 
 export const CreateTimesheet = () => {
   const history = useHistory();
-  const [options, setOptions] = useState([
-    { value: "10-1-2020", label: "10/1/2020" },
-    { value: "10-2-2020", label: "10/2/2020" },
-  ]);
+  const [options, setOptions] = useState([]);
 
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState({});
 
   useEffect(() => {
-    // async () => {
-    //   try {
-    //     const newOptions = await api.getOptions;
-    //     setOptions(newOptions);
-    //   } catch (error) {}
-    // };
+    const fetchDates = async () => {
+      const datesOptions = [];
+      const dates = await getDates();
+      console.log(dates);
+      dates.map((date) => {
+        datesOptions.push({
+          value: date.startDate,
+          label: date.isSubmitted ? `${date.name} already created` : date.name,
+          disabled: date.isSubmitted,
+        });
+      });
+      setOptions(datesOptions);
+    };
+
+    fetchDates();
   }, []);
 
   const nextBtnClick = async () => {
     try {
-      // await api.CreateTimesheet
-      history.push(`/timesheet/${startDate}`);
-    } catch (error) {}
+      await createTimesheet(startDate);
+      history.push(`/timesheet/${startDate.name}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (e) => {
-    setStartDate(e.value);
+    setStartDate({ name: e.label, startDate: e.value });
   };
 
   return (
