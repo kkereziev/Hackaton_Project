@@ -26,7 +26,7 @@ const get = {
       datesFinal[i] = { name: dateString, isSubmitted: doesExist, startDate: dates[i] };
     }
 
-    res.send(datesFinal);
+    res.json(datesFinal);
   },
 };
 
