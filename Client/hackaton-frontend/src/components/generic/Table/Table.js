@@ -1,6 +1,7 @@
-import React from "react";
-//import {styles} from "./Table.module.css"
+import React, { useState } from "react";
+import styles from "./table.module.css";
 import { DropDown } from "../Dropdown/DropDown";
+import { NextBtn } from "src/components/generic/styles/Buttons";
 
 import {
   TableDiv,
@@ -26,6 +27,16 @@ export const Table = ({ date }) => {
   ];
   const projectsPlaceholder = "Project...";
   const tasksPlaceholder = "Task...";
+  const [task, setTask] = useState(null);
+  const [tasks, setTasks] = useState([]);
+
+  const [isOpen, setIsOpen] = useState(true);
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
 
   return (
     <TableDiv>
@@ -34,28 +45,37 @@ export const Table = ({ date }) => {
           <TblHeading></TblHeading>
           <TblHeading>Project</TblHeading>
           <TblHeading>Task</TblHeading>
-          <TblHeading>Mon {date}</TblHeading>
-          <TblHeading>Tue</TblHeading>
-          <TblHeading>Wed</TblHeading>
-          <TblHeading>Thu</TblHeading>
-          <TblHeading>Fri</TblHeading>
-          <TblHeading>Sat</TblHeading>
-          <TblHeading>Sun</TblHeading>
+          <TblHeading>13 Mon</TblHeading>
+          <TblHeading>14 Tue</TblHeading>
+          <TblHeading>15 Wed</TblHeading>
+          <TblHeading>16 Thu</TblHeading>
+          <TblHeading>17 Fri</TblHeading>
+          <TblHeading>18 Sat</TblHeading>
+          <TblHeading>19 Sun</TblHeading>
           <TblHeading>Total</TblHeading>
         </tr>
         <tr>
-          <TblData>btn</TblData>
+          <TblData>
+            <NextBtn>Delete</NextBtn>
+          </TblData>
           <TblData>
             <DropDownDiv>
               <DropDown
                 options={projectOptions}
                 placeholder={projectsPlaceholder}
+                menuPortalTarget={document.body}
+                styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
               />
             </DropDownDiv>
           </TblData>
           <TblData>
             <DropDownDiv>
-              <DropDown options={taskOptions} placeholder={tasksPlaceholder} />
+              <DropDown
+                options={taskOptions}
+                placeholder={tasksPlaceholder}
+                menuPortalTarget={document.body}
+                styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+              />
             </DropDownDiv>
           </TblData>
           <TblData>

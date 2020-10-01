@@ -8,6 +8,10 @@ import { NextBtn } from "src/components/generic/styles/Buttons";
 import styled from "styled-components";
 import { Table } from "src/components/generic/Table/Table";
 import { DropDown } from "../../components/generic/Dropdown/DropDown";
+import {
+  BtnGroupFlexDiv,
+  TitleWithBtnsDiv,
+} from "src/components/generic/styles/Containers";
 
 // In order to be consistent and to have styled components I have called the wrapping div "SelectWeekDiv"
 // If you prefer you could just place a div tag with and in order to display:none when Next clicked
@@ -37,6 +41,15 @@ export const CurrentTimeSheet = () => {
           </LineFlexBaseDiv>
         </ColumnBaseDiv>
       </SelectWeekDiv>
+
+      <TitleWithBtnsDiv>
+        <Title>Timesheet for week 05/13/2020</Title>
+        <BtnGroupFlexDiv>
+          <NextBtn>Delete</NextBtn>
+          <NextBtn>Save</NextBtn>
+          <NextBtn>Submit</NextBtn>
+        </BtnGroupFlexDiv>
+      </TitleWithBtnsDiv>
       <Table />
     </div>
   );
