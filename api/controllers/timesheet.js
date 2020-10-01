@@ -1,7 +1,7 @@
 const date = require('date.js');
 const jwt = require('jsonwebtoken');
 const { models, Op } = require('../db/index');
-const { extractMondays } = require('../utils/index');
+const { extractMondays, extractPertsOfDate, checkIfDateIsRight } = require('../utils/index');
 const { secret } = require('../config/config');
 const cookieExtractor = require('../utils/cookieExtractor');
 
@@ -17,6 +17,7 @@ const get = {
 
   getDates(req, res, next) {
     const dates = extractMondays();
+
     res.send({ dates });
   },
 };
@@ -26,9 +27,19 @@ const post = {
     const { id } = req.user.dataValues;
     const { startDate } = req.body;
     const startingDate = new Date(startDate);
-
+    if (!(startingDate instanceof Date)) {
+      res.status(404).json({ error: 'Not a date' });
+    }
+    const partsOfTheSubbmitedDate = extractPertsOfDate(startingDate);
     const dates = extractMondays();
-    dates.map((date) => )
+    const doesDayMatch = checkIfDateIsRight(partsOfTheSubbmitedDate, dates);
+
+    if (doesDayMatch) {
+      const finalDay = date('after 6 days', startDate);
+      res.send(finalDay);
+    } else {
+      res.send('Uppss');
+    }
 
     //models.Timesheet.create();
   },
