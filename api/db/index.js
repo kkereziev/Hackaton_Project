@@ -19,10 +19,6 @@ modelDefiners.map((model) => {
   return model(sequelize, Sequelize.DataTypes);
 });
 
-// for (const modelDefiner of modelDefiners) {
-//   modelDefiner(sequelize, Sequelize.DataTypes);
-// }
-
 const applyRelationships = require('./models/defineAssociations');
 
 sequelize.sync();

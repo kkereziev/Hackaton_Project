@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const logger = require('morgan');
 const passport = require('passport');
+const cookieParser = require('cookie-parser');
 const { loggingWinston } = require('./winston');
 
 module.exports = (app) => {
@@ -16,4 +17,5 @@ module.exports = (app) => {
       extended: false,
     })
   );
+  app.use(cookieParser());
 };

@@ -1,5 +1,6 @@
-const router = require('../routes');
+const { auth, timesheet } = require('../routes');
 
 module.exports = (app) => {
-  // app.use("/users", router.user);
+  app.use('/api/users', auth);
+  app.use('/api/timesheets', timesheet);
 };
