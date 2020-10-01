@@ -52,7 +52,6 @@ sequelize
 //  Graceful shutdown
 module.exports = app;
 function gracefulShutdown() {
-  console.log(server);
   console.log('Starting to shutdown...');
 
   server.close(() => {

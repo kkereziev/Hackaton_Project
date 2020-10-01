@@ -17,3 +17,24 @@ export const MainCard = styled.div`
   border-style: solid;
   border-radius: 10px;
 `;
+
+export const ColumnBaseDiv = styled(BaseDiv)`
+  flex-direction: column;
+  width: 25%;
+  min-width: 350px;
+  margin: 0 auto;
+`;
+
+export const LineFlexBaseDiv = styled(BaseDiv)`
+  padding: 0;
+`;
+
+export const TitleWithBtnsDiv = styled(BaseDiv)`
+  justify-content: space-between;
+  align-content: center;
+  width: 65%;
+`;
+export const BtnGroupFlexDiv = styled(LineFlexBaseDiv)`
+  width: 25%;
+  justify-content: space-between;
+`;
