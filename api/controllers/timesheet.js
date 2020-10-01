@@ -9,7 +9,6 @@ const cookieExtractor = require('../utils/cookieExtractor');
 const get = {
   async allTimesheets(req, res, next) {
     console.log(req.user.dataValues.id);
-    // req.user = decoded.user;
   },
 
   async timesheet(req, res, next) {
@@ -25,7 +24,7 @@ const get = {
       const findDate = await models.Timesheet.findOne({ where: { name: { [Op.like]: `${dateString}%` } } });
       const doesExist = !!findDate;
 
-      datesFinal[i] = { dateString, doesExist, date: dates[i] };
+      datesFinal[i] = { name: dateString, isSubmitted: doesExist, startDate: dates[i] };
     }
 
     res.send(datesFinal);
