@@ -26,7 +26,7 @@ const get = {
       datesFinal[i] = { name: dateString, isSubmitted: doesExist, startDate: dates[i] };
     }
 
-    res.send(datesFinal);
+    res.json(datesFinal);
   },
 };
 
@@ -49,7 +49,7 @@ const post = {
       const [finalEndDay, finalMonth, finalYear] = extractPertsOfDate(finalDay);
       const name = `${startMonth + 1}-${startDay}-${startYear} to ${finalMonth + 1}-${finalEndDay}-${finalYear}`;
       const newTimesheet = await models.Timesheet.create({ name, startDate, isSubmitted: false, userId: id, totalHours: 0 });
-      res.send(newTimesheet);
+      res.json(newTimesheet);
     } else {
       res.status(422).send({ error: 'Invalid starting date' });
     }
