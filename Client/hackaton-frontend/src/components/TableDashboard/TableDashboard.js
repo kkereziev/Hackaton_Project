@@ -9,7 +9,7 @@ import {
 } from "../generic/styles/Buttons";
 import { RiDeleteBinFill, RiEdit2Fill, RiFileSearchLine } from "react-icons/ri";
 
-export const TableDashboard = () => {
+export const TableDashboard = ({ handleOpen }) => {
   return (
     <TableBootstrap responsive>
       <Tbl>
@@ -26,7 +26,7 @@ export const TableDashboard = () => {
               <EditBtn>
                 <RiEdit2Fill color="white" />
               </EditBtn>
-              <DeleteBtn>
+              <DeleteBtn onClick={handleOpen}>
                 <RiDeleteBinFill color="white" />
               </DeleteBtn>
             </IconBtnDiv>

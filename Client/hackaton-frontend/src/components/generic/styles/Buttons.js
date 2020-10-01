@@ -29,10 +29,23 @@ export const NextBtn = styled.button`
   border-color: #008d64;
   margin: 30px;
   color: white;
+  :focus {
+    outline: none;
+  }
   &:hover {
     color: white;
     border-color: #669999;
     background-color: #669999;
+  }
+`;
+
+export const NoBtn = styled(NextBtn)`
+  background-color: #8a1d00;
+  border: solid 2px;
+  border-color: #8a1d00;
+  &:hover {
+    border-color: #ca4f44;
+    background-color: #ca4f44;
   }
 `;
 
