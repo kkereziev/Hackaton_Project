@@ -10,8 +10,9 @@ import { connect } from "react-redux";
 import { login } from "../../store/slice/auth";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { Alert } from "react-bootstrap";
 
-const LoginPage = ({ login }) => {
+const LoginPage = ({ login, authError }) => {
   const history = useHistory();
   const handleSubmit = (values) => {
     login({ ...values, history });
@@ -35,7 +36,7 @@ const LoginPage = ({ login }) => {
                   label="Password"
                   autoComplete="current password"
                 />
-
+                {authError && <Alert variant="danger">{authError}</Alert>}
                 <div>
                   <LogBtn disabled={!isValid} type="submit">
                     Log In
@@ -56,6 +57,11 @@ const LoginPage = ({ login }) => {
   );
 };
 
-export const ConnectedLoginPage = connect(null, (dispatch) => ({
-  login: (values) => dispatch(login(values)),
-}))(LoginPage);
+export const ConnectedLoginPage = connect(
+  (state) => ({
+    authError: state.auth.authError,
+  }),
+  (dispatch) => ({
+    login: (values) => dispatch(login(values)),
+  })
+)(LoginPage);

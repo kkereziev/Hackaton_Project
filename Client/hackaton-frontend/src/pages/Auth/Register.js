@@ -1,5 +1,6 @@
 import React from "react";
 import { Formik, Form } from "formik";
+import { Alert } from "react-bootstrap";
 import { TextInputField } from "src/components/generic/TextInput";
 import { RegistrationValidationSchema } from "src/validations/registration";
 import { InnerContainer } from "./styles";
@@ -10,7 +11,7 @@ import { connect } from "react-redux";
 import { register } from "../../store/slice/auth";
 import { NavLink, useHistory } from "react-router-dom";
 
-export const RegistrationPage = ({ register }) => {
+export const RegistrationPage = ({ register, authError }) => {
   const history = useHistory();
   const handleSubmit = (values) => {
     register({ ...values, history });
@@ -43,6 +44,7 @@ export const RegistrationPage = ({ register }) => {
                   type="password"
                   label="Confirm Password"
                 />
+                {authError && <Alert variant="danger">{authError}</Alert>}
                 <div>
                   <LogBtn disabled={!isValid} type="submit">
                     Sign in
@@ -64,6 +66,11 @@ export const RegistrationPage = ({ register }) => {
   );
 };
 
-export const ConnectedRegistrationPage = connect(null, (dispatch) => ({
-  register: (values) => dispatch(register(values)),
-}))(RegistrationPage);
+export const ConnectedRegistrationPage = connect(
+  (state) => ({
+    authError: state.auth.authError,
+  }),
+  (dispatch) => ({
+    register: (values) => dispatch(register(values)),
+  })
+)(RegistrationPage);
