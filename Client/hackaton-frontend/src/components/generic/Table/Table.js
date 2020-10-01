@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import styles from "./table.module.css";
+import React from "react";
 import { DropDown } from "../Dropdown/DropDown";
 import { NextBtn } from "src/components/generic/styles/Buttons";
 
@@ -12,7 +11,7 @@ import {
   DropDownDiv,
 } from "./table.styles";
 
-export const Table = ({ date }) => {
+export const Table = () => {
   const projectOptions = [
     { value: "project1", label: "project1project1project1project1project1" },
     { value: "project2", label: "project2" },
@@ -27,16 +26,6 @@ export const Table = ({ date }) => {
   ];
   const projectsPlaceholder = "Project...";
   const tasksPlaceholder = "Task...";
-  const [task, setTask] = useState(null);
-  const [tasks, setTasks] = useState([]);
-
-  const [isOpen, setIsOpen] = useState(true);
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-  const handleOpen = () => {
-    setIsOpen(true);
-  };
 
   return (
     <TableDiv>

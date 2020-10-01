@@ -1,6 +1,5 @@
 import React from "react";
 import Select from "react-select";
-import styles from "./dropdown.module.css";
 
 const customStyles = {
   menu: (provided, state) => ({
