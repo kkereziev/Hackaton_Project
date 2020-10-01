@@ -20,7 +20,7 @@ export const CreateTimesheet = () => {
       const datesOptions = [];
       const dates = await getDates();
       console.log(dates);
-      dates.map((date) => {
+      dates.foreach((date) => {
         datesOptions.push({
           value: date.startDate,
           label: date.isSubmitted ? `${date.name} already created` : date.name,

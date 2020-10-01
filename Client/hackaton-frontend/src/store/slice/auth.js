@@ -37,6 +37,18 @@ export const login = createAsyncThunk(
   }
 );
 
+export const fetchCurrentUser = createAsyncThunk(
+  "auth/fetchCurrentUser",
+  async () => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/api/users/me`,
+      { withCredentials: true }
+    );
+
+    return response.data;
+  }
+);
+
 export const logout = createAsyncThunk("auth/logout", async () => {
   const response = await axios.post(
     `${process.env.REACT_APP_BACKEND_URL}/api/users/logout`,
@@ -64,6 +76,9 @@ const authSlice = createSlice({
     },
     [logout.fulfilled]: (state, action) => {
       state.user = null;
+    },
+    [fetchCurrentUser.fulfilled]: (state, action) => {
+      state.user = action.payload;
     },
   },
 });

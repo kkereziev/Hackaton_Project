@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navigation } from "./components/Navigation";
 import { BrowserRouter } from "react-router-dom";
 import { AppRoutes } from "./AppRoutes";
+import { connect } from "react-redux";
+import { fetchCurrentUser } from "./store/slice/auth";
 
-function App() {
+function App({ fetchCurrentUser }) {
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
+
   return (
     <BrowserRouter>
       <Navigation />
@@ -12,4 +18,6 @@ function App() {
   );
 }
 
-export default App;
+export default connect(null, (dispatch) => ({
+  fetchCurrentUser: () => dispatch(fetchCurrentUser()),
+}))(App);
