@@ -4,7 +4,6 @@ const sequelize = require('sequelize');
 const { models, Op } = require('../db/index');
 const { extractMondays, extractPertsOfDate, checkIfDateIsRight, lastDay } = require('../utils/index');
 const { secret } = require('../config/config');
-const cookieExtractor = require('../utils/cookieExtractor');
 
 const get = {
   async allTimesheets(req, res, next) {
@@ -54,6 +53,9 @@ const post = {
     } else {
       res.status(422).send({ error: 'Invalid starting date' });
     }
+  },
+  async createTimesheetRow(req, res, next) {
+    console.log('createTimesheetRow');
   },
 };
 
