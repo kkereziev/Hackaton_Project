@@ -1,7 +1,6 @@
 const Joi = require('@hapi/joi');
 
 const timesheerRowSchema = Joi.object({
-  timesheetId: Joi.number().required(),
   projectId: Joi.number().required(),
   taskId: Joi.number().required(),
   monday: Joi.number().min(0).max(24).required(),
