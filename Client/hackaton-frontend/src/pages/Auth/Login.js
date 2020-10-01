@@ -6,9 +6,16 @@ import { InnerContainer } from "./styles";
 import { BaseDiv } from "src/components/generic/styles/Containers";
 import { LogBtn } from "src/components/generic/styles/Buttons";
 import { Link } from "src/components/generic/styles/Link";
+import { connect } from "react-redux";
+import { login } from "../../store/slice/auth";
 import { NavLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-export const Login = () => {
+const LoginPage = ({ login }) => {
+  const history = useHistory();
+  const handleSubmit = (values) => {
+    login({ ...values, history });
+  };
   return (
     <BaseDiv>
       <InnerContainer>
@@ -16,6 +23,7 @@ export const Login = () => {
         <Formik
           initialValues={{ username: "", password: "" }}
           validationSchema={LoginValidationSchema}
+          onSubmit={handleSubmit}
         >
           {({ isValid }) => {
             return (
@@ -36,7 +44,6 @@ export const Login = () => {
                 <div>
                   Don't have an account yet?
                   <Link as={NavLink} to="/register">
-                    {" "}
                     Register
                   </Link>
                 </div>
@@ -48,3 +55,7 @@ export const Login = () => {
     </BaseDiv>
   );
 };
+
+export const ConnectedLoginPage = connect(null, (dispatch) => ({
+  login: (values) => dispatch(login(values)),
+}))(LoginPage);

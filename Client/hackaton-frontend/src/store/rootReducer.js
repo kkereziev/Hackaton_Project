@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-//import { authReducer, signout } from "./slices/auth";
+import auth from "./slice/auth";
 
 const appReducer = combineReducers({
-  //  auth: authReducer,
+  auth: auth,
 });
 export const rootReducer = (state, action) => {
   //if (action.type === signout.toString()) {

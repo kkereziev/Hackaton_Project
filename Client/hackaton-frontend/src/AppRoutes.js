@@ -3,9 +3,9 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import {
   Dashboard,
   CreateTimesheet,
-  CurrentTimesheet,
-  Login,
-  Register,
+  CurretTimesheet,
+  ConnectedLoginPage as Login,
+  ConnectedRegistrationPage as Register,
 } from "src/pages";
 
 export const AppRoutes = () => {
@@ -13,7 +13,7 @@ export const AppRoutes = () => {
     <Switch>
       <Route path="/dashboard" exact component={Dashboard} />
       <Route path="/createTimesheet" exact component={CreateTimesheet} />
-      <Route path="/timesheet/:name" exact component={CurrentTimesheet} />
+      <Route path="/timesheet/:name" exact component={CurretTimesheet} />
       <Route path="/login" exact component={Login} />
       <Route path="/register" exact component={Register} />
       <Route path="/logout" exact component={Login} />
