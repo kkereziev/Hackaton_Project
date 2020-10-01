@@ -38,10 +38,10 @@ const Navigation = ({ user, logout }) => {
                   Create Timesheet <BsPlusSquare />
                 </NavTab>{" "}
               </Nav.Link>
-              <Button className="ml-5" onClick={logout}>
+              <Nav.Link className="ml-5" onClick={logout}>
                 {" "}
                 Logout <FiLogOut />{" "}
-              </Button>
+              </Nav.Link>
             </Nav>
           ) : (
             <Nav>
