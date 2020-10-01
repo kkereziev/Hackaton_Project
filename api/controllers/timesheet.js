@@ -1,5 +1,6 @@
 const date = require('date.js');
 const jwt = require('jsonwebtoken');
+const sequelize = require('sequelize');
 const { models, Op } = require('../db/index');
 const { extractMondays, extractPertsOfDate, checkIfDateIsRight } = require('../utils/index');
 const { secret } = require('../config/config');
@@ -15,10 +16,14 @@ const get = {
     console.log('timesheet');
   },
 
-  getDates(req, res, next) {
+  async getDates(req, res, next) {
     const dates = extractMondays();
 
-    res.send({ dates });
+    const results = await models.Timesheet.findAll({
+      where: sequelize.where(sequelize.fn('YEAR', sequelize.col('startDate')), 2020),
+    });
+
+    res.send(results);
   },
 };
 
