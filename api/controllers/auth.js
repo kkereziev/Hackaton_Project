@@ -2,6 +2,16 @@ const { models, Op } = require('../db/index');
 const { findUserByUsername, jwt, loginSchema, registerSchema } = require('../utils');
 const { authCookieName } = require('../config/config');
 
+const get = {
+  async getMe(req, res, next) {
+    const user = req.user.dataValues;
+    user.phash = undefined;
+    user.createdAt = undefined;
+    user.updatedAt = undefined;
+    res.json(user);
+  },
+};
+
 const post = {
   async register(req, res, next) {
     try {
@@ -16,13 +26,13 @@ const post = {
         username,
         phash: password,
       }).catch(next);
-      newUser['phash'] = undefined;
+      newUser.phash = undefined;
       return res.send(newUser);
     } catch (err) {
       if (err.isJoi === true) {
         return res.status(422).send({ error: `Invalid ${err.details[0].path}` });
       }
-      res.status(400).send({ error: err });
+      return res.status(400).send({ error: err });
     }
   },
   async login(req, res, next) {
@@ -40,18 +50,16 @@ const post = {
       }
 
       const token = jwt.createToken({ id: user.id });
-      res.cookie(authCookieName, token).send({ username: user.username });
+      return res.cookie(authCookieName, token).send({ username: user.username });
     } catch (err) {
       if (err.isJoi === true) {
         return res.status(422).send({ error: `Invalid credentials` });
       }
-      res.status(400).send({ error: `Invalid credentials` });
+      return res.status(400).send({ error: `Invalid credentials` });
     }
   },
   async logout(req, res, next) {
-    // const token = req.cookies[authCookieName];
-
     res.clearCookie(authCookieName).json({ success: true });
   },
 };
-module.exports = { post };
+module.exports = { get, post };
