@@ -6,7 +6,9 @@ export const TableDiv = styled.div`
   display: flex;
   justify-content: center;
 `;
+
 export const Tbl = styled.table`
+  margin: 0 auto;
   background-color: white;
   height: fit-content;
   min-height: 200px;
@@ -29,6 +31,7 @@ export const TblHeading = styled.th`
 
 export const TblData = styled.td`
   padding: 8px 8px;
+  font-size: 14px;
 `;
 
 export const InputHours = styled.input`
@@ -49,4 +52,8 @@ export const InputHours = styled.input`
 export const DropDownDiv = styled.div`
   width: 150px;
   min-width: 70px;
+`;
+
+export const DataSpan = styled.span`
+  font-size: 14px;
 `;
