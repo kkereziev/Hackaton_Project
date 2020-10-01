@@ -40,7 +40,7 @@ const post = {
       }
 
       const token = jwt.createToken({ id: user.id });
-      res.cookie(authCookieName, token).send({ success: 'Login successful' });
+      res.cookie(authCookieName, token).send({ username: user.username });
     } catch (err) {
       if (err.isJoi === true) {
         return res.status(422).send({ error: `Invalid credentials` });

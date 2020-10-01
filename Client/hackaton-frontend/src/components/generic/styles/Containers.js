@@ -6,6 +6,10 @@ export const BaseDiv = styled.div`
   justify-content: center;
 `;
 
+export const BaseDivTopZero = styled(BaseDiv)`
+  padding-top: 0;
+  justify-content: space-around;
+`;
 export const MainCard = styled.div`
   padding: 10px 5px;
   width: 45%;
@@ -19,10 +23,12 @@ export const MainCard = styled.div`
 `;
 
 export const ColumnBaseDiv = styled(BaseDiv)`
-  flex-direction: column;
-  width: 25%;
-  min-width: 350px;
   margin: 0 auto;
+  flex-direction: column;
+  width: 30%;
+  min-width: 350px;
+  justify-content: center;
+  align-content: space-around;
 `;
 
 export const LineFlexBaseDiv = styled(BaseDiv)`
