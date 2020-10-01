@@ -2,14 +2,13 @@ const date = require('date.js');
 const jwt = require('jsonwebtoken');
 const sequelize = require('sequelize');
 const { models, Op } = require('../db/index');
-const { extractMondays, extractPertsOfDate, checkIfDateIsRight } = require('../utils/index');
+const { extractMondays, extractPertsOfDate, checkIfDateIsRight, lastDay } = require('../utils/index');
 const { secret } = require('../config/config');
 const cookieExtractor = require('../utils/cookieExtractor');
 
 const get = {
   async allTimesheets(req, res, next) {
     console.log(req.user.dataValues.id);
-    // req.user = decoded.user;
   },
 
   async timesheet(req, res, next) {
@@ -17,13 +16,18 @@ const get = {
   },
 
   async getDates(req, res, next) {
+    const datesFinal = [];
     const dates = extractMondays();
+    for (let i = 0; i < dates.length; i++) {
+      const [finalEndDay, finalMonth, finalYear] = extractPertsOfDate(dates[i]);
+      const dateString = `${finalMonth + 1}-${finalEndDay}-${finalYear}`;
+      const findDate = await models.Timesheet.findOne({ where: { name: { [Op.like]: `${dateString}%` } } });
+      const doesExist = !!findDate;
 
-    const results = await models.Timesheet.findAll({
-      where: sequelize.where(sequelize.fn('YEAR', sequelize.col('startDate')), 2020),
-    });
+      datesFinal[i] = { name: dateString, isSubmitted: doesExist, startDate: dates[i] };
+    }
 
-    res.send(results);
+    res.send(datesFinal);
   },
 };
 
@@ -41,10 +45,10 @@ const post = {
 
     if (doesDayMatch) {
       const [startDay, startMonth, startYear] = extractPertsOfDate(startingDate);
-      const finalDay = date('after 6 days', startingDate);
+      const finalDay = lastDay(startingDate);
 
       const [finalEndDay, finalMonth, finalYear] = extractPertsOfDate(finalDay);
-      const name = `${startMonth + 1}/${startDay}/${startYear} to ${finalMonth + 1}/${finalEndDay}/${finalYear}`;
+      const name = `${startMonth + 1}-${startDay}-${startYear} to ${finalMonth + 1}-${finalEndDay}-${finalYear}`;
       const newTimesheet = await models.Timesheet.create({ name, startDate, isSubmitted: false, userId: id, totalHours: 0 });
       res.send(newTimesheet);
     } else {
