@@ -20,3 +20,18 @@ export const LogBtn = styled(Button)`
     background-color: white;
   }
 `;
+
+export const NextBtn = styled.button`
+  width: 100px;
+  border-radius: 5px;
+  background-color: #008d64;
+  border: solid 2px;
+  border-color: #008d64;
+  margin: 30px;
+  color: white;
+  &:hover {
+    color: white;
+    border-color: #669999;
+    background-color: #669999;
+  }
+`;
