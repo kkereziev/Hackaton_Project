@@ -1,5 +1,5 @@
 import React from "react";
-import { Table as TableBootstrap } from "react-bootstrap";
+//import {Table as TableBootstrap} from "react-bootstrap";
 import { Tbl, TblData, TblHeading } from "../generic/Table";
 import {
   DeleteBtn,
@@ -9,10 +9,11 @@ import {
 } from "../generic/styles/Buttons";
 import { RiDeleteBinFill, RiEdit2Fill, RiFileSearchLine } from "react-icons/ri";
 
+//@Preslava, the only warnings left are on line 36 and 46 and when I delete {" "} which you have left the warnings are gone
 export const TableDashboard = ({ handleOpen }) => {
   return (
-    <TableBootstrap responsive>
-      <Tbl>
+    <Tbl responsive>
+      <tbody>
         <tr>
           <TblHeading>Week</TblHeading>
           <TblHeading>Status</TblHeading>
@@ -52,7 +53,7 @@ export const TableDashboard = ({ handleOpen }) => {
             </ViewBtn>
           </TblData>
         </tr>
-      </Tbl>
-    </TableBootstrap>
+      </tbody>
+    </Tbl>
   );
 };
