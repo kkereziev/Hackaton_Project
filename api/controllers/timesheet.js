@@ -24,6 +24,7 @@ const get = {
 
 const post = {
   async createTimesheet(req, res, next) {
+    console.log('haahahah');
     const { id } = req.user.dataValues;
     const { startDate } = req.body;
     const startingDate = new Date(startDate);

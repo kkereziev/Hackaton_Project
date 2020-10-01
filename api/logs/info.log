@@ -179,3 +179,11 @@
 {"message":"::ffff:127.0.0.1 - - [01/Oct/2020:11:51:44 +0000] \"POST /api/users/register HTTP/1.1\" 500 30 \"-\" \"Mozilla/5.0 (X11; Linux x86_64; rv:79.0) Gecko/20100101 Firefox/79.0\"\n","level":"info","timestamp":"2020-10-01T11:51:44.739Z"}
 {"message":"::ffff:127.0.0.1 - - [01/Oct/2020:11:52:18 +0000] \"POST /api/users/register HTTP/1.1\" 200 178 \"http://localhost:3000/register\" \"Mozilla/5.0 (X11; Linux x86_64; rv:79.0) Gecko/20100101 Firefox/79.0\"\n","level":"info","timestamp":"2020-10-01T11:52:18.612Z"}
 {"message":"::ffff:127.0.0.1 - - [01/Oct/2020:11:52:24 +0000] \"POST /api/users/login HTTP/1.1\" 200 178 \"http://localhost:3000/login\" \"Mozilla/5.0 (X11; Linux x86_64; rv:79.0) Gecko/20100101 Firefox/79.0\"\n","level":"info","timestamp":"2020-10-01T11:52:24.124Z"}
+{"message":"::ffff:127.0.0.1 - - [01/Oct/2020:12:52:43 +0000] \"POST /api/timesheets/ HTTP/1.1\" 404 155 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-10-01T12:52:43.496Z"}
+{"message":"::ffff:127.0.0.1 - - [01/Oct/2020:12:53:25 +0000] \"GET /api/timesheets/getDates HTTP/1.1\" 404 162 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-10-01T12:53:25.705Z"}
+{"message":"::ffff:127.0.0.1 - - [01/Oct/2020:12:53:37 +0000] \"POST /api/users/login HTTP/1.1\" 400 31 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-10-01T12:53:37.147Z"}
+{"message":"::ffff:127.0.0.1 - - [01/Oct/2020:12:53:46 +0000] \"POST /api/users/login HTTP/1.1\" 200 30 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-10-01T12:53:46.218Z"}
+{"message":"::ffff:127.0.0.1 - - [01/Oct/2020:12:53:50 +0000] \"POST /api/timesheets/ HTTP/1.1\" 404 155 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-10-01T12:53:50.605Z"}
+{"message":"::ffff:127.0.0.1 - - [01/Oct/2020:12:54:04 +0000] \"POST /api/timesheets/ HTTP/1.1\" 404 155 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-10-01T12:54:04.644Z"}
+{"message":"::ffff:127.0.0.1 - - [01/Oct/2020:12:54:14 +0000] \"POST /api/timesheets/ HTTP/1.1\" 404 155 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-10-01T12:54:14.620Z"}
+{"message":"::ffff:127.0.0.1 - - [01/Oct/2020:12:55:43 +0000] \"POST /api/timesheets/ HTTP/1.1\" 404 155 \"-\" \"insomnia/2020.4.1\"\n","level":"info","timestamp":"2020-10-01T12:55:43.105Z"}
