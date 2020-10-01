@@ -1,41 +1,57 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import {
   ColumnBaseDiv,
   LineFlexBaseDiv,
 } from "src/components/generic/styles/Containers";
 import { Title, TitleDiv } from "src/components/generic/styles/Title";
 import { NextBtn } from "src/components/generic/styles/Buttons";
-import styled from "styled-components";
 import { DropDown } from "../../components/generic/Dropdown/DropDown";
 
-// In order to be consistent and to have styled components I have called the wrapping div "SelectWeekDiv"
-// If you prefer you could just place a div tag with and in order to display:none when Next clicked
-const SelectWeekDiv = styled.div``;
-
-/* As we are using dropdown on several places here options are hard coded for the sake of reviewing the UI
- * Placeholder should be hardcoded for every dropdown individually where dropdown component is used*/
-
 export const CreateTimesheet = () => {
-  const options = [
-    { value: "week-1", label: "week-1" },
-    { value: "week", label: "week" },
-    { value: "week+1", label: "week+1" },
-    { value: "week+2", label: "week+2" },
-  ];
-  const placeholder = "Select a week";
+  const history = useHistory();
+  const [options, setOptions] = useState([
+    { value: "10-1-2020", label: "10/1/2020" },
+    { value: "10-2-2020", label: "10/2/2020" },
+  ]);
+
+  const [startDate, setStartDate] = useState("");
+
+  useEffect(() => {
+    // async () => {
+    //   try {
+    //     const newOptions = await api.getOptions;
+    //     setOptions(newOptions);
+    //   } catch (error) {}
+    // };
+  }, []);
+
+  const nextBtnClick = async () => {
+    try {
+      // await api.CreateTimesheet
+      history.push(`/timesheet/${startDate}`);
+    } catch (error) {}
+  };
+
+  const handleChange = (e) => {
+    setStartDate(e.value);
+  };
+
   return (
     <div>
-      <SelectWeekDiv>
-        <ColumnBaseDiv>
-          <TitleDiv>
-            <Title>Create new timesheet:</Title>
-          </TitleDiv>
-          <DropDown options={options} placeholder={placeholder} />
-          <LineFlexBaseDiv>
-            <NextBtn>Next</NextBtn>
-          </LineFlexBaseDiv>
-        </ColumnBaseDiv>
-      </SelectWeekDiv>
+      <ColumnBaseDiv>
+        <TitleDiv>
+          <Title>Create new timesheet:</Title>
+        </TitleDiv>
+        <DropDown
+          options={options}
+          placeholder="Select a week"
+          onChange={handleChange}
+        />
+        <LineFlexBaseDiv>
+          <NextBtn onClick={nextBtnClick}>Next</NextBtn>
+        </LineFlexBaseDiv>
+      </ColumnBaseDiv>
     </div>
   );
 };

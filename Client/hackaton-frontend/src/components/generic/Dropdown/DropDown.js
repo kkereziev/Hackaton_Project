@@ -1,5 +1,6 @@
 import React from "react";
 import Select from "react-select";
+import { getDateOptions } from "src/api_endpoints/timesheets";
 
 const customStyles = {
   menu: (provided, state) => ({
@@ -12,7 +13,7 @@ const customStyles = {
   }),
 };
 
-export const DropDown = ({ placeholder, options }) => {
+export const DropDown = ({ placeholder, options, onChange }) => {
   return (
     <Select
       className="select"
@@ -20,6 +21,7 @@ export const DropDown = ({ placeholder, options }) => {
       options={options}
       placeholder={placeholder}
       menuContainerStyle={{ zIndex: 5 }}
+      onChange={onChange}
       theme={(theme) => ({
         ...theme,
         colors: {
