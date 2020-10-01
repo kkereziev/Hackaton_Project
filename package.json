@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client": "npm start --prefix Client/hackaton-react",
-    "server": "npm start --prefix API",
+    "client": "npm start --prefix Client/hackaton-frontend",
+    "server": "npm start --prefix api",
     "dev": "concurrently \"npm run client\" \"npm run server\""
   },
   "keywords": [],
