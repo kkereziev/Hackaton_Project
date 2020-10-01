@@ -28,7 +28,6 @@ const get = {
       datesFinal[i] = { dateString, doesExist, date: dates[i] };
     }
 
-    console.log(datesFinal);
     res.send(datesFinal);
   },
 };
