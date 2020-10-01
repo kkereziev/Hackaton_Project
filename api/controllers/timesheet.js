@@ -1,5 +1,6 @@
 const date = require('date.js');
 const jwt = require('jsonwebtoken');
+const sequelize = require('sequelize');
 const { models, Op } = require('../db/index');
 const { extractMondays, extractPertsOfDate, checkIfDateIsRight } = require('../utils/index');
 const { secret } = require('../config/config');
@@ -15,10 +16,14 @@ const get = {
     console.log('timesheet');
   },
 
-  getDates(req, res, next) {
+  async getDates(req, res, next) {
     const dates = extractMondays();
 
-    res.send({ dates });
+    const results = await models.Timesheet.findAll({
+      where: sequelize.where(sequelize.fn('YEAR', sequelize.col('startDate')), 2020),
+    });
+
+    res.send(results);
   },
 };
 
@@ -35,13 +40,16 @@ const post = {
     const doesDayMatch = checkIfDateIsRight(partsOfTheSubbmitedDate, dates);
 
     if (doesDayMatch) {
-      const finalDay = date('after 6 days', startDate);
-      res.send(finalDay);
-    } else {
-      res.send('Uppss');
-    }
+      const [startDay, startMonth, startYear] = extractPertsOfDate(startingDate);
+      const finalDay = date('after 6 days', startingDate);
 
-    //models.Timesheet.create();
+      const [finalEndDay, finalMonth, finalYear] = extractPertsOfDate(finalDay);
+      const name = `${startMonth + 1}/${startDay}/${startYear} to ${finalMonth + 1}/${finalEndDay}/${finalYear}`;
+      const newTimesheet = await models.Timesheet.create({ name, startDate, isSubmitted: false, userId: id, totalHours: 0 });
+      res.send(newTimesheet);
+    } else {
+      res.status(422).send({ error: 'Invalid starting date' });
+    }
   },
 };
 
