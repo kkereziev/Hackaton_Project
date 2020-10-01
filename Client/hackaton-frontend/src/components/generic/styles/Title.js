@@ -11,3 +11,8 @@ export const TitleDiv = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+export const SecondTitle = styled.span`
+  color: #669999;
+  font-size: 22px;
+`;

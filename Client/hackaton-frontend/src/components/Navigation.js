@@ -1,11 +1,13 @@
 import React from "react";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import { BsPlusSquare } from "react-icons/bs";
 import { CgDatabase } from "react-icons/cg";
 import DevCampLogo from "src/assets/DevCampLogo.png";
 import styled from "styled-components";
+import { connect } from "react-redux";
+import { logout } from "../store/slice/auth";
 
 const NavTab = styled.span`
   :hover {
@@ -13,7 +15,7 @@ const NavTab = styled.span`
   }
 `;
 
-export const Navigation = () => {
+const Navigation = ({ user, logout }) => {
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -22,28 +24,46 @@ export const Navigation = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="ml-auto">
-            <Nav.Link className="ml-5" as={NavLink} to="/dashboard">
-              {" "}
-              <NavTab>
-                Dashboard <CgDatabase />
-              </NavTab>{" "}
-            </Nav.Link>
-            <Nav.Link className="ml-5" as={NavLink} to="/createTimesheet">
-              {" "}
-              <NavTab>
-                Create Timesheet <BsPlusSquare />
-              </NavTab>{" "}
-            </Nav.Link>
-            <Nav.Link className="ml-5" as={NavLink} to="/logout">
-              {" "}
-              <NavTab>
+          {user ? (
+            <Nav className="ml-auto">
+              <Nav.Link className="ml-5" as={NavLink} to="/dashboard">
+                {" "}
+                <NavTab>
+                  Dashboard <CgDatabase />
+                </NavTab>{" "}
+              </Nav.Link>
+              <Nav.Link className="ml-5" as={NavLink} to="/createTimesheet">
+                {" "}
+                <NavTab>
+                  Create Timesheet <BsPlusSquare />
+                </NavTab>{" "}
+              </Nav.Link>
+              <Nav.Link className="ml-5" onClick={logout}>
+                {" "}
                 Logout <FiLogOut />{" "}
-              </NavTab>
-            </Nav.Link>
-          </Nav>
+              </Nav.Link>
+            </Nav>
+          ) : (
+            <Nav>
+              <Nav.Link className="ml-5" as={NavLink} to="/login">
+                <NavTab>Log in</NavTab>
+              </Nav.Link>
+              <Nav.Link className="ml-5" as={NavLink} to="/register">
+                <NavTab>Register</NavTab>
+              </Nav.Link>
+            </Nav>
+          )}
         </Navbar.Collapse>
       </Navbar>
     </>
   );
 };
+
+const ConnectedNavigation = connect(
+  (state) => ({ user: state.auth.user }),
+  (dispatch) => ({
+    logout: () => dispatch(logout()),
+  })
+)(Navigation);
+
+export { ConnectedNavigation as Navigation };
