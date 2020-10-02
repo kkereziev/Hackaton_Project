@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "pm2 start server.js",
     "test": "mocha --exit",
-    "linter": "eslint ."
+    "linter": "eslint .",
+    "stop": "pm2 stop server.js"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,7 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "pg": "^8.3.3",
+    "pm2": "^4.5.0",
     "sequelize": "^6.3.5",
     "winston": "^3.3.3"
   },
