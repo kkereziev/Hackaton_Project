@@ -1,66 +1,87 @@
 const { models, Op } = require('../db/index');
-const { extractMondays, extractPertsOfDate, checkIfDateIsRight, lastDay } = require('../utils/index');
 const { timesheetRowSchema } = require('../utils');
 
-const get = {};
-const post = {};
+const get = {
+  async getTimesheetRows(req, res, next) {
+    try {
+      const { name } = req.params;
+
+      const timesheetRows = await models.Timesheet.findOne({
+        where: { name: { [Op.like]: `${name}%` } },
+        include: [
+          {
+            model: models.TimesheetRow,
+            as: 'TimesheetRow',
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+          },
+        ],
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
+      }).catch(next);
+
+      res.send({ result: timesheetRows });
+    } catch (err) {
+      res.status(400).send(err.message);
+    }
+  },
+};
 
 const patch = {
   async createTimesheetRow(req, res, next) {
     try {
       const { rows, isSubmitted } = req.body;
       const { timesheetId } = req.params;
-
-      let timesheetTotalHours = 0;
-      const existsTimesheet = await models.Timesheet.findOne({ where: { id: timesheetId } });
-
+      const existsTimesheet = await models.Timesheet.findOne({ where: { id: timesheetId } }).catch(next);
       if (!existsTimesheet) {
-        throw Error('There is no timesheet with that id');
+        throw new Error('There is no timesheet with that id');
       }
 
       await models.TimesheetRow.destroy({
         where: { timesheetId },
       }).catch(next);
 
-      const ty = rows.reduce(async (a, b) => {
-        const result = await timesheetRowSchema.validateAsync(rows[i]);
-        const { projectId, taskId, monday, tuesday, wednesday, thursday, friday, saturday, sunday } = result;
-        const totalRowHours = monday + tuesday + wednesday + thursday + friday + saturday + sunday;
-        timesheetTotalHours += totalRowHours;
+      const sumTimesheetHours = await Promise.all(
+        rows.map(async (row) => {
+          const result = await timesheetRowSchema.validateAsync(row);
+          const { projectId, taskId, monday, tuesday, wednesday, thursday, friday, saturday, sunday } = result;
+          const totalRowHours = monday + tuesday + wednesday + thursday + friday + saturday + sunday;
 
-        const doesProjectAndTask = await models.ProjectsTasks.findOne({ where: { projectId, taskId } }).catch(next);
-        if (!doesProjectAndTask || doesProjectAndTask.taskId !== taskId) {
-          throw Error('Invalid Project or Task');
-        }
+          const doesProjectAndTask = await models.ProjectsTasks.findOne({ where: { projectId, taskId } }).catch(next);
+          if (!doesProjectAndTask || doesProjectAndTask.taskId !== taskId) {
+            throw new Error('Invalid Project or Task');
+          }
 
-        await models.TimesheetRow.create({
-          projectId,
-          taskId,
-          timesheetId,
-          monday,
-          tuesday,
-          wednesday,
-          thursday,
-          friday,
-          saturday,
-          sunday,
-          totalRowHours,
-        }).catch(next);
-        return a + totalRowHours;
-      }, 0);
+          await models.TimesheetRow.create({
+            projectId,
+            taskId,
+            timesheetId,
+            monday,
+            tuesday,
+            wednesday,
+            thursday,
+            friday,
+            saturday,
+            sunday,
+            totalRowHours,
+          }).catch(next);
 
-      existsTimesheet.totalHours = timesheetTotalHours;
+          return totalRowHours;
+        })
+      ).catch(next);
+
+      const summedHours = sumTimesheetHours.reduce((a, b) => a + b);
+      existsTimesheet.totalHours = summedHours;
       existsTimesheet.isSubmitted = !!isSubmitted;
 
-      await existsTimesheet.save();
+      await existsTimesheet.save().catch(next);
 
       return res.send({ success: 'Rows created' });
     } catch (err) {
       if (err.isJoi === true) {
         return res.status(422).send({ error: `Invalid ${err.details[0].path}` });
       }
-      return res.status(400).send({ error: err });
+      return res.status(400).send({ err: err.message });
     }
   },
 };
-module.exports = { get, post };
+
+module.exports = { get, patch };
