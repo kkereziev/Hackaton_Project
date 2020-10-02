@@ -4,23 +4,14 @@ import { Alert, Col, Container, Row } from "react-bootstrap";
 import { TextInputField } from "src/components/generic/TextInput";
 import { RegistrationValidationSchema } from "src/validations/registration";
 import { InnerContainer, RegLogLinkSpan } from "./styles";
-import {
-  BaseDiv,
-  BaseDivTopZero,
-  FlexCenteredTopHundred,
-} from "src/components/generic/styles/Containers";
-import {
-  LogBtn,
-  NextBtn,
-  IconBtnDiv,
-} from "src/components/generic/styles/Buttons";
+import { FlexCenteredTopHundred } from "src/components/generic/styles/Containers";
+import { NextBtn, IconBtnDiv } from "src/components/generic/styles/Buttons";
 import { Link } from "src/components/generic/styles/Link";
 import { connect } from "react-redux";
 import { register } from "../../store/slice/auth";
 import { NavLink, useHistory } from "react-router-dom";
 import { Title, TitleDiv } from "src/components/generic/styles/Title";
 import monochrome from "src/assets/monochrome.svg";
-import { LoginValidationSchema } from "../../validations";
 
 export const RegistrationPage = ({ register, authError }) => {
   const history = useHistory();
@@ -30,11 +21,6 @@ export const RegistrationPage = ({ register, authError }) => {
   return (
     <Container>
       <Row>
-        <Col className="d-none d-sm-block" xs={0} md={7}>
-          <FlexCenteredTopHundred>
-            <img width="400px" src={monochrome} alt="secondlogo" />
-          </FlexCenteredTopHundred>
-        </Col>
         <Col xs={12} md={5} disply="flex" justify-content="center">
           <InnerContainer>
             <TitleDiv>
@@ -84,6 +70,11 @@ export const RegistrationPage = ({ register, authError }) => {
               }}
             </Formik>
           </InnerContainer>
+        </Col>
+        <Col className="d-none d-sm-block" md={7}>
+          <FlexCenteredTopHundred>
+            <img width="350px" src={monochrome} alt="secondlogo" />
+          </FlexCenteredTopHundred>
         </Col>
       </Row>
     </Container>
