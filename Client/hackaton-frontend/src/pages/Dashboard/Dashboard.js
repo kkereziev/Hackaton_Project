@@ -21,13 +21,16 @@ import { deleteTimesheet } from "../../store/slice/timesheet";
 const Dashboard = ({ deleteTimesheet }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [timesheetId, setTimesheetId] = useState(null);
+  const [timesheetName, setTimesheetName] = useState("");
   const handleClose = () => {
     setIsOpen(false);
     deleteTimesheet(timesheetId);
     setTimesheetId(null);
   };
+
   const handleOpen = (timesheet) => {
     setTimesheetId(timesheet.id);
+    setTimesheetName(timesheet.name);
     setIsOpen(true);
   };
 
@@ -49,7 +52,8 @@ const Dashboard = ({ deleteTimesheet }) => {
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-sm">
             <SecondTitle>
-              Are you sure you want to delete the timesheet for week ...?
+              Are you sure you want to delete the timesheet for week{" "}
+              {timesheetName}?
             </SecondTitle>
           </Modal.Title>
         </Modal.Header>
