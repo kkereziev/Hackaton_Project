@@ -43,7 +43,7 @@ const TableDashboard = ({
                     <EditBtn>
                       <RiEdit2Fill color="white" />
                     </EditBtn>
-                    <DeleteBtn onClick={handleOpen}>
+                    <DeleteBtn onClick={() => handleOpen(timesheet)}>
                       <RiDeleteBinFill color="white" />
                     </DeleteBtn>
                   </IconBtnDiv>

@@ -40,6 +40,7 @@ const Navigation = ({ user, logout }) => {
         <Navbar.Brand as={NavLink} to="/dashboard">
           <img width="80px" src={monochrome} alt="logo" />
         </Navbar.Brand>
+        {user && <span>{user.username}</span>}
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           {user ? (
