@@ -18,11 +18,7 @@ export const DropDown = ({
   onChange,
   disabled,
   defaultValue,
-  row,
 }) => {
-  useEffect(() => {
-    console.log("dropdown rerender");
-  }, [row]);
   return (
     <Select
       className="select"

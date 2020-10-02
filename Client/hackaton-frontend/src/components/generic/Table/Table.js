@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { DropDown } from "../Dropdown/DropDown";
 import { NextBtn } from "src/components/generic/styles/Buttons";
+import { getProjects } from "src/api_endpoints/timesheets";
+import { uuid } from "short-uuid";
 
 import {
   TableDiv,
@@ -12,8 +14,8 @@ import {
 } from "./table.styles";
 
 export const Table = () => {
-  console.log("rerender");
   const initialRow = {
+    id: uuid(),
     project: null,
     task: null,
     monday: 0,
@@ -27,6 +29,18 @@ export const Table = () => {
   };
 
   const [tableRows, setTableRows] = useState([initialRow]);
+  const [projectsOptions, setProjectOptions] = useState([]);
+  const [tasksOptions, setTaskOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const projects = await getProjects();
+        console.log(projects);
+      } catch (error) {}
+    };
+    fetchProjects();
+  }, []);
 
   const projectOptions = [
     { value: "project1", label: "project1" },
@@ -51,7 +65,8 @@ export const Table = () => {
   const taskChange = (e, idx) => {
     const rows = [...tableRows];
     rows[idx].task = e.value;
-    setTableRows([...rows, initialRow]);
+    const newRow = { ...initialRow, id: uuid() };
+    setTableRows([...rows, newRow]);
   };
 
   const inputChange = (e, idx) => {
@@ -96,14 +111,13 @@ export const Table = () => {
             <TblHeading>Total</TblHeading>
           </tr>
           {tableRows.map((row, idx) => (
-            <tr key={idx}>
+            <tr key={row.id}>
               <TblData>
                 <NextBtn onClick={() => deleteRow(idx)}>Delete</NextBtn>
               </TblData>
               <TblData>
                 <DropDownDiv>
                   <DropDown
-                    row={row}
                     options={projectOptions}
                     placeholder="Project..."
                     menuPortalTarget={document.body}
@@ -118,7 +132,6 @@ export const Table = () => {
               <TblData>
                 <DropDownDiv>
                   <DropDown
-                    row={row}
                     options={taskOptions}
                     placeholder="Task..."
                     menuPortalTarget={document.body}
@@ -136,14 +149,12 @@ export const Table = () => {
                   name="monday"
                   disabled={row.task === null}
                   onChange={(e) => inputChange(e, idx)}
-                  defaultValue={5}
                 />
               </TblData>
               <TblData>
                 <InputHours
                   name="tuesday"
                   disabled={row.task === null}
-                  defaultValue={5}
                   onChange={(e) => inputChange(e, idx)}
                 />
               </TblData>

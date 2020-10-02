@@ -9,3 +9,8 @@ export const createTimesheet = async ({ name, startDate }) => {
   const res = await httpClient.post("/timesheets", { name, startDate });
   return res.data;
 };
+
+export const getProjects = async () => {
+  const res = await httpClient.get("/timesheets/getProjects");
+  return res.data;
+};
