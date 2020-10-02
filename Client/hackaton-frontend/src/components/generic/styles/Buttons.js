@@ -24,9 +24,9 @@ export const LogBtn = styled(Button)`
 export const NextBtn = styled.button`
   width: 100px;
   border-radius: 5px;
-  background-color: #008d64;
+  background-color: #08374e;
   border: solid 2px;
-  border-color: #008d64;
+  border-color: #08374e;
   margin: 30px;
   color: white;
   :focus {
@@ -87,5 +87,5 @@ export const ViewBtn = styled(EditBtn)`
 
 export const IconBtnDiv = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 `;
