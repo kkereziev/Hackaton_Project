@@ -28,7 +28,7 @@ const TableDashboard = ({
           <TblHeading> </TblHeading>
           <TblHeading>Week</TblHeading>
           <TblHeading>Status</TblHeading>
-          <TblHeading>Manage</TblHeading>
+          <TblHeading> </TblHeading>
         </tr>
         {userTimesheets.map((timesheet) => {
           return (
