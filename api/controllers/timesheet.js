@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 const date = require('date.js');
 const jwt = require('jsonwebtoken');
 const sequelize = require('sequelize');
@@ -8,10 +9,63 @@ const { timesheetRowSchema } = require('../utils');
 
 const get = {
   async allTimesheets(req, res, next) {
-    console.log(req.user.dataValues.id);
+    const { id } = req.user.dataValues;
+
+    const allTimesheetsForUser = await models.Timesheet.findAll({
+      where: { userId: id },
+    });
+
+    res.json(allTimesheetsForUser);
   },
 
-  async timesheetRows(req, res, next) {},
+  async getTimesheetRows(req, res, next) {
+    const { name } = req.params;
+
+    const timesheetRows = await models.Timesheet.findOne({
+      where: { name: { [Op.like]: `${name}%` } },
+      include: [
+        {
+          model: models.TimesheetRow,
+          as: 'TimesheetRow',
+          attributes: { exclude: ['createdAt', 'updatedAt'] },
+        },
+      ],
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+    });
+
+    res.json(timesheetRows);
+  },
+
+  async getProjects(req, res, next) {
+    const { id } = req.user.dataValues;
+    const projects = await models.User.findOne({
+      attributes: [],
+      include: [
+        {
+          model: models.Project,
+          through: {
+            attributes: [],
+          },
+          attributes: ['name'],
+          as: 'UserProject',
+          include: [
+            {
+              model: models.Task,
+              attributes: ['name'],
+              as: 'ProjectTask',
+              through: {
+                attributes: [],
+              },
+            },
+          ],
+          exclude: ['UsersProjects'],
+        },
+      ],
+      where: { id },
+    });
+
+    res.json(projects);
+  },
 
   async getDates(req, res, next) {
     const datesFinal = [];
@@ -30,7 +84,6 @@ const get = {
 };
 
 const post = {
-  // TODO
   async createTimesheet(req, res, next) {
     const { id } = req.user.dataValues;
     const { startDate, name } = req.body;
@@ -60,8 +113,8 @@ const post = {
 const patch = {
   async createTimesheetRow(req, res, next) {
     try {
-      const { id } = req.user.dataValues;
-      const { rows, timesheetId, isSubmitted } = req.body;
+      const { rows, isSubmitted } = req.body;
+      const { timesheetId } = req.params;
 
       let timesheetTotalHours = 0;
       const existsTimesheet = await models.Timesheet.findOne({ where: { id: timesheetId } });
@@ -70,11 +123,10 @@ const patch = {
 
       await models.TimesheetRow.destroy({
         where: { timesheetId },
-        truncate: true,
       });
 
-      const totalHours = rows.map(async (row) => {
-        const result = await timesheetRowSchema.validateAsync(row);
+      for (let i = 0; i < rows.length; i += 1) {
+        const result = await timesheetRowSchema.validateAsync(rows[i]);
         const { projectId, taskId, monday, tuesday, wednesday, thursday, friday, saturday, sunday } = result;
         const totalRowHours = monday + tuesday + wednesday + thursday + friday + saturday + sunday;
         timesheetTotalHours += totalRowHours;
@@ -83,7 +135,8 @@ const patch = {
         if (!doesProjectAndTask || doesProjectAndTask.taskId !== taskId) {
           throw Error('Invalid Project or Task');
         }
-        const createRow = await models.TimesheetRow.create({
+
+        await models.TimesheetRow.create({
           projectId,
           taskId,
           timesheetId,
@@ -96,14 +149,12 @@ const patch = {
           sunday,
           totalRowHours,
         }).catch(next);
+      }
 
-        return timesheetTotalHours;
-      });
-      console.log(totalHours);
-      existTimesheet.totalHours = totalHours;
-      existTimesheet.isSubmitted = !!isSubmitted;
-      console.log(existTimesheet.totalHours);
-      await existTimesheet.save();
+      existsTimesheet.totalHours = timesheetTotalHours;
+      existsTimesheet.isSubmitted = !!isSubmitted;
+
+      await existsTimesheet.save();
 
       return res.send({ success: 'Rows created' });
     } catch (err) {
@@ -129,15 +180,14 @@ const remove = {
 
       await models.Timesheet.destroy({
         where: { id: timesheetId },
-        truncate: true,
       });
 
       if (existsTimesheetRows) {
         await models.TimesheetRow.destroy({
           where: { timesheetId },
-          truncate: true,
         });
       }
+      return res.send({ success: 'Timesheet deleted' });
     } catch (err) {
       res.status(400).json({ error: err });
     }
