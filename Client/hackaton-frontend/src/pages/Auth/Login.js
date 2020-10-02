@@ -3,16 +3,8 @@ import { Formik, Form } from "formik";
 import { TextInputField } from "src/components/generic/TextInput";
 import { LoginValidationSchema } from "src/validations";
 import { InnerContainer, RegLogLinkSpan } from "./styles";
-import {
-  BaseDiv,
-  BaseDivTopZero,
-  FlexCenteredTopHundred,
-} from "src/components/generic/styles/Containers";
-import {
-  LogBtn,
-  NextBtn,
-  IconBtnDiv,
-} from "src/components/generic/styles/Buttons";
+import { FlexCenteredTopHundred } from "src/components/generic/styles/Containers";
+import { NextBtn, IconBtnDiv } from "src/components/generic/styles/Buttons";
 import { Link } from "src/components/generic/styles/Link";
 import { connect } from "react-redux";
 import { login } from "../../store/slice/auth";
@@ -31,11 +23,6 @@ const LoginPage = ({ login, authError }) => {
   return (
     <Container>
       <Row>
-        <Col className="d-none d-sm-block" xs={0} md={7}>
-          <FlexCenteredTopHundred>
-            <img width="400px" src={monochrome} alt="secondlogo" />
-          </FlexCenteredTopHundred>
-        </Col>
         <Col xs={12} md={5} disply="flex" justify-content="center">
           <InnerContainer>
             <TitleDiv>
@@ -77,6 +64,11 @@ const LoginPage = ({ login, authError }) => {
               }}
             </Formik>
           </InnerContainer>
+        </Col>
+        <Col className="d-none d-sm-block" xs={0} md={7}>
+          <FlexCenteredTopHundred>
+            <img width="350px" src={monochrome} alt="secondlogo" />
+          </FlexCenteredTopHundred>
         </Col>
       </Row>
     </Container>

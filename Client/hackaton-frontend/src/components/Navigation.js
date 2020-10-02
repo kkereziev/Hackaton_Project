@@ -2,25 +2,43 @@ import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
-import { BsPlusSquare } from "react-icons/bs";
-import { CgDatabase } from "react-icons/cg";
-import DevCampLogo from "src/assets/DevCampLogo.png";
+import { BsPlusSquare, BsFileCheck } from "react-icons/bs";
+import monochrome from "src/assets/monochrome.svg";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { logout } from "../store/slice/auth";
 
 const NavTab = styled.span`
+  font-size: 18px;
+  margin-right: 3px;
+  font-weight: 500;
+  align-self: center;
+  color: #08374e;
   :hover {
-    color: #ccffff;
+    color: #669999;
   }
+`;
+
+const NavTabDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+`;
+
+const NavIconDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+  align-self: center;
+  color: #08374e;
 `;
 
 const Navigation = ({ user, logout }) => {
   return (
     <>
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
         <Navbar.Brand as={NavLink} to="/dashboard">
-          <img width="70px" src={DevCampLogo} alt="logo" />
+          <img width="80px" src={monochrome} alt="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -28,23 +46,34 @@ const Navigation = ({ user, logout }) => {
             <Nav className="ml-auto">
               <Nav.Link className="ml-5" as={NavLink} to="/dashboard">
                 {" "}
-                <NavTab>
-                  Dashboard <CgDatabase />
-                </NavTab>{" "}
+                <NavTabDiv>
+                  <NavTab>Dashboard </NavTab>
+                  <NavIconDiv>
+                    <BsFileCheck />
+                  </NavIconDiv>
+                </NavTabDiv>{" "}
               </Nav.Link>
               <Nav.Link className="ml-5" as={NavLink} to="/createTimesheet">
                 {" "}
-                <NavTab>
-                  Create Timesheet <BsPlusSquare />
-                </NavTab>{" "}
+                <NavTabDiv>
+                  <NavTab>Create Timesheet </NavTab>
+                  <NavIconDiv>
+                    <BsPlusSquare />
+                  </NavIconDiv>
+                </NavTabDiv>{" "}
               </Nav.Link>
               <Nav.Link className="ml-5" onClick={logout}>
                 {" "}
-                Logout <FiLogOut />{" "}
+                <NavTabDiv>
+                  <NavTab>Logout</NavTab>
+                  <NavIconDiv>
+                    <FiLogOut />
+                  </NavIconDiv>
+                </NavTabDiv>{" "}
               </Nav.Link>
             </Nav>
           ) : (
-            <Nav>
+            <Nav className="ml-auto">
               <Nav.Link className="ml-5" as={NavLink} to="/login">
                 <NavTab>Log in</NavTab>
               </Nav.Link>
