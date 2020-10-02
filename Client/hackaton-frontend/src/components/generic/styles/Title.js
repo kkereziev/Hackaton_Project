@@ -16,3 +16,8 @@ export const SecondTitle = styled.span`
   color: #08374e;
   font-size: 18pt;
 `;
+
+export const ThirdTitle = styled(SecondTitle)`
+  font-weight: normal;
+  font-size: 14pt;
+`;
