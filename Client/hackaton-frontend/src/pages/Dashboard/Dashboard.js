@@ -24,7 +24,6 @@ const Dashboard = ({ deleteTimesheet }) => {
   const [timesheetName, setTimesheetName] = useState("");
   const handleClose = () => {
     setIsOpen(false);
-    deleteTimesheet(timesheetId);
     setTimesheetId(null);
   };
 
@@ -32,6 +31,12 @@ const Dashboard = ({ deleteTimesheet }) => {
     setTimesheetId(timesheet.id);
     setTimesheetName(timesheet.name);
     setIsOpen(true);
+  };
+
+  const handleDelete = () => {
+    setIsOpen(false);
+    deleteTimesheet(timesheetId);
+    setTimesheetId(null);
   };
 
   return (
@@ -59,7 +64,7 @@ const Dashboard = ({ deleteTimesheet }) => {
         </Modal.Header>
         <Modal.Body>
           <IconBtnDiv>
-            <NextBtn onClick={handleClose}>Yes</NextBtn>
+            <NextBtn onClick={handleDelete}>Yes</NextBtn>
             <NoBtn onClick={handleClose}>No</NoBtn>
           </IconBtnDiv>
         </Modal.Body>
