@@ -25,12 +25,15 @@ export const MainCard = styled.div`
 export const ColumnBaseDiv = styled(BaseDiv)`
   margin: 0 auto;
   flex-direction: column;
-  width: 30%;
+  width: 20%;
   min-width: 350px;
   justify-content: center;
   align-content: space-around;
 `;
 
+export const ColumnDivWider = styled(ColumnBaseDiv)`
+  width: 40%;
+`;
 export const LineFlexBaseDiv = styled(BaseDiv)`
   padding: 0;
   justify-content: center;
