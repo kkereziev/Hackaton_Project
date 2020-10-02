@@ -4,11 +4,15 @@ const { authCookieName } = require('../config/config');
 
 const get = {
   async getMe(req, res, next) {
-    const user = req.user.dataValues;
-    user.phash = undefined;
-    user.createdAt = undefined;
-    user.updatedAt = undefined;
-    res.json(user);
+    try {
+      const user = req.user.dataValues;
+      user.phash = undefined;
+      user.createdAt = undefined;
+      user.updatedAt = undefined;
+      res.json(user);
+    } catch (err) {
+      res.status(401).send({ error: 'Unauthorized' });
+    }
   },
 };
 
