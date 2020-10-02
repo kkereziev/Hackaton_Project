@@ -15,13 +15,19 @@ import {
   NoBtn,
   IconBtnDiv,
 } from "../../components/generic/styles/Buttons";
+import { connect } from "react-redux";
+import { deleteTimesheet } from "../../store/slice/timesheet";
 
-export const Dashboard = () => {
-  const [isOpen, setIsOpen] = useState(true);
+const Dashboard = ({ deleteTimesheet }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [timesheetId, setTimesheetId] = useState(null);
   const handleClose = () => {
     setIsOpen(false);
+    deleteTimesheet(timesheetId);
+    setTimesheetId(null);
   };
-  const handleOpen = () => {
+  const handleOpen = (timesheet) => {
+    setTimesheetId(timesheet.id);
     setIsOpen(true);
   };
 
@@ -57,3 +63,9 @@ export const Dashboard = () => {
     </BaseDivTopZero>
   );
 };
+
+const ConnectedDashboard = connect(null, (dispatch) => ({
+  deleteTimesheet: (id) => dispatch(deleteTimesheet(id)),
+}))(Dashboard);
+
+export { ConnectedDashboard as Dashboard };

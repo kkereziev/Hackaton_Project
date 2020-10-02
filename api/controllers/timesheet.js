@@ -42,12 +42,12 @@ const get = {
           through: {
             attributes: [],
           },
-          attributes: ['name'],
+          attributes: ['name', 'id'],
           as: 'UserProject',
           include: [
             {
               model: models.Task,
-              attributes: ['name'],
+              attributes: ['name', 'id'],
               as: 'ProjectTask',
               through: {
                 attributes: [],
@@ -112,12 +112,15 @@ const patch = {
     try {
       const { rows, isSubmitted } = req.body;
       const { timesheetId } = req.params;
-      const existsTimesheet = await models.Timesheet.findOne({ where: { id: timesheetId } });
-      if (!existsTimesheet) throw Error('There is no timesheet with that id');
+      const existsTimesheet = await models.Timesheet.findOne({ where: { id: timesheetId } }).catch(next);
+      if (!existsTimesheet) {
+        console.log('heeey');
+        throw new Error('There is no timesheet with that id');
+      }
 
       await models.TimesheetRow.destroy({
         where: { timesheetId },
-      });
+      }).catch(next);
 
       const sumTimesheetHours = await Promise.all(
         rows.map(async (row) => {
@@ -127,7 +130,7 @@ const patch = {
 
           const doesProjectAndTask = await models.ProjectsTasks.findOne({ where: { projectId, taskId } }).catch(next);
           if (!doesProjectAndTask || doesProjectAndTask.taskId !== taskId) {
-            throw Error('Invalid Project or Task');
+            throw new Error('Invalid Project or Task', 400);
           }
 
           await models.TimesheetRow.create({
@@ -156,11 +159,12 @@ const patch = {
 
       return res.send({ success: 'Rows created' });
     } catch (err) {
-      console.log(err);
+      console.log();
+
       if (err.isJoi === true) {
         return res.status(422).send({ error: `Invalid ${err.details[0].path}` });
       }
-      return res.status(400).send({ error: err });
+      return res.status(400).send({ err: err.message });
     }
   },
 };

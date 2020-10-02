@@ -14,11 +14,13 @@ const patch = {
       let timesheetTotalHours = 0;
       const existsTimesheet = await models.Timesheet.findOne({ where: { id: timesheetId } });
 
-      if (!existsTimesheet) throw Error('There is no timesheet with that id');
+      if (!existsTimesheet) {
+        throw Error('There is no timesheet with that id');
+      }
 
       await models.TimesheetRow.destroy({
         where: { timesheetId },
-      });
+      }).catch(next);
 
       const ty = rows.reduce(async (a, b) => {
         const result = await timesheetRowSchema.validateAsync(rows[i]);
