@@ -112,7 +112,6 @@ const patch = {
     try {
       const { rows, isSubmitted } = req.body;
       const { timesheetId } = req.params;
-      let timesheetTotalHours = 0;
       const existsTimesheet = await models.Timesheet.findOne({ where: { id: timesheetId } });
       if (!existsTimesheet) throw Error('There is no timesheet with that id');
 
@@ -120,67 +119,44 @@ const patch = {
         where: { timesheetId },
       });
 
-      for (let i = 0; i < rows.length; i += 1) {
-        const result = await timesheetRowSchema.validateAsync(rows[i]);
-        const { projectId, taskId, monday, tuesday, wednesday, thursday, friday, saturday, sunday } = result;
-        const totalRowHours = monday + tuesday + wednesday + thursday + friday + saturday + sunday;
-        timesheetTotalHours += totalRowHours;
+      const sumTimesheetHours = await Promise.all(
+        rows.map(async (row) => {
+          const result = await timesheetRowSchema.validateAsync(row);
+          const { projectId, taskId, monday, tuesday, wednesday, thursday, friday, saturday, sunday } = result;
+          const totalRowHours = monday + tuesday + wednesday + thursday + friday + saturday + sunday;
 
-        const doesProjectAndTask = await models.ProjectsTasks.findOne({ where: { projectId, taskId } }).catch(next);
-        if (!doesProjectAndTask || doesProjectAndTask.taskId !== taskId) {
-          throw Error('Invalid Project or Task');
-        }
+          const doesProjectAndTask = await models.ProjectsTasks.findOne({ where: { projectId, taskId } }).catch(next);
+          if (!doesProjectAndTask || doesProjectAndTask.taskId !== taskId) {
+            throw Error('Invalid Project or Task');
+          }
 
-        await models.TimesheetRow.create({
-          projectId,
-          taskId,
-          timesheetId,
-          monday,
-          tuesday,
-          wednesday,
-          thursday,
-          friday,
-          saturday,
-          sunday,
-          totalRowHours,
-        }).catch(next);
-        console.log(timesheetId);
-      }
+          await models.TimesheetRow.create({
+            projectId,
+            taskId,
+            timesheetId,
+            monday,
+            tuesday,
+            wednesday,
+            thursday,
+            friday,
+            saturday,
+            sunday,
+            totalRowHours,
+          }).catch(next);
 
-      // const ty = rows.reduce(async (a, b) => {
-      //   const result = await timesheetRowSchema.validateAsync(rows[i]);
-      //   const { projectId, taskId, monday, tuesday, wednesday, thursday, friday, saturday, sunday } = result;
-      //   const totalRowHours = monday + tuesday + wednesday + thursday + friday + saturday + sunday;
-      //   timesheetTotalHours += totalRowHours;
+          return totalRowHours;
+        })
+      ).catch(next);
 
-      //   const doesProjectAndTask = await models.ProjectsTasks.findOne({ where: { projectId, taskId } }).catch(next);
-      //   if (!doesProjectAndTask || doesProjectAndTask.taskId !== taskId) {
-      //     throw Error('Invalid Project or Task');
-      //   }
-
-      //   await models.TimesheetRow.create({
-      //     projectId,
-      //     taskId,
-      //     timesheetId,
-      //     monday,
-      //     tuesday,
-      //     wednesday,
-      //     thursday,
-      //     friday,
-      //     saturday,
-      //     sunday,
-      //     totalRowHours,
-      //   }).catch(next);
-      //   return a + totalRowHours;
-      // }, 0);
-      // console.log(ty);
-      existsTimesheet.totalHours = timesheetTotalHours;
+      const summedHours = sumTimesheetHours.reduce((a, b) => a + b);
+      existsTimesheet.totalHours = summedHours;
       existsTimesheet.isSubmitted = !!isSubmitted;
 
       await existsTimesheet.save();
 
       return res.send({ success: 'Rows created' });
     } catch (err) {
+      console.log(err);
       if (err.isJoi === true) {
         return res.status(422).send({ error: `Invalid ${err.details[0].path}` });
       }
