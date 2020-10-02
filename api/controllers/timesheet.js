@@ -68,12 +68,13 @@ const get = {
   },
 
   async getDates(req, res, next) {
+    const { id } = req.user.dataValues;
     const datesFinal = [];
     const dates = extractMondays();
-    for (let i = 0; i < dates.length; i++) {
+    for (let i = 0; i < dates.length; i += 1) {
       const [finalEndDay, finalMonth, finalYear] = extractPertsOfDate(dates[i]);
       const dateString = `${finalMonth + 1}-${finalEndDay}-${finalYear}`;
-      const findDate = await models.Timesheet.findOne({ where: { name: { [Op.like]: `${dateString}%` } } });
+      const findDate = await models.Timesheet.findOne({ where: { name: { [Op.like]: `${dateString}%` }, userId: id } });
       const doesExist = !!findDate;
 
       datesFinal[i] = { name: dateString, isSubmitted: doesExist, startDate: dates[i] };
