@@ -34,7 +34,7 @@ const TableDashboard = ({
             <tr key={timesheet.id}>
               <TblData>
                 <IconBtnDiv>
-                  <DeleteIconBtn onClick={handleOpen}>
+                  <DeleteIconBtn onClick={() => handleOpen(timesheet)}>
                     <RiDeleteBinFill />
                   </DeleteIconBtn>
                 </IconBtnDiv>
