@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import {
   Title,
   TitleDiv,
-  SecondTitle,
+  ThirdTitle,
 } from "src/components/generic/styles/Title";
 import {
-  ColumnBaseDiv,
+  ColumnDivWider,
   BaseDivTopZero,
 } from "../../components/generic/styles/Containers";
 import { TableDashboard } from "src/components/TableDashboard";
@@ -21,43 +21,50 @@ import { deleteTimesheet } from "../../store/slice/timesheet";
 const Dashboard = ({ deleteTimesheet }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [timesheetId, setTimesheetId] = useState(null);
+  const [timesheetName, setTimesheetName] = useState("");
   const handleClose = () => {
+    setIsOpen(false);
+    setTimesheetId(null);
+  };
+
+  const handleOpen = (timesheet) => {
+    setTimesheetId(timesheet.id);
+    setTimesheetName(timesheet.name);
+    setIsOpen(true);
+  };
+
+  const handleDelete = () => {
     setIsOpen(false);
     deleteTimesheet(timesheetId);
     setTimesheetId(null);
   };
 
-  const handleOpen = (timesheet) => {
-    console.log(timesheet.target);
-    setTimesheetId(timesheet.id);
-    setIsOpen(true);
-  };
-
   return (
     <BaseDivTopZero>
-      <ColumnBaseDiv>
+      <ColumnDivWider>
         <TitleDiv>
           <Title>Your Timesheets:</Title>
         </TitleDiv>
         <TableDashboard handleOpen={handleOpen} />
-      </ColumnBaseDiv>
+      </ColumnDivWider>
 
       <Modal
-        size="sm"
+        size="md"
         show={isOpen}
         onHide={() => setIsOpen(false)}
         aria-labelledby="example-modal-sizes-title-sm"
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-sm">
-            <SecondTitle>
-              Are you sure you want to delete the timesheet for week ...?
-            </SecondTitle>
+            <ThirdTitle>
+              Are you sure you want to delete the timesheet for week{" "}
+              {timesheetName}?
+            </ThirdTitle>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <IconBtnDiv>
-            <NextBtn onClick={handleClose}>Yes</NextBtn>
+            <NextBtn onClick={handleDelete}>Yes</NextBtn>
             <NoBtn onClick={handleClose}>No</NoBtn>
           </IconBtnDiv>
         </Modal.Body>
