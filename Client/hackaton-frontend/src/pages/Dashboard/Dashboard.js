@@ -17,7 +17,7 @@ import {
 } from "../../components/generic/styles/Buttons";
 
 export const Dashboard = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => {
     setIsOpen(false);
   };

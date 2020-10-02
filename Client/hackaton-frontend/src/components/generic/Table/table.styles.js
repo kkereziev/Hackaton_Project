@@ -11,7 +11,6 @@ export const Tbl = styled.table`
   margin: 0 auto;
   background-color: white;
   height: fit-content;
-  min-height: 200px;
   min-width: 350px;
   text-align: center;
   border-collapse: collapse;
