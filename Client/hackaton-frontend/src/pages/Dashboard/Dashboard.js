@@ -5,7 +5,7 @@ import {
   SecondTitle,
 } from "src/components/generic/styles/Title";
 import {
-  ColumnBaseDiv,
+  ColumnDivWider,
   BaseDivTopZero,
 } from "../../components/generic/styles/Containers";
 import { TableDashboard } from "src/components/TableDashboard";
@@ -36,12 +36,12 @@ const Dashboard = ({ deleteTimesheet }) => {
 
   return (
     <BaseDivTopZero>
-      <ColumnBaseDiv>
+      <ColumnDivWider>
         <TitleDiv>
           <Title>Your Timesheets:</Title>
         </TitleDiv>
         <TableDashboard handleOpen={handleOpen} />
-      </ColumnBaseDiv>
+      </ColumnDivWider>
 
       <Modal
         size="sm"

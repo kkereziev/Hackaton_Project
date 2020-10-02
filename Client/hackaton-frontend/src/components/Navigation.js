@@ -7,49 +7,21 @@ import monochrome from "src/assets/monochrome.svg";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { logout } from "../store/slice/auth";
-
-const NavTab = styled.span`
-  padding-right: 3px;
-  font-size: 18px;
-  margin-right: 3px;
-  font-weight: 500;
-  color: #08374e;
-  :hover {
-    color: #669999;
-  }
-`;
-
-const NavTabUser = styled(NavTab)`
-  color: #669999;
-  margin-right: 6px;
-`;
-
-const NavTabDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const NavIconDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  font-size: 20px;
-  align-self: center;
-  color: #08374e;
-`;
-
-const NavFlex = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  width: 100%;
-`;
+import {
+  NavTab,
+  NavTabUser,
+  NavTabDiv,
+  NavIconDiv,
+  NavFlex,
+  Logo,
+} from "src/components/Navigation/navigation.styles";
 
 const Navigation = ({ user, logout }) => {
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
         <Navbar.Brand as={NavLink} to="/dashboard">
-          <img width="80px" src={monochrome} alt="logo" />
+          <Logo width="80px" src={monochrome} alt="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
