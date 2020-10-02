@@ -50,16 +50,18 @@ const get = {
 
   async getDates(req, res, next) {
     const { id } = req.user.dataValues;
-    const datesFinal = [];
     const dates = extractMondays();
-    for (let i = 0; i < dates.length; i += 1) {
-      const [finalEndDay, finalMonth, finalYear] = extractPertsOfDate(dates[i]);
-      const dateString = `${finalMonth + 1}-${finalEndDay}-${finalYear}`;
-      const findDate = await models.Timesheet.findOne({ where: { name: { [Op.like]: `${dateString}%` }, userId: id } }).catch(next);
-      const doesExist = !!findDate;
 
-      datesFinal[i] = { name: dateString, isSubmitted: doesExist, startDate: dates[i] };
-    }
+    const datesFinal = await Promise.all(
+      dates.map(async (date) => {
+        const [finalEndDay, finalMonth, finalYear] = extractPertsOfDate(date);
+        const dateString = `${finalMonth + 1}-${finalEndDay}-${finalYear}`;
+        const findDate = await models.Timesheet.findOne({ where: { name: { [Op.like]: `${dateString}%` }, userId: id } }).catch(next);
+        const doesExist = !!findDate;
+
+        return { name: dateString, isSubmitted: doesExist, startDate: date };
+      })
+    );
 
     res.json(datesFinal);
   },
