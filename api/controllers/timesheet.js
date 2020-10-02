@@ -30,6 +30,7 @@ const get = {
 };
 
 const post = {
+  // TODO
   async createTimesheet(req, res, next) {
     const { id } = req.user.dataValues;
     const { startDate, name } = req.body;
@@ -57,30 +58,31 @@ const post = {
 };
 
 const patch = {
-  async updateTimesheet(req, res, next) {
-    console.log('updateTimesheet');
-  },
   async createTimesheetRow(req, res, next) {
     try {
       const { id } = req.user.dataValues;
-      const { rows } = req.body;
+      const { rows, timesheetId, isSubmitted } = req.body;
+
       let timesheetTotalHours = 0;
-      const createdSucces = rows.map(async (row) => {
+      const existsTimesheet = await models.Timesheet.findOne({ where: { id: timesheetId } });
+
+      if (!existsTimesheet) throw Error('There is no timesheet with that id');
+
+      await models.TimesheetRow.destroy({
+        where: { timesheetId },
+        truncate: true,
+      });
+
+      const totalHours = rows.map(async (row) => {
         const result = await timesheetRowSchema.validateAsync(row);
-        const { timesheetId, projectId, taskId, monday, tuesday, wednesday, thursday, friday, saturday, sunday } = result;
-
-        const project = await models.Project.findOne({ where: { id: projectId } });
-        if (!project) {
-          throw new Error('Invalid project id');
-        }
-        const task = await models.Task.findOne({ where: { id: taskId } });
-        if (!task) {
-          throw new Error('Invalid task id');
-        }
-
+        const { projectId, taskId, monday, tuesday, wednesday, thursday, friday, saturday, sunday } = result;
         const totalRowHours = monday + tuesday + wednesday + thursday + friday + saturday + sunday;
         timesheetTotalHours += totalRowHours;
 
+        const doesProjectAndTask = await models.ProjectsTasks.findOne({ where: { projectId, taskId } }).catch(next);
+        if (!doesProjectAndTask || doesProjectAndTask.taskId !== taskId) {
+          throw Error('Invalid Project or Task');
+        }
         const createRow = await models.TimesheetRow.create({
           projectId,
           taskId,
@@ -93,16 +95,17 @@ const patch = {
           saturday,
           sunday,
           totalRowHours,
-        });
+        }).catch(next);
 
-        console.log(createdSucces);
-
-        if (createdSucces) {
-          res.send({ success: 'Rows created' });
-          return;
-        }
-        res.send('NOOOOO');
+        return timesheetTotalHours;
       });
+      console.log(totalHours);
+      existTimesheet.totalHours = totalHours;
+      existTimesheet.isSubmitted = !!isSubmitted;
+      console.log(existTimesheet.totalHours);
+      await existTimesheet.save();
+
+      return res.send({ success: 'Rows created' });
     } catch (err) {
       if (err.isJoi === true) {
         return res.status(422).send({ error: `Invalid ${err.details[0].path}` });
@@ -113,9 +116,7 @@ const patch = {
 };
 
 const remove = {
-  async deleteTimesheet(req, res, next) {
-    console.log('deleteTimesheet');
-  },
+  async deleteTimesheet(req, res, next) {},
 };
 
 module.exports = { get, post, patch, remove };
