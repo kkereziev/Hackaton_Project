@@ -1,6 +1,11 @@
 import React from "react";
 import { Title } from "src/components/generic/styles/Title";
-import { NextBtn } from "src/components/generic/styles/Buttons";
+import {
+  DeleteBtn,
+  SaveBtn,
+  SubmitBtn,
+  NextBtn,
+} from "src/components/generic/styles/Buttons";
 import { Table } from "src/components/generic/Table/Table";
 import {
   BtnGroupFlexDiv,
@@ -16,9 +21,9 @@ export const CurrentTimesheet = () => {
       <TitleWithBtnsDiv>
         <Title>Timesheet for week 05/13/2020</Title>
         <BtnGroupFlexDiv>
-          <NextBtn>Delete</NextBtn>
-          <NextBtn>Save</NextBtn>
-          <NextBtn>Submit</NextBtn>
+          <DeleteBtn>Delete</DeleteBtn>
+          <SaveBtn>Save</SaveBtn>
+          <SubmitBtn>Submit</SubmitBtn>
         </BtnGroupFlexDiv>
       </TitleWithBtnsDiv>
       <Table />
