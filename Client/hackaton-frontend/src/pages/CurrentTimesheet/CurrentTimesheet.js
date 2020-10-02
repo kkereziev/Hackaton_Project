@@ -6,15 +6,15 @@ import {
   BtnGroupFlexDiv,
   TitleWithBtnsDiv,
 } from "src/components/generic/styles/Containers";
-
-/* As we are using dropdown on several places here options are hard coded for the sake of reviewing the UI
- * Placeholder should be hardcoded for every dropdown individually where dropdown component is used*/
+import { useParams } from "react-router-dom";
 
 export const CurrentTimesheet = () => {
+  const { name } = useParams();
+
   return (
     <div>
       <TitleWithBtnsDiv>
-        <Title>Timesheet for week 05/13/2020</Title>
+        <Title>Timesheet for week {name}</Title>
         <BtnGroupFlexDiv>
           <NextBtn>Delete</NextBtn>
           <NextBtn>Save</NextBtn>

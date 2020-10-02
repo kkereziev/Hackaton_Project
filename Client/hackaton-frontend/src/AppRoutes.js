@@ -21,7 +21,7 @@ export const AppRoutes = () => {
         <Redirect to="/dashboard" exact />
       </Switch>
     );
-  } else {
+  } else if (user === null) {
     return (
       <Switch>
         <Route path="/login" exact component={Login} />
@@ -30,5 +30,7 @@ export const AppRoutes = () => {
         <Redirect to="/login" exact />
       </Switch>
     );
+  } else {
+    return <h1>Loading</h1>;
   }
 };

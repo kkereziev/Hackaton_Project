@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Select from "react-select";
 
 const customStyles = {
@@ -12,7 +12,17 @@ const customStyles = {
   }),
 };
 
-export const DropDown = ({ placeholder, options, onChange }) => {
+export const DropDown = ({
+  placeholder,
+  options,
+  onChange,
+  disabled,
+  defaultValue,
+  row,
+}) => {
+  useEffect(() => {
+    console.log("dropdown rerender");
+  }, [row]);
   return (
     <Select
       className="select"
@@ -22,6 +32,8 @@ export const DropDown = ({ placeholder, options, onChange }) => {
       menuContainerStyle={{ zIndex: 5 }}
       onChange={onChange}
       isOptionDisabled={(option) => option.disabled === true}
+      isDisabled={disabled}
+      defaultValue={defaultValue}
       theme={(theme) => ({
         ...theme,
         colors: {
