@@ -6,6 +6,10 @@ export const BaseDiv = styled.div`
   justify-content: center;
 `;
 
+export const BaseDivTopZero = styled(BaseDiv)`
+  padding-top: 0;
+  justify-content: space-around;
+`;
 export const MainCard = styled.div`
   padding: 10px 5px;
   width: 45%;
@@ -19,14 +23,20 @@ export const MainCard = styled.div`
 `;
 
 export const ColumnBaseDiv = styled(BaseDiv)`
-  flex-direction: column;
-  width: 25%;
-  min-width: 350px;
   margin: 0 auto;
+  flex-direction: column;
+  width: 20%;
+  min-width: 350px;
+  justify-content: center;
+  align-content: space-around;
 `;
 
+export const ColumnDivWider = styled(ColumnBaseDiv)`
+  width: 40%;
+`;
 export const LineFlexBaseDiv = styled(BaseDiv)`
   padding: 0;
+  justify-content: center;
 `;
 
 export const TitleWithBtnsDiv = styled(BaseDiv)`
@@ -37,4 +47,9 @@ export const TitleWithBtnsDiv = styled(BaseDiv)`
 export const BtnGroupFlexDiv = styled(LineFlexBaseDiv)`
   width: 25%;
   justify-content: space-between;
+`;
+
+export const FlexCenteredTopHundred = styled(LineFlexBaseDiv)`
+  justify-content: center;
+  margin-top: 100px;
 `;

@@ -1,68 +1,124 @@
-const date = require('date.js');
-const jwt = require('jsonwebtoken');
-const sequelize = require('sequelize');
+/* eslint-disable no-await-in-loop */
 const { models, Op } = require('../db/index');
-const { extractMondays, extractPertsOfDate, checkIfDateIsRight } = require('../utils/index');
-const { secret } = require('../config/config');
-const cookieExtractor = require('../utils/cookieExtractor');
+const { extractMondays, extractPertsOfDate, checkIfDateIsRight, lastDay } = require('../utils/index');
 
 const get = {
   async allTimesheets(req, res, next) {
-    console.log(req.user.dataValues.id);
-    // req.user = decoded.user;
+    const { id } = req.user.dataValues;
+
+    const allTimesheetsForUser = await models.Timesheet.findAll({
+      where: { userId: id },
+    }).catch(next);
+
+    res.json(allTimesheetsForUser);
   },
 
-  async timesheet(req, res, next) {
-    console.log('timesheet');
+  async getProjects(req, res, next) {
+    try {
+      const { id } = req.user.dataValues;
+      const projects = await models.User.findOne({
+        attributes: [],
+        include: [
+          {
+            model: models.Project,
+            through: {
+              attributes: [],
+            },
+            attributes: ['name', 'id'],
+            as: 'UserProject',
+            include: [
+              {
+                model: models.Task,
+                attributes: ['name', 'id'],
+                as: 'ProjectTask',
+                through: {
+                  attributes: [],
+                },
+              },
+            ],
+            exclude: ['UsersProjects'],
+          },
+        ],
+        where: { id },
+      }).catch(next);
+
+      res.json(projects);
+    } catch (err) {
+      res.status(400).send({ err: err.message });
+    }
   },
 
   async getDates(req, res, next) {
+    const { id } = req.user.dataValues;
+    const datesFinal = [];
     const dates = extractMondays();
+    for (let i = 0; i < dates.length; i += 1) {
+      const [finalEndDay, finalMonth, finalYear] = extractPertsOfDate(dates[i]);
+      const dateString = `${finalMonth + 1}-${finalEndDay}-${finalYear}`;
+      const findDate = await models.Timesheet.findOne({ where: { name: { [Op.like]: `${dateString}%` }, userId: id } }).catch(next);
+      const doesExist = !!findDate;
 
-    const results = await models.Timesheet.findAll({
-      where: sequelize.where(sequelize.fn('YEAR', sequelize.col('startDate')), 2020),
-    });
+      datesFinal[i] = { name: dateString, isSubmitted: doesExist, startDate: dates[i] };
+    }
 
-    res.send(results);
+    res.json(datesFinal);
   },
 };
 
 const post = {
   async createTimesheet(req, res, next) {
-    const { id } = req.user.dataValues;
-    const { startDate } = req.body;
-    const startingDate = new Date(startDate);
-    if (!(startingDate instanceof Date)) {
-      res.status(404).json({ error: 'Not a date' });
-    }
-    const partsOfTheSubbmitedDate = extractPertsOfDate(startingDate);
-    const dates = extractMondays();
-    const doesDayMatch = checkIfDateIsRight(partsOfTheSubbmitedDate, dates);
+    try {
+      const { id } = req.user.dataValues;
+      const { startDate, name } = req.body;
+      const startingDate = new Date(startDate);
 
-    if (doesDayMatch) {
-      const [startDay, startMonth, startYear] = extractPertsOfDate(startingDate);
-      const finalDay = date('after 6 days', startingDate);
+      if (!(startingDate instanceof Date)) {
+        throw new Error('Not a date');
+      }
+
+      const partsOfTheSubbmitedDate = extractPertsOfDate(startingDate);
+
+      const dates = extractMondays();
+
+      const doesDayMatch = checkIfDateIsRight(partsOfTheSubbmitedDate, dates);
+
+      if (!doesDayMatch) {
+        throw new Error('Invalid starting date');
+      }
+      const finalDay = lastDay(startingDate);
 
       const [finalEndDay, finalMonth, finalYear] = extractPertsOfDate(finalDay);
-      const name = `${startMonth + 1}/${startDay}/${startYear} to ${finalMonth + 1}/${finalEndDay}/${finalYear}`;
-      const newTimesheet = await models.Timesheet.create({ name, startDate, isSubmitted: false, userId: id, totalHours: 0 });
-      res.send(newTimesheet);
-    } else {
-      res.status(422).send({ error: 'Invalid starting date' });
-    }
-  },
-};
 
-const patch = {
-  async updateTimesheet(req, res, next) {
-    console.log('updateTimesheet');
+      const timesheetName = `${name} to ${finalMonth + 1}-${finalEndDay}-${finalYear}`;
+
+      const newTimesheet = await models.Timesheet.create({ name: timesheetName, startDate, isSubmitted: false, userId: id, totalHours: 0 }).catch(
+        next
+      );
+
+      res.send(newTimesheet);
+    } catch (err) {
+      res.status(422).send({ err: err.message });
+    }
   },
 };
 
 const remove = {
   async deleteTimesheet(req, res, next) {
-    console.log('deleteTimesheet');
+    try {
+      const { timesheetId } = req.params;
+
+      await await models.TimesheetRow.destroy({ where: { timesheetId } }).catch(next);
+      const existsTimesheet = await models.Timesheet.destroy({ where: { id: timesheetId } }).catch(next);
+
+      if (!existsTimesheet) {
+        throw new Error('No such Timesheet');
+      }
+
+      res.send({ success: 'Timesheet deleted' });
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
   },
 };
 
-module.exports = { get, post, patch, remove };
+module.exports = { get, post, remove };

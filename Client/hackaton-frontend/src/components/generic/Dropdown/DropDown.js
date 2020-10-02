@@ -12,7 +12,7 @@ const customStyles = {
   }),
 };
 
-export const DropDown = ({ placeholder, options }) => {
+export const DropDown = ({ placeholder, options, onChange }) => {
   return (
     <Select
       className="select"
@@ -20,6 +20,8 @@ export const DropDown = ({ placeholder, options }) => {
       options={options}
       placeholder={placeholder}
       menuContainerStyle={{ zIndex: 5 }}
+      onChange={onChange}
+      isOptionDisabled={(option) => option.disabled === true}
       theme={(theme) => ({
         ...theme,
         colors: {

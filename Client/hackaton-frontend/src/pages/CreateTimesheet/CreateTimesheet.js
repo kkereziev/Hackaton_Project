@@ -1,41 +1,66 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import {
   ColumnBaseDiv,
   LineFlexBaseDiv,
 } from "src/components/generic/styles/Containers";
 import { Title, TitleDiv } from "src/components/generic/styles/Title";
 import { NextBtn } from "src/components/generic/styles/Buttons";
-import styled from "styled-components";
 import { DropDown } from "../../components/generic/Dropdown/DropDown";
-
-// In order to be consistent and to have styled components I have called the wrapping div "SelectWeekDiv"
-// If you prefer you could just place a div tag with and in order to display:none when Next clicked
-const SelectWeekDiv = styled.div``;
-
-/* As we are using dropdown on several places here options are hard coded for the sake of reviewing the UI
- * Placeholder should be hardcoded for every dropdown individually where dropdown component is used*/
+import { getDates, createTimesheet } from "src/api_endpoints/timesheets";
 
 export const CreateTimesheet = () => {
-  const options = [
-    { value: "week-1", label: "week-1" },
-    { value: "week", label: "week" },
-    { value: "week+1", label: "week+1" },
-    { value: "week+2", label: "week+2" },
-  ];
-  const placeholder = "Select a week";
+  const history = useHistory();
+  const [options, setOptions] = useState([]);
+
+  const [startDate, setStartDate] = useState({});
+
+  useEffect(() => {
+    const fetchDates = async () => {
+      const datesOptions = [];
+      const dates = await getDates();
+      console.log(dates);
+      dates.map((date) => {
+        datesOptions.push({
+          value: date.startDate,
+          label: date.isSubmitted ? `${date.name} already created` : date.name,
+          disabled: date.isSubmitted,
+        });
+      });
+      setOptions(datesOptions);
+    };
+
+    fetchDates();
+  }, []);
+
+  const nextBtnClick = async () => {
+    try {
+      await createTimesheet(startDate);
+      history.push(`/timesheet/${startDate.name}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChange = (e) => {
+    setStartDate({ name: e.label, startDate: e.value });
+  };
+
   return (
     <div>
-      <SelectWeekDiv>
-        <ColumnBaseDiv>
-          <TitleDiv>
-            <Title>Create new timesheet:</Title>
-          </TitleDiv>
-          <DropDown options={options} placeholder={placeholder} />
-          <LineFlexBaseDiv>
-            <NextBtn>Next</NextBtn>
-          </LineFlexBaseDiv>
-        </ColumnBaseDiv>
-      </SelectWeekDiv>
+      <ColumnBaseDiv>
+        <TitleDiv>
+          <Title>Create new timesheet:</Title>
+        </TitleDiv>
+        <DropDown
+          options={options}
+          placeholder="Select a week"
+          onChange={handleChange}
+        />
+        <LineFlexBaseDiv>
+          <NextBtn onClick={nextBtnClick}>Next</NextBtn>
+        </LineFlexBaseDiv>
+      </ColumnBaseDiv>
     </div>
   );
 };

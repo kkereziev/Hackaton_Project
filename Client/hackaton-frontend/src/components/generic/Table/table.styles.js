@@ -6,29 +6,31 @@ export const TableDiv = styled.div`
   display: flex;
   justify-content: center;
 `;
+
 export const Tbl = styled.table`
-  background-color: white;
+  margin: 0 auto;
+  background-color: #f8f9fa;
   height: fit-content;
-  min-height: 200px;
   min-width: 350px;
   text-align: center;
   border-collapse: collapse;
   border-radius: 10px;
   overflow: auto;
   border-color: whitesmoke;
-  padding: 10px;
+  padding: 5px;
 `;
 
 export const TblHeading = styled.th`
   padding: 5px 10px;
   background-color: #ccffff;
-  color: dimgray;
+  color: #08374e;
   font-size: 14px;
   font-weight: bold;
 `;
 
 export const TblData = styled.td`
   padding: 8px 8px;
+  font-size: 14px;
 `;
 
 export const InputHours = styled.input`
@@ -49,4 +51,8 @@ export const InputHours = styled.input`
 export const DropDownDiv = styled.div`
   width: 150px;
   min-width: 70px;
+`;
+
+export const DataSpan = styled.span`
+  font-size: 14px;
 `;

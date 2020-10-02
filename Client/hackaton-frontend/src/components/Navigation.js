@@ -2,48 +2,89 @@ import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
-import { BsPlusSquare } from "react-icons/bs";
-import { CgDatabase } from "react-icons/cg";
-import DevCampLogo from "src/assets/DevCampLogo.png";
+import { BsPlusSquare, BsFileCheck } from "react-icons/bs";
+import monochrome from "src/assets/monochrome.svg";
 import styled from "styled-components";
+import { connect } from "react-redux";
+import { logout } from "../store/slice/auth";
+import {
+  NavTab,
+  NavTabUser,
+  NavTabDiv,
+  NavIconDiv,
+  NavFlex,
+  Logo,
+} from "src/components/Navigation/navigation.styles";
 
-const NavTab = styled.span`
-  :hover {
-    color: #ccffff;
-  }
-`;
-
-export const Navigation = () => {
+const Navigation = ({ user, logout }) => {
   return (
     <>
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
         <Navbar.Brand as={NavLink} to="/dashboard">
-          <img width="70px" src={DevCampLogo} alt="logo" />
+          <Logo width="80px" src={monochrome} alt="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="ml-auto">
-            <Nav.Link className="ml-5" as={NavLink} to="/dashboard">
-              {" "}
-              <NavTab>
-                Dashboard <CgDatabase />
-              </NavTab>{" "}
-            </Nav.Link>
-            <Nav.Link className="ml-5" as={NavLink} to="/createTimesheet">
-              {" "}
-              <NavTab>
-                Create Timesheet <BsPlusSquare />
-              </NavTab>{" "}
-            </Nav.Link>
-            <Nav.Link className="ml-5" as={NavLink} to="/logout">
-              {" "}
-              <NavTab>
-                Logout <FiLogOut />{" "}
-              </NavTab>
-            </Nav.Link>
-          </Nav>
+          {user ? (
+            <NavFlex>
+              <div>
+                <Nav className="ml-auto">
+                  <Nav.Link className="ml-5" as={NavLink} to="/dashboard">
+                    {" "}
+                    <NavTabDiv>
+                      <NavTab>Dashboard </NavTab>
+                      <NavIconDiv>
+                        <BsFileCheck />
+                      </NavIconDiv>
+                    </NavTabDiv>{" "}
+                  </Nav.Link>
+                  <Nav.Link className="ml-5" as={NavLink} to="/createTimesheet">
+                    {" "}
+                    <NavTabDiv>
+                      <NavTab>Create Timesheet </NavTab>
+                      <NavIconDiv>
+                        <BsPlusSquare />
+                      </NavIconDiv>
+                    </NavTabDiv>{" "}
+                  </Nav.Link>
+                  <Nav.Link className="ml-5" onClick={logout}>
+                    {" "}
+                    <NavTabDiv>
+                      <NavTab>Logout</NavTab>
+                      <NavIconDiv>
+                        <FiLogOut />
+                      </NavIconDiv>
+                    </NavTabDiv>{" "}
+                  </Nav.Link>
+                </Nav>
+              </div>
+              <div>
+                <Nav>
+                  <NavTabUser>User: {user.username}</NavTabUser>
+                </Nav>
+              </div>
+            </NavFlex>
+          ) : (
+            <Nav className="ml-auto">
+              <Nav.Link className="ml-5" as={NavLink} to="/login">
+                <NavTab>Log in</NavTab>
+              </Nav.Link>
+              <Nav.Link className="ml-5" as={NavLink} to="/register">
+                <NavTab>Register</NavTab>
+              </Nav.Link>
+            </Nav>
+          )}
         </Navbar.Collapse>
       </Navbar>
     </>
   );
 };
+
+const ConnectedNavigation = connect(
+  (state) => ({ user: state.auth.user }),
+  (dispatch) => ({
+    logout: () => dispatch(logout()),
+  })
+)(Navigation);
+
+export { ConnectedNavigation as Navigation };
