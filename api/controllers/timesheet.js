@@ -64,28 +64,32 @@ const get = {
 
 const post = {
   async createTimesheet(req, res, next) {
-    const { id } = req.user.dataValues;
-    const { startDate, name } = req.body;
-    const startingDate = new Date(startDate);
-    if (!(startingDate instanceof Date)) {
-      res.status(404).json({ error: 'Not a date' });
-    }
-    const partsOfTheSubbmitedDate = extractPertsOfDate(startingDate);
-    const dates = extractMondays();
-    const doesDayMatch = checkIfDateIsRight(partsOfTheSubbmitedDate, dates);
+    try {
+      const { id } = req.user.dataValues;
+      const { startDate, name } = req.body;
+      const startingDate = new Date(startDate);
 
-    if (doesDayMatch) {
-      const finalDay = lastDay(startingDate);
+      if (!(startingDate instanceof Date)) {
+        throw new Error('Not a date');
+      }
 
-      const [finalEndDay, finalMonth, finalYear] = extractPertsOfDate(finalDay);
-      const timesheetName = `${name} to ${finalMonth + 1}-${finalEndDay}-${finalYear}`;
-      const newTimesheet = await models.Timesheet.create({ name: timesheetName, startDate, isSubmitted: false, userId: id, totalHours: 0 }).catch(
-        next
-      );
-      res.send(newTimesheet);
-    } else {
-      res.status(422).send({ error: 'Invalid starting date' });
-    }
+      const partsOfTheSubbmitedDate = extractPertsOfDate(startingDate);
+      const dates = extractMondays();
+      const doesDayMatch = checkIfDateIsRight(partsOfTheSubbmitedDate, dates);
+
+      if (doesDayMatch) {
+        const finalDay = lastDay(startingDate);
+
+        const [finalEndDay, finalMonth, finalYear] = extractPertsOfDate(finalDay);
+        const timesheetName = `${name} to ${finalMonth + 1}-${finalEndDay}-${finalYear}`;
+        const newTimesheet = await models.Timesheet.create({ name: timesheetName, startDate, isSubmitted: false, userId: id, totalHours: 0 }).catch(
+          next
+        );
+        res.send(newTimesheet);
+      } else {
+        res.status(422).send({ error: 'Invalid starting date' });
+      }
+    } catch (err) {}
   },
 };
 
