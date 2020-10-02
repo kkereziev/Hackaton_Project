@@ -1,5 +1,4 @@
 const { models, Op } = require('../db/index');
-const { extractMondays, extractPertsOfDate, checkIfDateIsRight, lastDay } = require('../utils/index');
 const { timesheetRowSchema } = require('../utils');
 
 const get = {
@@ -73,7 +72,7 @@ const patch = {
       existsTimesheet.totalHours = summedHours;
       existsTimesheet.isSubmitted = !!isSubmitted;
 
-      await existsTimesheet.save();
+      await existsTimesheet.save().catch(next);
 
       return res.send({ success: 'Rows created' });
     } catch (err) {
