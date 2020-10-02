@@ -15,6 +15,19 @@ export const fetchUserTimesheets = createAsyncThunk(
   }
 );
 
+export const deleteTimesheet = createAsyncThunk(
+  "timesheet/deleteTimesheet",
+  async (id, { dispatch }) => {
+    const response = await axios.delete(
+      `${process.env.REACT_APP_BACKEND_URL}/api/timesheets/${id}`,
+      { withCredentials: true }
+    );
+
+    dispatch(fetchUserTimesheets());
+    return response.data;
+  }
+);
+
 const timesheetSlice = createSlice({
   name: "timesheet",
   initialState: { userTimesheets: [] },

@@ -1,7 +1,6 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import { TextInputField } from "src/components/generic/TextInput";
-import { LoginValidationSchema } from "src/validations";
 import { InnerContainer, RegLogLinkSpan } from "./styles";
 import { FlexCenteredTopHundred } from "src/components/generic/styles/Containers";
 import { NextBtn, IconBtnDiv } from "src/components/generic/styles/Buttons";
@@ -30,7 +29,6 @@ const LoginPage = ({ login, authError }) => {
             </TitleDiv>
             <Formik
               initialValues={{ username: "", password: "" }}
-              validationSchema={LoginValidationSchema}
               onSubmit={handleSubmit}
             >
               {({ isValid }) => {
