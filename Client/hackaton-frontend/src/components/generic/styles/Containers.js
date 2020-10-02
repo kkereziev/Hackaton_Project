@@ -33,6 +33,7 @@ export const ColumnBaseDiv = styled(BaseDiv)`
 
 export const LineFlexBaseDiv = styled(BaseDiv)`
   padding: 0;
+  justify-content: center;
 `;
 
 export const TitleWithBtnsDiv = styled(BaseDiv)`
@@ -43,4 +44,9 @@ export const TitleWithBtnsDiv = styled(BaseDiv)`
 export const BtnGroupFlexDiv = styled(LineFlexBaseDiv)`
   width: 25%;
   justify-content: space-between;
+`;
+
+export const FlexCenteredTopHundred = styled(LineFlexBaseDiv)`
+  justify-content: center;
+  margin-top: 100px;
 `;
