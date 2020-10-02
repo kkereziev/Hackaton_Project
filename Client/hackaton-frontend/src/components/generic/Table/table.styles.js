@@ -9,7 +9,7 @@ export const TableDiv = styled.div`
 
 export const Tbl = styled.table`
   margin: 0 auto;
-  background-color: white;
+  background-color: #f8f9fa;
   height: fit-content;
   min-width: 350px;
   text-align: center;
@@ -17,13 +17,13 @@ export const Tbl = styled.table`
   border-radius: 10px;
   overflow: auto;
   border-color: whitesmoke;
-  padding: 10px;
+  padding: 5px;
 `;
 
 export const TblHeading = styled.th`
   padding: 5px 10px;
   background-color: #ccffff;
-  color: dimgray;
+  color: #08374e;
   font-size: 14px;
   font-weight: bold;
 `;

@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
-//import {Table as TableBootstrap} from "react-bootstrap";
 import { Tbl, TblData, TblHeading } from "../generic/Table";
 import {
-  DeleteBtn,
-  EditBtn,
+  EditIconBtn,
+  DeleteIconBtn,
+  ViewIconBtn,
   IconBtnDiv,
-  ViewBtn,
 } from "../generic/styles/Buttons";
-import { RiDeleteBinFill, RiEdit2Fill, RiFileSearchLine } from "react-icons/ri";
+import { RiDeleteBinFill, RiEdit2Fill } from "react-icons/ri";
+import { BsFillEyeFill } from "react-icons/bs";
 import { fetchUserTimesheets } from "../../store/slice/timesheet";
 import { connect } from "react-redux";
 
@@ -24,6 +24,7 @@ const TableDashboard = ({
     <Tbl responsive>
       <tbody>
         <tr>
+          <TblHeading> </TblHeading>
           <TblHeading>Week</TblHeading>
           <TblHeading>Status</TblHeading>
           <TblHeading>Manage</TblHeading>
@@ -31,22 +32,24 @@ const TableDashboard = ({
         {userTimesheets.map((timesheet) => {
           return (
             <tr key={timesheet.id}>
+              <TblData>
+                <IconBtnDiv>
+                  <DeleteIconBtn onClick={handleOpen}>
+                    <RiDeleteBinFill />
+                  </DeleteIconBtn>
+                </IconBtnDiv>
+              </TblData>
               <TblData>{timesheet.name}</TblData>
               <TblData>{timesheet.isSubmitted ? "Submitted" : "Open"}</TblData>
               <TblData>
                 {timesheet.isSubmitted ? (
-                  <ViewBtn>
-                    <RiFileSearchLine color="white" />
-                  </ViewBtn>
+                  <ViewIconBtn>
+                    <BsFillEyeFill />
+                  </ViewIconBtn>
                 ) : (
-                  <IconBtnDiv>
-                    <EditBtn>
-                      <RiEdit2Fill color="white" />
-                    </EditBtn>
-                    <DeleteBtn onClick={handleOpen}>
-                      <RiDeleteBinFill color="white" />
-                    </DeleteBtn>
-                  </IconBtnDiv>
+                  <EditIconBtn>
+                    <RiEdit2Fill />
+                  </EditIconBtn>
                 )}
               </TblData>
             </tr>
