@@ -116,7 +116,32 @@ const patch = {
 };
 
 const remove = {
-  async deleteTimesheet(req, res, next) {},
+  async deleteTimesheet(req, res, next) {
+    try {
+      const { timesheetId } = req.params;
+
+      const existsTimesheet = await models.Timesheet.findOne({ where: { id: timesheetId } });
+      if (!existsTimesheet) {
+        throw Error('There is no timesheet with that id');
+      }
+
+      const existsTimesheetRows = await await models.TimesheetRow.findAll({ where: { timesheetId } });
+
+      await models.Timesheet.destroy({
+        where: { id: timesheetId },
+        truncate: true,
+      });
+
+      if (existsTimesheetRows) {
+        await models.TimesheetRow.destroy({
+          where: { timesheetId },
+          truncate: true,
+        });
+      }
+    } catch (err) {
+      res.status(400).json({ error: err });
+    }
+  },
 };
 
 module.exports = { get, post, patch, remove };
