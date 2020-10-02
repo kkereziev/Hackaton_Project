@@ -10,6 +10,6 @@ const timesheerRowSchema = Joi.object({
   friday: Joi.number().min(0).max(24).required(),
   saturday: Joi.number().min(0).max(24).required(),
   sunday: Joi.number().min(0).max(24).required(),
-});
+}).unknown(true);
 
 module.exports = timesheerRowSchema;

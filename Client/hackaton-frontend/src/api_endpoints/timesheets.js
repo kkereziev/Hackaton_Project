@@ -27,3 +27,8 @@ export const saveCurrentTimesheet = async ({ id, isSubmitted, rows }) => {
   });
   return res.data;
 };
+
+export const deleteCurrentTimesheet = async (id) => {
+  const res = await httpClient.delete(`/timesheets/${id}`);
+  return res.data;
+};

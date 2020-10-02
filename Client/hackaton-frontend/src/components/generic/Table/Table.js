@@ -3,10 +3,12 @@ import { DropDown } from "../Dropdown/DropDown";
 import {
   getProjects,
   saveCurrentTimesheet,
+  deleteCurrentTimesheet,
 } from "src/api_endpoints/timesheets";
 import { uuid } from "short-uuid";
 import { NextBtn } from "src/components/generic/styles/Buttons";
 import { BtnGroupFlexDiv } from "src/components/generic/styles/Containers";
+import { useHistory } from "react-router-dom";
 
 import {
   TableDiv,
@@ -18,6 +20,7 @@ import {
 } from "./table.styles";
 
 export const Table = ({ timesheetObj }) => {
+  const history = useHistory();
   const initialRow = {
     id: uuid(),
     projectId: null,
@@ -37,7 +40,11 @@ export const Table = ({ timesheetObj }) => {
 
   useEffect(() => {
     if (timesheetObj) {
-      setTableRows([...timesheetObj.TimesheetRow, initialRow]);
+      if (!timesheetObj.isSubmitted) {
+        setTableRows([...timesheetObj.TimesheetRow, initialRow]);
+      } else {
+        setTableRows([...timesheetObj.TimesheetRow]);
+      }
     }
   }, [timesheetObj]);
 
@@ -65,13 +72,13 @@ export const Table = ({ timesheetObj }) => {
 
   const projectChange = (e, idx) => {
     const rows = [...tableRows];
-    rows[idx].projectId = e.value;
+    rows[idx].projectId = +e.value;
     setTableRows(rows);
   };
 
   const taskChange = (e, idx) => {
     const rows = [...tableRows];
-    rows[idx].taskId = e.value;
+    rows[idx].taskId = +e.value;
     if (idx === rows.length - 1) {
       const newRow = { ...initialRow, id: uuid() };
       setTableRows([...rows, newRow]);
@@ -96,23 +103,35 @@ export const Table = ({ timesheetObj }) => {
   };
 
   const deleteRow = (idx) => {
+    if (tableRows.length === 1 || idx === tableRows.length - 1) return;
     const rows = [...tableRows];
     rows.splice(idx, 1);
     setTableRows(rows);
   };
 
-  const deleteTimesheet = () => {
-    console.log(timesheetObj);
+  const validateRows = () => {
+    const rows = [...tableRows];
+    rows.pop();
+    return rows;
   };
 
-  const saveTimesheet = async () => {
+  const deleteTimesheet = async () => {
+    try {
+      const res = await deleteCurrentTimesheet(timesheetObj.id);
+      history.push("/dashboard");
+      console.log(res);
+    } catch (error) {}
+  };
+
+  const saveTimesheet = async (isSubmitted) => {
     try {
       const res = await saveCurrentTimesheet({
-        isSubmitted: false,
+        isSubmitted: isSubmitted,
         id: timesheetObj.id,
-        rows: tableRows,
+        rows: validateRows(),
       });
       console.log(res);
+      if (isSubmitted) history.push("/dashboard");
     } catch (error) {}
   };
 
@@ -120,8 +139,8 @@ export const Table = ({ timesheetObj }) => {
     <div>
       <BtnGroupFlexDiv>
         <NextBtn onClick={deleteTimesheet}>Delete</NextBtn>
-        <NextBtn onClick={saveTimesheet}>Save</NextBtn>
-        <NextBtn>Submit</NextBtn>
+        <NextBtn onClick={() => saveTimesheet(false)}>Save</NextBtn>
+        <NextBtn onClick={() => saveTimesheet(true)}>Submit</NextBtn>
       </BtnGroupFlexDiv>
       <TableDiv>
         <Tbl>
@@ -142,11 +161,17 @@ export const Table = ({ timesheetObj }) => {
             {tableRows.map((row, idx) => (
               <tr key={row.id}>
                 <TblData>
-                  <NextBtn onClick={() => deleteRow(idx)}>Delete</NextBtn>
+                  <NextBtn
+                    onClick={() => deleteRow(idx)}
+                    hidden={idx === tableRows.length - 1}
+                  >
+                    Delete
+                  </NextBtn>
                 </TblData>
                 <TblData>
                   <DropDownDiv>
                     <DropDown
+                      disabled={timesheetObj && timesheetObj.isSubmitted}
                       options={options}
                       placeholder="Project..."
                       menuPortalTarget={document.body}
@@ -158,7 +183,7 @@ export const Table = ({ timesheetObj }) => {
                         row.projectId === null
                           ? "Project..."
                           : {
-                              value: row.projectId,
+                              value: +row.projectId,
                               label: options.find(
                                 (project) => project.value === row.projectId
                               )?.label,
@@ -170,6 +195,10 @@ export const Table = ({ timesheetObj }) => {
                 <TblData>
                   <DropDownDiv>
                     <DropDown
+                      disabled={
+                        (timesheetObj && timesheetObj.isSubmitted) ||
+                        row.projectId === null
+                      }
                       options={
                         options.find(
                           (project) => project.value === row.projectId
@@ -181,12 +210,11 @@ export const Table = ({ timesheetObj }) => {
                         menuPortal: (base) => ({ ...base, zIndex: 9999 }),
                       }}
                       onChange={(e) => taskChange(e, idx)}
-                      disabled={row.projectId === null}
                       defaultValue={
                         row.taskId === null
                           ? "Task..."
                           : {
-                              value: row.projectId,
+                              value: +row.projectId,
                               label: options
                                 .find(
                                   (project) => project.value === row.projectId
@@ -202,7 +230,10 @@ export const Table = ({ timesheetObj }) => {
                 <TblData>
                   <InputHours
                     name="monday"
-                    disabled={row.taskId === null}
+                    disabled={
+                      (timesheetObj && timesheetObj.isSubmitted) ||
+                      row.taskId === null
+                    }
                     onChange={(e) => inputChange(e, idx)}
                     defaultValue={row.monday}
                   />
@@ -210,7 +241,10 @@ export const Table = ({ timesheetObj }) => {
                 <TblData>
                   <InputHours
                     name="tuesday"
-                    disabled={row.taskId === null}
+                    disabled={
+                      (timesheetObj && timesheetObj.isSubmitted) ||
+                      row.taskId === null
+                    }
                     onChange={(e) => inputChange(e, idx)}
                     defaultValue={row.tuesday}
                   />
@@ -218,7 +252,10 @@ export const Table = ({ timesheetObj }) => {
                 <TblData>
                   <InputHours
                     name="wednesday"
-                    disabled={row.taskId === null}
+                    disabled={
+                      (timesheetObj && timesheetObj.isSubmitted) ||
+                      row.taskId === null
+                    }
                     onChange={(e) => inputChange(e, idx)}
                     defaultValue={row.wednesday}
                   />
@@ -226,7 +263,10 @@ export const Table = ({ timesheetObj }) => {
                 <TblData>
                   <InputHours
                     name="thursday"
-                    disabled={row.taskId === null}
+                    disabled={
+                      (timesheetObj && timesheetObj.isSubmitted) ||
+                      row.taskId === null
+                    }
                     onChange={(e) => inputChange(e, idx)}
                     defaultValue={row.thursday}
                   />
@@ -234,7 +274,10 @@ export const Table = ({ timesheetObj }) => {
                 <TblData>
                   <InputHours
                     name="friday"
-                    disabled={row.taskId === null}
+                    disabled={
+                      (timesheetObj && timesheetObj.isSubmitted) ||
+                      row.taskId === null
+                    }
                     onChange={(e) => inputChange(e, idx)}
                     defaultValue={row.friday}
                   />
@@ -242,7 +285,10 @@ export const Table = ({ timesheetObj }) => {
                 <TblData>
                   <InputHours
                     name="saturday"
-                    disabled={row.taskId === null}
+                    disabled={
+                      (timesheetObj && timesheetObj.isSubmitted) ||
+                      row.taskId === null
+                    }
                     onChange={(e) => inputChange(e, idx)}
                     defaultValue={row.saturday}
                   />
@@ -250,7 +296,10 @@ export const Table = ({ timesheetObj }) => {
                 <TblData>
                   <InputHours
                     name="sunday"
-                    disabled={row.taskId === null}
+                    disabled={
+                      (timesheetObj && timesheetObj.isSubmitted) ||
+                      row.taskId === null
+                    }
                     onChange={(e) => inputChange(e, idx)}
                     defaultValue={row.sunday}
                   />
@@ -258,7 +307,6 @@ export const Table = ({ timesheetObj }) => {
                 <TblData>{row && <label>{row.totalRowHours}</label>}</TblData>
               </tr>
             ))}
-            <tr style={{ height: "50px" }}></tr>
           </tbody>
         </Tbl>
       </TableDiv>
