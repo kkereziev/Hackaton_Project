@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Title = styled.span`
   font-size: 30px;
-  color: #669999;
+  color: #08374e;
   font-weight: bold;
 `;
 
@@ -13,6 +13,6 @@ export const TitleDiv = styled.div`
 `;
 
 export const SecondTitle = styled.span`
-  color: #669999;
+  color: #08374e;
   font-size: 22px;
 `;

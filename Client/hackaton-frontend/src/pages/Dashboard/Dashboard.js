@@ -26,7 +26,9 @@ const Dashboard = ({ deleteTimesheet }) => {
     deleteTimesheet(timesheetId);
     setTimesheetId(null);
   };
+
   const handleOpen = (timesheet) => {
+    console.log(timesheet.target);
     setTimesheetId(timesheet.id);
     setIsOpen(true);
   };
