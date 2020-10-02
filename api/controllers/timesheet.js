@@ -64,9 +64,9 @@ const patch = {
       const { rows, timesheetId, isSubmitted } = req.body;
 
       let timesheetTotalHours = 0;
-      const existTimesheet = await models.Timesheet.findOne({ where: { id: timesheetId } });
+      const existsTimesheet = await models.Timesheet.findOne({ where: { id: timesheetId } });
 
-      if (!existTimesheet) throw Error('There is no timesheet with that id');
+      if (!existsTimesheet) throw Error('There is no timesheet with that id');
 
       await models.TimesheetRow.destroy({
         where: { timesheetId },
@@ -116,9 +116,7 @@ const patch = {
 };
 
 const remove = {
-  async deleteTimesheet(req, res, next) {
-    console.log('deleteTimesheet');
-  },
+  async deleteTimesheet(req, res, next) {},
 };
 
 module.exports = { get, post, patch, remove };
