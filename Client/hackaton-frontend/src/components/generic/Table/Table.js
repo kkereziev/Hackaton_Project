@@ -97,7 +97,7 @@ export const Table = ({ timesheetObj }) => {
       saturday,
       sunday,
     } = rows[idx];
-    rows[idx].total =
+    rows[idx].totalRowHours =
       monday + tuesday + wednesday + thursday + friday + saturday + sunday;
     setTableRows(rows);
   };
@@ -137,11 +137,15 @@ export const Table = ({ timesheetObj }) => {
 
   return (
     <div>
-      <BtnGroupFlexDiv>
-        <NextBtn onClick={deleteTimesheet}>Delete</NextBtn>
-        <NextBtn onClick={() => saveTimesheet(false)}>Save</NextBtn>
-        <NextBtn onClick={() => saveTimesheet(true)}>Submit</NextBtn>
-      </BtnGroupFlexDiv>
+      {timesheetObj && !timesheetObj.isSubmitted ? (
+        <BtnGroupFlexDiv>
+          <NextBtn onClick={deleteTimesheet}>Delete</NextBtn>
+          <NextBtn onClick={() => saveTimesheet(false)}>Save</NextBtn>
+          <NextBtn onClick={() => saveTimesheet(true)}>Submit</NextBtn>
+        </BtnGroupFlexDiv>
+      ) : (
+        <h1>Submitted</h1>
+      )}
       <TableDiv>
         <Tbl>
           <tbody>
@@ -163,7 +167,9 @@ export const Table = ({ timesheetObj }) => {
                 <TblData>
                   <NextBtn
                     onClick={() => deleteRow(idx)}
-                    hidden={idx === tableRows.length - 1}
+                    hidden={
+                      idx === tableRows.length - 1 || timesheetObj.isSubmitted
+                    }
                   >
                     Delete
                   </NextBtn>
