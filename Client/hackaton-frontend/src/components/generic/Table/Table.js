@@ -268,9 +268,7 @@ export const Table = ({ timesheetObj }) => {
             </BtnGroupFlexDiv>
           </Container>
         )
-      ) : (
-        <h1>Submitted</h1>
-      )}
+      ) : null}
       <Tbl responsive="lg">
         <tbody>
           <tr>
