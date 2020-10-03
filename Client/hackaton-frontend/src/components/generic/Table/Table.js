@@ -1,24 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { DropDown } from "../Dropdown/DropDown";
+import { uuid } from "short-uuid";
 import {
   getProjects,
   saveCurrentTimesheet,
   deleteCurrentTimesheet,
 } from "src/api_endpoints/timesheets";
-import { uuid } from "short-uuid";
-import { NextBtn } from "src/components/generic/styles/Buttons";
-import { BtnGroupFlexDiv } from "src/components/generic/styles/Containers";
 import { useHistory } from "react-router-dom";
-import { Alert } from "react-bootstrap";
-
+import { DropDown } from "../Dropdown/DropDown";
 import {
-  TableDiv,
+  DeleteBtn,
+  SaveBtn,
+  SubmitBtn,
+  YesBtn,
+  NoBtn,
+} from "src/components/generic/styles/Buttons";
+import { BtnGroupFlexDiv } from "src/components/generic/styles/Containers";
+import { ThirdTitle } from "src/components/generic/styles/Title";
+import { Alert, Modal } from "react-bootstrap";
+import {
+  DeleteIconBtn,
+  IconBtnDiv,
+} from "src/components/generic/styles/Buttons";
+import { Container } from "react-bootstrap";
+import {
   Tbl,
   TblHeading,
   TblData,
   InputHours,
   DropDownDiv,
 } from "./table.styles";
+import { RiDeleteBinFill } from "react-icons/ri";
 
 export const Table = ({ timesheetObj }) => {
   const history = useHistory();
@@ -40,22 +51,15 @@ export const Table = ({ timesheetObj }) => {
   const [options, setOptions] = useState([]);
   const [requestError, setRequestError] = useState(null);
   const [hoursError, setHoursError] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setRequestError(null);
-    }, 5000);
-  }, []);
-
-  useEffect(() => {
-    if (timesheetObj) {
-      if (!timesheetObj.isSubmitted) {
-        setTableRows([...timesheetObj.TimesheetRow, initialRow]);
-      } else {
-        setTableRows([...timesheetObj.TimesheetRow]);
-      }
+    if (!timesheetObj.isSubmitted) {
+      setTableRows([...timesheetObj.TimesheetRow, initialRow]);
+    } else {
+      setTableRows([...timesheetObj.TimesheetRow]);
     }
-  }, [timesheetObj]);
+  }, []);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -175,8 +179,21 @@ export const Table = ({ timesheetObj }) => {
     return newDate.toDateString().split(" ")[2];
   };
 
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleDelete = () => {
+    deleteTimesheet();
+    setIsOpen(false);
+  };
+
   return (
-    <div>
+    <Container>
       {timesheetObj && !timesheetObj.isSubmitted ? (
         hoursError || requestError ? (
           hoursError ? (
@@ -193,247 +210,290 @@ export const Table = ({ timesheetObj }) => {
             </Alert>
           )
         ) : (
-          <BtnGroupFlexDiv>
-            <NextBtn onClick={deleteTimesheet}>Delete</NextBtn>
-            <NextBtn onClick={() => saveTimesheet(false)}>Save</NextBtn>
-            <NextBtn onClick={() => saveTimesheet(true)}>Submit</NextBtn>
-          </BtnGroupFlexDiv>
+          <Container>
+            <BtnGroupFlexDiv>
+              <DeleteBtn onClick={handleOpen}>Delete</DeleteBtn>
+              <SaveBtn
+                onClick={() => {
+                  saveTimesheet(false);
+                  setTimeout(() => {
+                    setRequestError(null);
+                  }, 3000);
+                }}
+              >
+                Save
+              </SaveBtn>
+              <SubmitBtn
+                onClick={() => {
+                  saveTimesheet(true);
+                  setTimeout(() => {
+                    setRequestError(null);
+                  }, 3000);
+                }}
+              >
+                Submit
+              </SubmitBtn>
+            </BtnGroupFlexDiv>
+          </Container>
         )
       ) : (
         <h1>Submitted</h1>
       )}
-      <TableDiv>
-        <Tbl>
-          <tbody>
-            <tr>
-              <TblHeading></TblHeading>
-              <TblHeading>Project</TblHeading>
-              <TblHeading>Task</TblHeading>
-              <TblHeading>
-                {getWeekDays(timesheetObj?.name.split(" ")[0])} Mon
-              </TblHeading>
-              <TblHeading>
-                {getWeekDays(timesheetObj?.name.split(" ")[0], 1)} Tue
-              </TblHeading>
-              <TblHeading>
-                {getWeekDays(timesheetObj?.name.split(" ")[0], 2)} Wed
-              </TblHeading>
-              <TblHeading>
-                {getWeekDays(timesheetObj?.name.split(" ")[0], 3)} Thu
-              </TblHeading>
-              <TblHeading>
-                {getWeekDays(timesheetObj?.name.split(" ")[0], 4)} Fri
-              </TblHeading>
-              <TblHeading>
-                {getWeekDays(timesheetObj?.name.split(" ")[0], 5)} Sat
-              </TblHeading>
-              <TblHeading>
-                {getWeekDays(timesheetObj?.name.split(" ")[0], 6)} Sun
-              </TblHeading>
-              <TblHeading>Total</TblHeading>
-            </tr>
-            {tableRows.map((row, idx) => (
-              <tr key={row.id}>
-                <TblData>
-                  <NextBtn
+      <Tbl responsive="lg">
+        <tbody>
+          <tr>
+            <TblHeading></TblHeading>
+            <TblHeading>Project</TblHeading>
+            <TblHeading>Task</TblHeading>
+            <TblHeading>
+              {getWeekDays(timesheetObj?.name.split(" ")[0])} Mon
+            </TblHeading>
+            <TblHeading>
+              {getWeekDays(timesheetObj?.name.split(" ")[0], 1)} Tue
+            </TblHeading>
+            <TblHeading>
+              {getWeekDays(timesheetObj?.name.split(" ")[0], 2)} Wed
+            </TblHeading>
+            <TblHeading>
+              {getWeekDays(timesheetObj?.name.split(" ")[0], 3)} Thu
+            </TblHeading>
+            <TblHeading>
+              {getWeekDays(timesheetObj?.name.split(" ")[0], 4)} Fri
+            </TblHeading>
+            <TblHeading>
+              {getWeekDays(timesheetObj?.name.split(" ")[0], 5)} Sat
+            </TblHeading>
+            <TblHeading>
+              {getWeekDays(timesheetObj?.name.split(" ")[0], 6)} Sun
+            </TblHeading>
+            <TblHeading>Total</TblHeading>
+          </tr>
+          {tableRows.map((row, idx) => (
+            <tr key={row.id}>
+              <TblData>
+                <IconBtnDiv>
+                  <DeleteIconBtn
                     onClick={() => deleteRow(idx)}
                     hidden={
                       idx === tableRows.length - 1 || timesheetObj.isSubmitted
                     }
                   >
-                    Delete
-                  </NextBtn>
-                </TblData>
-                <TblData>
-                  <DropDownDiv>
-                    <DropDown
-                      disabled={timesheetObj && timesheetObj.isSubmitted}
-                      options={options}
-                      placeholder="Project..."
-                      menuPortalTarget={document.body}
-                      styles={{
-                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-                      }}
-                      onChange={(e) => projectChange(e, idx)}
-                      defaultValue={
-                        row.projectId === null
-                          ? "Project..."
-                          : {
-                              value: +row.projectId,
-                              label: options.find(
+                    <RiDeleteBinFill />
+                  </DeleteIconBtn>
+                </IconBtnDiv>
+              </TblData>
+              <TblData>
+                <DropDownDiv>
+                  <DropDown
+                    disabled={timesheetObj && timesheetObj.isSubmitted}
+                    options={options}
+                    placeholder="Project..."
+                    menuPortalTarget={document.body}
+                    styles={{
+                      menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                    }}
+                    onChange={(e) => projectChange(e, idx)}
+                    value={
+                      row.projectId === null
+                        ? "Project..."
+                        : {
+                            value: +row.projectId,
+                            label: options.find(
+                              (project) => project.value === row.projectId
+                            )?.label,
+                          }
+                    }
+                  />
+                </DropDownDiv>
+              </TblData>
+              <TblData>
+                <DropDownDiv>
+                  <DropDown
+                    disabled={
+                      (timesheetObj && timesheetObj.isSubmitted) ||
+                      row.projectId === null
+                    }
+                    options={
+                      options.find((project) => project.value === row.projectId)
+                        ?.tasks
+                    }
+                    placeholder="Task..."
+                    menuPortalTarget={document.body}
+                    styles={{
+                      menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                    }}
+                    onChange={(e) => taskChange(e, idx)}
+                    value={
+                      row.taskId === null
+                        ? "Task..."
+                        : {
+                            value: +row.projectId,
+                            label: options
+                              .find(
                                 (project) => project.value === row.projectId
-                              )?.label,
-                            }
-                      }
-                    />
-                  </DropDownDiv>
-                </TblData>
-                <TblData>
-                  <DropDownDiv>
-                    <DropDown
-                      disabled={
-                        (timesheetObj && timesheetObj.isSubmitted) ||
-                        row.projectId === null
-                      }
-                      options={
-                        options.find(
-                          (project) => project.value === row.projectId
-                        )?.tasks
-                      }
-                      placeholder="Task..."
-                      menuPortalTarget={document.body}
-                      styles={{
-                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-                      }}
-                      onChange={(e) => taskChange(e, idx)}
-                      defaultValue={
-                        row.taskId === null
-                          ? "Task..."
-                          : {
-                              value: +row.projectId,
-                              label: options
-                                .find(
-                                  (project) => project.value === row.projectId
-                                )
-                                ?.tasks.find(
-                                  (task) => task.value === row.taskId
-                                )?.label,
-                            }
-                      }
-                    />
-                  </DropDownDiv>
-                </TblData>
-                <TblData>
-                  <InputHours
-                    type="number"
-                    name="monday"
-                    min={0}
-                    max={24}
-                    disabled={
-                      (timesheetObj && timesheetObj.isSubmitted) ||
-                      row.taskId === null
+                              )
+                              ?.tasks.find((task) => task.value === row.taskId)
+                              ?.label,
+                          }
                     }
-                    onChange={(e) => inputChange(e, idx)}
-                    defaultValue={row.monday}
                   />
-                </TblData>
-                <TblData>
-                  <InputHours
-                    type="number"
-                    min={0}
-                    max={24}
-                    name="tuesday"
-                    disabled={
-                      (timesheetObj && timesheetObj.isSubmitted) ||
-                      row.taskId === null
-                    }
-                    onChange={(e) => inputChange(e, idx)}
-                    defaultValue={row.tuesday}
-                  />
-                </TblData>
-                <TblData>
-                  <InputHours
-                    type="number"
-                    min={0}
-                    max={24}
-                    name="wednesday"
-                    disabled={
-                      (timesheetObj && timesheetObj.isSubmitted) ||
-                      row.taskId === null
-                    }
-                    onChange={(e) => inputChange(e, idx)}
-                    defaultValue={row.wednesday}
-                  />
-                </TblData>
-                <TblData>
-                  <InputHours
-                    type="number"
-                    min={0}
-                    max={24}
-                    name="thursday"
-                    disabled={
-                      (timesheetObj && timesheetObj.isSubmitted) ||
-                      row.taskId === null
-                    }
-                    onChange={(e) => inputChange(e, idx)}
-                    defaultValue={row.thursday}
-                  />
-                </TblData>
-                <TblData>
-                  <InputHours
-                    type="number"
-                    min={0}
-                    max={24}
-                    name="friday"
-                    disabled={
-                      (timesheetObj && timesheetObj.isSubmitted) ||
-                      row.taskId === null
-                    }
-                    onChange={(e) => inputChange(e, idx)}
-                    defaultValue={row.friday}
-                  />
-                </TblData>
-                <TblData>
-                  <InputHours
-                    type="number"
-                    min={0}
-                    max={24}
-                    name="saturday"
-                    disabled={
-                      (timesheetObj && timesheetObj.isSubmitted) ||
-                      row.taskId === null
-                    }
-                    onChange={(e) => inputChange(e, idx)}
-                    defaultValue={row.saturday}
-                  />
-                </TblData>
-                <TblData>
-                  <InputHours
-                    type="number"
-                    min={0}
-                    max={24}
-                    name="sunday"
-                    disabled={
-                      (timesheetObj && timesheetObj.isSubmitted) ||
-                      row.taskId === null
-                    }
-                    onChange={(e) => inputChange(e, idx)}
-                    defaultValue={row.sunday}
-                  />
-                </TblData>
-                <TblData>{row && <label>{row.totalRowHours}</label>}</TblData>
-              </tr>
-            ))}
-          </tbody>
-          <TblHeading></TblHeading>
-          <TblHeading></TblHeading>
-          <TblHeading></TblHeading>
-          <TblHeading>
-            {tableRows.map((row) => row.monday).reduce((a, b) => a + b)}
-          </TblHeading>
-          <TblHeading>
-            {tableRows.map((row) => row.tuesday).reduce((a, b) => a + b)}
-          </TblHeading>
-          <TblHeading>
-            {tableRows.map((row) => row.wednesday).reduce((a, b) => a + b)}
-          </TblHeading>
-          <TblHeading>
-            {tableRows.map((row) => row.thursday).reduce((a, b) => a + b)}
-          </TblHeading>
-          <TblHeading>
-            {tableRows.map((row) => row.friday).reduce((a, b) => a + b)}
-          </TblHeading>
-          <TblHeading>
-            {tableRows.map((row) => row.saturday).reduce((a, b) => a + b)}
-          </TblHeading>
-          <TblHeading>
-            {tableRows.map((row) => row.sunday).reduce((a, b) => a + b)}
-          </TblHeading>
-          <TblHeading>
-            {tableRows.map((row) => row.totalRowHours).reduce((a, b) => a + b)}
-          </TblHeading>
-        </Tbl>
-      </TableDiv>
-    </div>
+                </DropDownDiv>
+              </TblData>
+              <TblData>
+                <InputHours
+                  type="number"
+                  name="monday"
+                  min={0}
+                  max={24}
+                  disabled={
+                    (timesheetObj && timesheetObj.isSubmitted) ||
+                    row.taskId === null
+                  }
+                  onChange={(e) => inputChange(e, idx)}
+                  defaultValue={row.monday}
+                />
+              </TblData>
+              <TblData>
+                <InputHours
+                  type="number"
+                  min={0}
+                  max={24}
+                  name="tuesday"
+                  disabled={
+                    (timesheetObj && timesheetObj.isSubmitted) ||
+                    row.taskId === null
+                  }
+                  onChange={(e) => inputChange(e, idx)}
+                  defaultValue={row.tuesday}
+                />
+              </TblData>
+              <TblData>
+                <InputHours
+                  type="number"
+                  min={0}
+                  max={24}
+                  name="wednesday"
+                  disabled={
+                    (timesheetObj && timesheetObj.isSubmitted) ||
+                    row.taskId === null
+                  }
+                  onChange={(e) => inputChange(e, idx)}
+                  defaultValue={row.wednesday}
+                />
+              </TblData>
+              <TblData>
+                <InputHours
+                  type="number"
+                  min={0}
+                  max={24}
+                  name="thursday"
+                  disabled={
+                    (timesheetObj && timesheetObj.isSubmitted) ||
+                    row.taskId === null
+                  }
+                  onChange={(e) => inputChange(e, idx)}
+                  defaultValue={row.thursday}
+                />
+              </TblData>
+              <TblData>
+                <InputHours
+                  type="number"
+                  min={0}
+                  max={24}
+                  name="friday"
+                  disabled={
+                    (timesheetObj && timesheetObj.isSubmitted) ||
+                    row.taskId === null
+                  }
+                  onChange={(e) => inputChange(e, idx)}
+                  defaultValue={row.friday}
+                />
+              </TblData>
+              <TblData>
+                <InputHours
+                  type="number"
+                  min={0}
+                  max={24}
+                  name="saturday"
+                  disabled={
+                    (timesheetObj && timesheetObj.isSubmitted) ||
+                    row.taskId === null
+                  }
+                  onChange={(e) => inputChange(e, idx)}
+                  defaultValue={row.saturday}
+                />
+              </TblData>
+              <TblData>
+                <InputHours
+                  type="number"
+                  min={0}
+                  max={24}
+                  name="sunday"
+                  disabled={
+                    (timesheetObj && timesheetObj.isSubmitted) ||
+                    row.taskId === null
+                  }
+                  onChange={(e) => inputChange(e, idx)}
+                  defaultValue={row.sunday}
+                />
+              </TblData>
+              <TblData>{row && <label>{row.totalRowHours}</label>}</TblData>
+            </tr>
+          ))}
+          <tr>
+            <TblHeading></TblHeading>
+            <TblHeading></TblHeading>
+            <TblHeading></TblHeading>
+            <TblHeading>
+              {tableRows.map((row) => row.monday).reduce((a, b) => a + b)}
+            </TblHeading>
+            <TblHeading>
+              {tableRows.map((row) => row.tuesday).reduce((a, b) => a + b)}
+            </TblHeading>
+            <TblHeading>
+              {tableRows.map((row) => row.wednesday).reduce((a, b) => a + b)}
+            </TblHeading>
+            <TblHeading>
+              {tableRows.map((row) => row.thursday).reduce((a, b) => a + b)}
+            </TblHeading>
+            <TblHeading>
+              {tableRows.map((row) => row.friday).reduce((a, b) => a + b)}
+            </TblHeading>
+            <TblHeading>
+              {tableRows.map((row) => row.saturday).reduce((a, b) => a + b)}
+            </TblHeading>
+            <TblHeading>
+              {tableRows.map((row) => row.sunday).reduce((a, b) => a + b)}
+            </TblHeading>
+            <TblHeading>
+              {tableRows
+                .map((row) => row.totalRowHours)
+                .reduce((a, b) => a + b)}
+            </TblHeading>
+          </tr>
+        </tbody>
+      </Tbl>
+      <Modal
+        size="md"
+        show={isOpen}
+        onHide={() => setIsOpen(false)}
+        aria-labelledby="example-modal-sizes-title-sm"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-modal-sizes-title-sm">
+            <ThirdTitle>
+              Are you sure you want to delete the timesheet for week{" "}
+              {timesheetObj?.name}?
+            </ThirdTitle>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <IconBtnDiv>
+            <YesBtn onClick={handleDelete}>Yes</YesBtn>
+            <NoBtn onClick={handleClose}>No</NoBtn>
+          </IconBtnDiv>
+        </Modal.Body>
+      </Modal>
+    </Container>
   );
 };

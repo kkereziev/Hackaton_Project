@@ -30,13 +30,14 @@ const post = {
         username,
         phash: password,
       }).catch(next);
+
       newUser.phash = undefined;
       return res.send(newUser);
     } catch (err) {
       if (err.isJoi === true) {
         return res.status(422).send({ error: `Invalid ${err.details[0].path}` });
       }
-      return res.status(400).send({ error: err });
+      return res.status(400).send({ error: err.message });
     }
   },
   async login(req, res, next) {

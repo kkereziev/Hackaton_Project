@@ -34,8 +34,12 @@ export const NavFlex = styled.div`
   flex-direction: column;
   align-items: flex-end;
   width: 100%;
+  margin-right: 30px;
+  margin-top: 15px;
+  margin-bottom: 10px;
 `;
 
 export const Logo = styled.img`
   margin-left: 20px;
+  width: 100px;
 `;

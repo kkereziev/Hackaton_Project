@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Select from "react-select";
 
 const customStyles = {
@@ -17,11 +17,12 @@ export const DropDown = ({
   options,
   onChange,
   disabled,
-  defaultValue,
+  value,
 }) => {
   return (
     <Select
       className="select"
+      value={value}
       styles={customStyles}
       options={options}
       placeholder={placeholder}
@@ -29,7 +30,6 @@ export const DropDown = ({
       onChange={onChange}
       isOptionDisabled={(option) => option.disabled === true}
       isDisabled={disabled}
-      defaultValue={defaultValue}
       theme={(theme) => ({
         ...theme,
         colors: {
