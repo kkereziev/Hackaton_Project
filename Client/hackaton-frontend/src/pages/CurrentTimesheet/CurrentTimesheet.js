@@ -25,7 +25,7 @@ export const CurrentTimesheet = () => {
     const fetchRows = async () => {
       try {
         const timesheet = await getCurrentTimesheet(name);
-        if (timesheet === null) history.push("/dashboard");
+        if (timesheet.result === null) history.push("/dashboard");
         setTimesheet(timesheet.result);
         setIsLoading(false);
       } catch (error) {
