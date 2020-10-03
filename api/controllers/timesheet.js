@@ -74,7 +74,7 @@ const post = {
       const { startDate, name } = req.body;
       const startingDate = new Date(startDate);
 
-      if (!(startingDate instanceof Date)) {
+      if (!(startingDate instanceof Date) || !name) {
         throw new Error('Not a date');
       }
 
@@ -97,7 +97,7 @@ const post = {
         next
       );
 
-      res.send(newTimesheet);
+      res.status(201).send(newTimesheet);
     } catch (err) {
       res.status(422).send({ err: err.message });
     }

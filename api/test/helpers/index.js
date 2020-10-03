@@ -1,3 +1,4 @@
-const authSignUp = require('./userSignUpHelper');
+const authHelper = require('./authHelper');
+const timesheetHelper = require('./timesheetsHelper');
 
-module.exports = { authSignUp };
+module.exports = { authHelper, timesheetHelper };

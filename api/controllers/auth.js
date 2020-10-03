@@ -38,7 +38,7 @@ const post = {
       if (err.isJoi === true) {
         return res.status(422).send({ error: `Invalid ${err.details[0].path}` });
       }
-      return res.status(400).send({ error: err.message });
+      res.status(400).send({ error: err.message });
     }
   },
   async login(req, res, next) {
@@ -61,7 +61,7 @@ const post = {
       if (err.isJoi === true) {
         return res.status(422).send({ error: `Invalid credentials` });
       }
-      return res.status(400).send({ error: `Invalid credentials` });
+      return res.status(401).send({ error: `Invalid credentials` });
     }
   },
   async logout(req, res, next) {
