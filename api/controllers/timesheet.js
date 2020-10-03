@@ -74,7 +74,7 @@ const post = {
       const { startDate, name } = req.body;
       const startingDate = new Date(startDate);
 
-      if (!(startingDate instanceof Date)) {
+      if (!(startingDate instanceof Date) || !name) {
         throw new Error('Not a date');
       }
 
@@ -97,7 +97,7 @@ const post = {
         next
       );
 
-      res.send(newTimesheet);
+      res.status(201).send(newTimesheet);
     } catch (err) {
       res.status(422).send({ err: err.message });
     }
@@ -109,12 +109,13 @@ const remove = {
     try {
       const { timesheetId } = req.params;
 
-      await await models.TimesheetRow.destroy({ where: { timesheetId } }).catch(next);
-      const existsTimesheet = await models.Timesheet.destroy({ where: { id: timesheetId } }).catch(next);
+      const existsTimesheet = await models.Timesheet.findOne({ where: { id: timesheetId } }).catch(next);
 
-      if (!existsTimesheet) {
-        throw new Error('No such Timesheet');
+      if (!existsTimesheet || existsTimesheet.isSubmitted === true) {
+        throw new Error("Can't delete timesheet");
       }
+      await models.Timesheet.destroy({ where: { id: timesheetId } }).catch(next);
+      await models.TimesheetRow.destroy({ where: { timesheetId } }).catch(next);
 
       res.send({ success: 'Timesheet deleted' });
     } catch (err) {
