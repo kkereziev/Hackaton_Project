@@ -12,6 +12,12 @@ export const TitleDiv = styled.div`
   justify-content: center;
 `;
 
+export const ColumnTitlesDiv = styled(TitleDiv)`
+  margin: 0 15px;
+  align-self: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+`;
 export const SecondTitle = styled.span`
   color: #08374e;
   font-size: 18pt;

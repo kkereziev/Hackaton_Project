@@ -1,13 +1,14 @@
 import styled from "styled-components";
+import { Table as BootstrapTable } from "react-bootstrap";
 
 export const TableDiv = styled.div`
   margin: 0 auto;
-  width: 85%;
+  width: 95%;
   display: flex;
   justify-content: center;
 `;
 
-export const Tbl = styled.table`
+export const Tbl = styled(BootstrapTable)`
   margin: 0 auto;
   background-color: #f8f9fa;
   height: fit-content;
@@ -36,7 +37,7 @@ export const TblData = styled.td`
 export const InputHours = styled.input`
   max-width: 30px;
   min-width: 20px;
-  margin: 15px;
+  margin-top: 5px;
   border: solid;
   border-color: lightgrey;
   border-radius: 5px;

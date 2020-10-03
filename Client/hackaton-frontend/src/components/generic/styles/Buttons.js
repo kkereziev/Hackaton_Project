@@ -18,12 +18,20 @@ export const NextBtn = styled.button`
   }
 `;
 
-export const NoBtn = styled(NextBtn)`
-  background-color: #8a1d00;
-  border-color: #8a1d00;
+export const YesBtn = styled(NextBtn)`
+  background: #5cbe7d;
+  border-color: #5cbe7d;
   &:hover {
-    border-color: #ca4f44;
-    background-color: #ca4f44;
+    border-color: #008d64;
+    background-color: #008d64;
+  }
+`;
+export const NoBtn = styled(NextBtn)`
+  background-color: #ca4f44;
+  border-color: #ca4f44;
+  &:hover {
+    border-color: #8a1d00;
+    background-color: #8a1d00;
   }
 `;
 
@@ -40,22 +48,32 @@ export const EditBtn = styled(NextBtn)`
   }
 `;
 
-export const DeleteBtn = styled(EditBtn)`
-  background-color: #8a1d00;
+export const SaveBtn = styled(NextBtn)`
+  margin: 5px 0 5px 15px;
+  width: 100px;
+  background-color: #5CBE7D;
+  border-color: #5CBE7D;
+    &:hover {
+    border-color: #008d64;
+    background-color:#008d64;
+`;
+
+export const DeleteBtn = styled(SaveBtn)`
+  background-color: #ca4f44;
   border: solid 2px;
-  border-color: #8a1d00;
+  border-color: #ca4f44;
   &:hover {
-    border-color: #ca4f44;
-    background-color: #ca4f44;
+    border-color: #8a1d00;
+    background-color: #8a1d00;
   }
 `;
 
-export const ViewBtn = styled(EditBtn)`
-  background-color: dimgray;
-  border-color: dimgray;
+export const SubmitBtn = styled(SaveBtn)`
+  background-color: #08374e;
+  border-color: #08374e;
   &:hover {
-    border-color: lightgray;
-    background-color: lightgray;
+    border-color: #669999;
+    background-color: #669999;
   }
 `;
 

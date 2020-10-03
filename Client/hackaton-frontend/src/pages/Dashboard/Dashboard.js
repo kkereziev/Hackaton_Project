@@ -11,7 +11,7 @@ import {
 import { TableDashboard } from "src/components/TableDashboard";
 import { Modal } from "react-bootstrap";
 import {
-  NextBtn,
+  YesBtn,
   NoBtn,
   IconBtnDiv,
 } from "../../components/generic/styles/Buttons";
@@ -64,7 +64,7 @@ const Dashboard = ({ deleteTimesheet }) => {
         </Modal.Header>
         <Modal.Body>
           <IconBtnDiv>
-            <NextBtn onClick={handleDelete}>Yes</NextBtn>
+            <YesBtn onClick={handleDelete}>Yes</YesBtn>
             <NoBtn onClick={handleClose}>No</NoBtn>
           </IconBtnDiv>
         </Modal.Body>
