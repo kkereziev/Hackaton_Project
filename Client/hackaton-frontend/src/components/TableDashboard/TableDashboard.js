@@ -32,7 +32,7 @@ const TableDashboard = ({
         {userTimesheets.map((timesheet) => {
           return (
             <tr key={timesheet.id}>
-              {!timesheet.isSubmitted && (
+              {!timesheet.isSubmitted ? (
                 <TblData>
                   <IconBtnDiv>
                     <DeleteIconBtn onClick={() => handleOpen(timesheet)}>
@@ -40,6 +40,8 @@ const TableDashboard = ({
                     </DeleteIconBtn>
                   </IconBtnDiv>
                 </TblData>
+              ) : (
+                <TblData></TblData>
               )}
               <TblData>{timesheet.name}</TblData>
               <TblData>{timesheet.isSubmitted ? "Submitted" : "Open"}</TblData>
