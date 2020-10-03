@@ -9,7 +9,7 @@ import {
   BaseDivTopZero,
 } from "../../components/generic/styles/Containers";
 import { TableDashboard } from "src/components/TableDashboard";
-import { Modal } from "react-bootstrap";
+import { Modal, Alert } from "react-bootstrap";
 import {
   YesBtn,
   NoBtn,
@@ -18,7 +18,7 @@ import {
 import { connect } from "react-redux";
 import { deleteTimesheet } from "../../store/slice/timesheet";
 
-const Dashboard = ({ deleteTimesheet }) => {
+const Dashboard = ({ deleteTimesheet, timesheetRequestError }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [timesheetId, setTimesheetId] = useState(null);
   const [timesheetName, setTimesheetName] = useState("");
@@ -45,6 +45,9 @@ const Dashboard = ({ deleteTimesheet }) => {
         <TitleDiv>
           <Title>Your Timesheets:</Title>
         </TitleDiv>
+        {timesheetRequestError && (
+          <Alert variant="danger">{timesheetRequestError}</Alert>
+        )}
         <TableDashboard handleOpen={handleOpen} />
       </ColumnDivWider>
 
@@ -73,8 +76,13 @@ const Dashboard = ({ deleteTimesheet }) => {
   );
 };
 
-const ConnectedDashboard = connect(null, (dispatch) => ({
-  deleteTimesheet: (id) => dispatch(deleteTimesheet(id)),
-}))(Dashboard);
+const ConnectedDashboard = connect(
+  (state) => ({
+    timesheetRequestError: state.timesheet.requestError,
+  }),
+  (dispatch) => ({
+    deleteTimesheet: (id) => dispatch(deleteTimesheet(id)),
+  })
+)(Dashboard);
 
 export { ConnectedDashboard as Dashboard };

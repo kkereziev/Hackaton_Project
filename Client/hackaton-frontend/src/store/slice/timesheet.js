@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getIn } from "formik";
 import axios from "axios";
+
+const FATAL_ERROR_MESSAGE = "Something went wrong. Please try again later.";
 
 export const fetchUserTimesheets = createAsyncThunk(
   "timesheet/fetchUserTimesheets",
@@ -9,7 +12,9 @@ export const fetchUserTimesheets = createAsyncThunk(
         withCredentials: true,
       })
       .catch((err) => {
-        throw new Error(err.response.data.error);
+        throw new Error(
+          getIn(err, "response.data.error") || FATAL_ERROR_MESSAGE
+        );
       });
     return response.data;
   }
@@ -18,10 +23,15 @@ export const fetchUserTimesheets = createAsyncThunk(
 export const deleteTimesheet = createAsyncThunk(
   "timesheet/deleteTimesheet",
   async (id, { dispatch }) => {
-    const response = await axios.delete(
-      `${process.env.REACT_APP_BACKEND_URL}/api/timesheets/${id}`,
-      { withCredentials: true }
-    );
+    const response = await axios
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/api/timesheets/${id}`, {
+        withCredentials: true,
+      })
+      .catch((err) => {
+        throw new Error(
+          getIn(err, "response.data.error") || FATAL_ERROR_MESSAGE
+        );
+      });
 
     dispatch(fetchUserTimesheets());
     return response.data;
@@ -30,11 +40,23 @@ export const deleteTimesheet = createAsyncThunk(
 
 const timesheetSlice = createSlice({
   name: "timesheet",
-  initialState: { userTimesheets: [] },
+  initialState: { userTimesheets: [], requestError: "" },
   reducers: {},
   extraReducers: {
+    [fetchUserTimesheets.pending]: (state, action) => {
+      state.requestError = "";
+    },
     [fetchUserTimesheets.fulfilled]: (state, action) => {
       state.userTimesheets = action.payload;
+    },
+    [fetchUserTimesheets.rejected]: (state, action) => {
+      state.requestError = action.error.message;
+    },
+    [deleteTimesheet.pending]: (state, action) => {
+      state.authError = "";
+    },
+    [deleteTimesheet.rejected]: (state, action) => {
+      state.requestError = action.error.message;
     },
   },
 });
