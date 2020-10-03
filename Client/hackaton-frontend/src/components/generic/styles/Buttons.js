@@ -49,7 +49,13 @@ export const EditBtn = styled(NextBtn)`
 `;
 
 export const SaveBtn = styled(NextBtn)`
-  margin: 0 30px;
+  margin: 5px 0 5px 15px;
+  width: 100px;
+  background-color: #5CBE7D;
+  border-color: #5CBE7D;
+    &:hover {
+    border-color: #008d64;
+    background-color:#008d64;
 `;
 
 export const DeleteBtn = styled(SaveBtn)`
@@ -63,11 +69,11 @@ export const DeleteBtn = styled(SaveBtn)`
 `;
 
 export const SubmitBtn = styled(SaveBtn)`
-  background-color: dimgray;
-  border-color: dimgray;
+  background-color: #08374e;
+  border-color: #08374e;
   &:hover {
-    border-color: lightgray;
-    background-color: lightgray;
+    border-color: #669999;
+    background-color: #669999;
   }
 `;
 

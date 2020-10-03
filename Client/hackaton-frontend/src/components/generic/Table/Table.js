@@ -1,6 +1,10 @@
 import React from "react";
 import { DropDown } from "../Dropdown/DropDown";
-import { NextBtn } from "src/components/generic/styles/Buttons";
+import {
+  DeleteIconBtn,
+  IconBtnDiv,
+} from "src/components/generic/styles/Buttons";
+import { Container } from "react-bootstrap";
 
 import {
   TableDiv,
@@ -10,6 +14,7 @@ import {
   InputHours,
   DropDownDiv,
 } from "./table.styles";
+import { RiDeleteBinFill } from "react-icons/ri";
 
 export const Table = () => {
   const projectOptions = [
@@ -28,24 +33,31 @@ export const Table = () => {
   const tasksPlaceholder = "Task...";
 
   return (
-    <TableDiv>
-      <Tbl>
-        <tr>
-          <TblHeading></TblHeading>
-          <TblHeading>Project</TblHeading>
-          <TblHeading>Task</TblHeading>
-          <TblHeading>13 Mon</TblHeading>
-          <TblHeading>14 Tue</TblHeading>
-          <TblHeading>15 Wed</TblHeading>
-          <TblHeading>16 Thu</TblHeading>
-          <TblHeading>17 Fri</TblHeading>
-          <TblHeading>18 Sat</TblHeading>
-          <TblHeading>19 Sun</TblHeading>
-          <TblHeading>Total</TblHeading>
-        </tr>
+    <Container>
+      <Tbl responsive="lg">
+        <thead>
+          <tr>
+            <TblHeading> </TblHeading>
+            <TblHeading>Project</TblHeading>
+            <TblHeading>Task</TblHeading>
+            <TblHeading>13 Mon</TblHeading>
+            <TblHeading>14 Tue</TblHeading>
+            <TblHeading>15 Wed</TblHeading>
+            <TblHeading>16 Thu</TblHeading>
+            <TblHeading>17 Fri</TblHeading>
+            <TblHeading>18 Sat</TblHeading>
+            <TblHeading>19 Sun</TblHeading>
+            <TblHeading>Total</TblHeading>
+          </tr>
+        </thead>
+
         <tr>
           <TblData>
-            <NextBtn>Delete</NextBtn>
+            <IconBtnDiv>
+              <DeleteIconBtn>
+                <RiDeleteBinFill />
+              </DeleteIconBtn>
+            </IconBtnDiv>
           </TblData>
           <TblData>
             <DropDownDiv>
@@ -91,6 +103,6 @@ export const Table = () => {
         </tr>
         <tr style={{ height: "50px" }}> </tr>
       </Tbl>
-    </TableDiv>
+    </Container>
   );
 };

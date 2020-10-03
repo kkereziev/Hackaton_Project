@@ -40,13 +40,17 @@ export const LineFlexBaseDiv = styled(BaseDiv)`
 `;
 
 export const TitleWithBtnsDiv = styled(BaseDiv)`
+  margin: 0 auto;
+  padding-bottom: 30px;
+  width: 70%;
   justify-content: space-between;
-  align-content: center;
-  width: 65%;
+  align-items: flex-start;
+  min-width: 350px;
 `;
 export const BtnGroupFlexDiv = styled(LineFlexBaseDiv)`
-  width: 25%;
   justify-content: space-between;
+  flex-wrap: wrap;
+  align-self: end;
 `;
 
 export const FlexCenteredTopHundred = styled(LineFlexBaseDiv)`
