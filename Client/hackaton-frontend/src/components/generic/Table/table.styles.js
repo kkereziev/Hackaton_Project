@@ -46,6 +46,14 @@ export const InputHours = styled.input`
   :focus {
     outline: none;
   }
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 export const DropDownDiv = styled.div`

@@ -9,6 +9,7 @@ import { uuid } from "short-uuid";
 import { NextBtn } from "src/components/generic/styles/Buttons";
 import { BtnGroupFlexDiv } from "src/components/generic/styles/Containers";
 import { useHistory } from "react-router-dom";
+import { Alert } from "react-bootstrap";
 
 import {
   TableDiv,
@@ -37,11 +38,12 @@ export const Table = ({ timesheetObj }) => {
 
   const [tableRows, setTableRows] = useState([initialRow]);
   const [options, setOptions] = useState([]);
-  const [error, setError] = useState(null);
+  const [requestError, setRequestError] = useState(null);
+  const [hoursError, setHoursError] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
-      setError(null);
+      setRequestError(null);
     }, 5000);
   }, []);
 
@@ -72,7 +74,9 @@ export const Table = ({ timesheetObj }) => {
           });
         });
       } catch (err) {
-        setError("Something went wrong, please try again in a few minutes");
+        setRequestError(
+          "Something went wrong, please try again in a few minutes."
+        );
       }
       setOptions(projectsOptions);
     };
@@ -97,6 +101,13 @@ export const Table = ({ timesheetObj }) => {
   const inputChange = (e, idx) => {
     const rows = [...tableRows];
     rows[idx][`${e.target.name}`] = +e.target.value;
+    if (
+      rows.map((row) => row[`${e.target.name}`]).reduce((a, b) => a + b) > 24
+    ) {
+      setHoursError(
+        `${e.target.name.toUpperCase()} cannot have more than 24 hours.`
+      );
+    } else setHoursError(null);
     const {
       monday,
       tuesday,
@@ -130,7 +141,9 @@ export const Table = ({ timesheetObj }) => {
       history.push("/dashboard");
       console.log(res);
     } catch (err) {
-      setError("Something went wrong, please try again in a few minutes");
+      setRequestError(
+        "Something went wrong, please try again in a few minutes."
+      );
     }
   };
 
@@ -144,7 +157,9 @@ export const Table = ({ timesheetObj }) => {
       console.log(res);
       if (isSubmitted) history.push("/dashboard");
     } catch (err) {
-      setError("Something went wrong, please try again in a few minutes");
+      setRequestError(
+        "Something went wrong, please try again in a few minutes."
+      );
     }
   };
 
@@ -162,17 +177,31 @@ export const Table = ({ timesheetObj }) => {
 
   return (
     <div>
-      {error === null ? "not error" : error}
       {timesheetObj && !timesheetObj.isSubmitted ? (
-        <BtnGroupFlexDiv>
-          <NextBtn onClick={deleteTimesheet}>Delete</NextBtn>
-          <NextBtn onClick={() => saveTimesheet(false)}>Save</NextBtn>
-          <NextBtn onClick={() => saveTimesheet(true)}>Submit</NextBtn>
-        </BtnGroupFlexDiv>
+        hoursError || requestError ? (
+          hoursError ? (
+            <Alert variant="danger">
+              <Alert.Heading>{`${hoursError}`}</Alert.Heading>
+            </Alert>
+          ) : (
+            <Alert
+              variant="danger"
+              dismissible
+              onClick={() => setRequestError(null)}
+            >
+              <Alert.Heading>{`${requestError}`}</Alert.Heading>
+            </Alert>
+          )
+        ) : (
+          <BtnGroupFlexDiv>
+            <NextBtn onClick={deleteTimesheet}>Delete</NextBtn>
+            <NextBtn onClick={() => saveTimesheet(false)}>Save</NextBtn>
+            <NextBtn onClick={() => saveTimesheet(true)}>Submit</NextBtn>
+          </BtnGroupFlexDiv>
+        )
       ) : (
         <h1>Submitted</h1>
       )}
-
       <TableDiv>
         <Tbl>
           <tbody>
@@ -276,7 +305,10 @@ export const Table = ({ timesheetObj }) => {
                 </TblData>
                 <TblData>
                   <InputHours
+                    type="number"
                     name="monday"
+                    min={0}
+                    max={24}
                     disabled={
                       (timesheetObj && timesheetObj.isSubmitted) ||
                       row.taskId === null
@@ -287,6 +319,9 @@ export const Table = ({ timesheetObj }) => {
                 </TblData>
                 <TblData>
                   <InputHours
+                    type="number"
+                    min={0}
+                    max={24}
                     name="tuesday"
                     disabled={
                       (timesheetObj && timesheetObj.isSubmitted) ||
@@ -298,6 +333,9 @@ export const Table = ({ timesheetObj }) => {
                 </TblData>
                 <TblData>
                   <InputHours
+                    type="number"
+                    min={0}
+                    max={24}
                     name="wednesday"
                     disabled={
                       (timesheetObj && timesheetObj.isSubmitted) ||
@@ -309,6 +347,9 @@ export const Table = ({ timesheetObj }) => {
                 </TblData>
                 <TblData>
                   <InputHours
+                    type="number"
+                    min={0}
+                    max={24}
                     name="thursday"
                     disabled={
                       (timesheetObj && timesheetObj.isSubmitted) ||
@@ -320,6 +361,9 @@ export const Table = ({ timesheetObj }) => {
                 </TblData>
                 <TblData>
                   <InputHours
+                    type="number"
+                    min={0}
+                    max={24}
                     name="friday"
                     disabled={
                       (timesheetObj && timesheetObj.isSubmitted) ||
@@ -331,6 +375,9 @@ export const Table = ({ timesheetObj }) => {
                 </TblData>
                 <TblData>
                   <InputHours
+                    type="number"
+                    min={0}
+                    max={24}
                     name="saturday"
                     disabled={
                       (timesheetObj && timesheetObj.isSubmitted) ||
@@ -342,6 +389,9 @@ export const Table = ({ timesheetObj }) => {
                 </TblData>
                 <TblData>
                   <InputHours
+                    type="number"
+                    min={0}
+                    max={24}
                     name="sunday"
                     disabled={
                       (timesheetObj && timesheetObj.isSubmitted) ||
