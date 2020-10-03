@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "cd ./Client/hackaton-frontend && npm install & cd ../../api && npm install",
+    "postinstall": "cd ./Client/hackaton-frontend && npm install && cd ../../api && npm install",
     "client": "npm start --prefix Client/hackaton-frontend",
     "server": "npm start --prefix api",
     "app": "concurrently \"npm run client\" \"npm run server\"",
