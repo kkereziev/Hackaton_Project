@@ -19,7 +19,6 @@ export const CreateTimesheet = () => {
     const fetchDates = async () => {
       const datesOptions = [];
       const dates = await getDates();
-      console.log(dates);
       dates.map((date) => {
         datesOptions.push({
           value: date.startDate,
@@ -29,7 +28,6 @@ export const CreateTimesheet = () => {
       });
       setOptions(datesOptions);
     };
-
     fetchDates();
   }, []);
 

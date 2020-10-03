@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import { BsPlusSquare, BsFileCheck } from "react-icons/bs";
 import monochrome from "src/assets/monochrome.svg";
-import styled from "styled-components";
 import { connect } from "react-redux";
 import { logout } from "../store/slice/auth";
 import {

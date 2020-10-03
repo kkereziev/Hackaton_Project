@@ -48,9 +48,10 @@ export const TitleWithBtnsDiv = styled(BaseDiv)`
   min-width: 350px;
 `;
 export const BtnGroupFlexDiv = styled(LineFlexBaseDiv)`
-  justify-content: space-between;
   flex-wrap: wrap;
   align-self: end;
+  margin-bottom: 38px;
+  float: left;
 `;
 
 export const FlexCenteredTopHundred = styled(LineFlexBaseDiv)`

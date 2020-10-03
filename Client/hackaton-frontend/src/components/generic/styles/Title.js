@@ -13,7 +13,6 @@ export const TitleDiv = styled.div`
 `;
 
 export const ColumnTitlesDiv = styled(TitleDiv)`
-  margin: 0 15px;
   align-self: flex-start;
   justify-content: flex-start;
   flex-direction: column;

@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "cd ./Client/hackaton-frontend && npm install & cd ../../api && npm install",
     "client": "npm start --prefix Client/hackaton-frontend",
     "server": "npm start --prefix api",
-    "dev": "concurrently \"npm run client\" \"npm run server\"",
-    "stop": "npm stop --prefix api"
+    "app": "concurrently \"npm run client\" \"npm run server\"",
+    "stopServer": "npm stop --prefix api"
   },
   "keywords": [],
   "author": "",

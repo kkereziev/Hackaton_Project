@@ -10,8 +10,8 @@ import { RiDeleteBinFill, RiEdit2Fill } from "react-icons/ri";
 import { BsFillEyeFill } from "react-icons/bs";
 import { fetchUserTimesheets } from "../../store/slice/timesheet";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-//@Preslava, the only warnings left are on line 36 and 46 and when I delete {" "} which you have left the warnings are gone
 const TableDashboard = ({
   handleOpen,
   userTimesheets,
@@ -32,22 +32,32 @@ const TableDashboard = ({
         {userTimesheets.map((timesheet) => {
           return (
             <tr key={timesheet.id}>
-              <TblData>
-                <IconBtnDiv>
-                  <DeleteIconBtn onClick={() => handleOpen(timesheet)}>
-                    <RiDeleteBinFill />
-                  </DeleteIconBtn>
-                </IconBtnDiv>
-              </TblData>
+              {!timesheet.isSubmitted ? (
+                <TblData>
+                  <IconBtnDiv>
+                    <DeleteIconBtn onClick={() => handleOpen(timesheet)}>
+                      <RiDeleteBinFill />
+                    </DeleteIconBtn>
+                  </IconBtnDiv>
+                </TblData>
+              ) : (
+                <TblData></TblData>
+              )}
               <TblData>{timesheet.name}</TblData>
               <TblData>{timesheet.isSubmitted ? "Submitted" : "Open"}</TblData>
               <TblData>
                 {timesheet.isSubmitted ? (
-                  <ViewIconBtn>
+                  <ViewIconBtn
+                    as={Link}
+                    to={`/timesheet/${timesheet.name.split(" ")[0]}`}
+                  >
                     <BsFillEyeFill />
                   </ViewIconBtn>
                 ) : (
-                  <EditIconBtn>
+                  <EditIconBtn
+                    as={Link}
+                    to={`/timesheet/${timesheet.name.split(" ")[0]}`}
+                  >
                     <RiEdit2Fill />
                   </EditIconBtn>
                 )}
