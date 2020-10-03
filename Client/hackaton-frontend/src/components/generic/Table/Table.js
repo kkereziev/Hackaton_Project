@@ -317,7 +317,7 @@ export const Table = ({ timesheetObj }) => {
               <TblData>
                 <DropDownDiv>
                   <DropDown
-                    disabled={timesheetObj && timesheetObj.isSubmitted}
+                    disabled={timesheetObj.isSubmitted}
                     options={options}
                     placeholder="Project..."
                     menuPortalTarget={document.body}
@@ -341,7 +341,9 @@ export const Table = ({ timesheetObj }) => {
               <TblData>
                 <DropDownDiv>
                   <DropDown
-                    disabled={row.projectId === null}
+                    disabled={
+                      row.projectId === null || timesheetObj.isSubmitted
+                    }
                     options={
                       options.find((project) => project.value === row.projectId)
                         ?.tasks
@@ -374,7 +376,7 @@ export const Table = ({ timesheetObj }) => {
                   name="monday"
                   min={0}
                   max={24}
-                  disabled={row.taskId === null}
+                  disabled={row.taskId === null || timesheetObj.isSubmitted}
                   onChange={(e) => inputChange(e, idx)}
                   defaultValue={row.monday}
                 />
@@ -385,7 +387,7 @@ export const Table = ({ timesheetObj }) => {
                   min={0}
                   max={24}
                   name="tuesday"
-                  disabled={row.taskId === null}
+                  disabled={row.taskId === null || timesheetObj.isSubmitted}
                   onChange={(e) => inputChange(e, idx)}
                   defaultValue={row.tuesday}
                 />
@@ -396,7 +398,7 @@ export const Table = ({ timesheetObj }) => {
                   min={0}
                   max={24}
                   name="wednesday"
-                  disabled={row.taskId === null}
+                  disabled={row.taskId === null || timesheetObj.isSubmitted}
                   onChange={(e) => inputChange(e, idx)}
                   defaultValue={row.wednesday}
                 />
@@ -407,7 +409,7 @@ export const Table = ({ timesheetObj }) => {
                   min={0}
                   max={24}
                   name="thursday"
-                  disabled={row.taskId === null}
+                  disabled={row.taskId === null || timesheetObj.isSubmitted}
                   onChange={(e) => inputChange(e, idx)}
                   defaultValue={row.thursday}
                 />
@@ -418,7 +420,7 @@ export const Table = ({ timesheetObj }) => {
                   min={0}
                   max={24}
                   name="friday"
-                  disabled={row.taskId === null}
+                  disabled={row.taskId === null || timesheetObj.isSubmitted}
                   onChange={(e) => inputChange(e, idx)}
                   defaultValue={row.friday}
                 />
@@ -429,7 +431,7 @@ export const Table = ({ timesheetObj }) => {
                   min={0}
                   max={24}
                   name="saturday"
-                  disabled={row.taskId === null}
+                  disabled={row.taskId === null || timesheetObj.isSubmitted}
                   onChange={(e) => inputChange(e, idx)}
                   defaultValue={row.saturday}
                 />
@@ -440,7 +442,7 @@ export const Table = ({ timesheetObj }) => {
                   min={0}
                   max={24}
                   name="sunday"
-                  disabled={row.taskId === null}
+                  disabled={row.taskId === null || timesheetObj.isSubmitted}
                   onChange={(e) => inputChange(e, idx)}
                   defaultValue={row.sunday}
                 />
