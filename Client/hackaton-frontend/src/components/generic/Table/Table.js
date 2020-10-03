@@ -57,6 +57,7 @@ export const Table = ({ timesheetObj }) => {
   const [requestError, setRequestError] = useState(null);
   const [hoursError, setHoursError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     if (!timesheetObj.isSubmitted) {
@@ -95,6 +96,7 @@ export const Table = ({ timesheetObj }) => {
   const projectChange = (e, idx) => {
     const rows = [...tableRows];
     rows[idx].projectId = +e.value;
+    rows[idx].taskId = null;
     setTableRows(rows);
   };
 
@@ -146,9 +148,8 @@ export const Table = ({ timesheetObj }) => {
 
   const deleteTimesheet = async () => {
     try {
-      const res = await deleteCurrentTimesheet(timesheetObj.id);
+      await deleteCurrentTimesheet(timesheetObj.id);
       history.push("/dashboard");
-      console.log(res);
     } catch (err) {
       setRequestError(
         "Something went wrong, please try again in a few minutes."
@@ -158,13 +159,13 @@ export const Table = ({ timesheetObj }) => {
 
   const saveTimesheet = async (isSubmitted) => {
     try {
-      const res = await saveCurrentTimesheet({
+      await saveCurrentTimesheet({
         isSubmitted: isSubmitted,
         id: timesheetObj.id,
         rows: validateRows(),
       });
-      console.log(res);
       if (isSubmitted) history.push("/dashboard");
+      setIsSaved(true);
     } catch (err) {
       setRequestError(
         "Something went wrong, please try again in a few minutes."
@@ -202,18 +203,20 @@ export const Table = ({ timesheetObj }) => {
       {timesheetObj && !timesheetObj.isSubmitted ? (
         hoursError || requestError ? (
           hoursError ? (
-            <Alert variant="danger">
-              <Alert.Heading>{`${hoursError}`}</Alert.Heading>
-            </Alert>
+            <Alert variant="danger">{hoursError}</Alert>
           ) : (
             <Alert
               variant="danger"
               dismissible
               onClick={() => setRequestError(null)}
             >
-              <Alert.Heading>{`${requestError}`}</Alert.Heading>
+              {requestError}
             </Alert>
           )
+        ) : isSaved ? (
+          <Alert variant="success" dismissible onClick={() => setIsSaved(null)}>
+            Timesheet was saved successfully!
+          </Alert>
         ) : (
           <Container>
             <BtnGroupFlexDiv>
@@ -227,6 +230,7 @@ export const Table = ({ timesheetObj }) => {
                   saveTimesheet(false);
                   setTimeout(() => {
                     setRequestError(null);
+                    setIsSaved(null);
                   }, 3000);
                 }}
               >
@@ -322,10 +326,7 @@ export const Table = ({ timesheetObj }) => {
               <TblData>
                 <DropDownDiv>
                   <DropDown
-                    disabled={
-                      (timesheetObj && timesheetObj.isSubmitted) ||
-                      row.projectId === null
-                    }
+                    disabled={row.projectId === null}
                     options={
                       options.find((project) => project.value === row.projectId)
                         ?.tasks
@@ -340,7 +341,7 @@ export const Table = ({ timesheetObj }) => {
                       row.taskId === null
                         ? "Task..."
                         : {
-                            value: +row.projectId,
+                            value: +row.taskId,
                             label: options
                               .find(
                                 (project) => project.value === row.projectId
@@ -358,10 +359,7 @@ export const Table = ({ timesheetObj }) => {
                   name="monday"
                   min={0}
                   max={24}
-                  disabled={
-                    (timesheetObj && timesheetObj.isSubmitted) ||
-                    row.taskId === null
-                  }
+                  disabled={row.taskId === null}
                   onChange={(e) => inputChange(e, idx)}
                   defaultValue={row.monday}
                 />
@@ -372,10 +370,7 @@ export const Table = ({ timesheetObj }) => {
                   min={0}
                   max={24}
                   name="tuesday"
-                  disabled={
-                    (timesheetObj && timesheetObj.isSubmitted) ||
-                    row.taskId === null
-                  }
+                  disabled={row.taskId === null}
                   onChange={(e) => inputChange(e, idx)}
                   defaultValue={row.tuesday}
                 />
@@ -386,10 +381,7 @@ export const Table = ({ timesheetObj }) => {
                   min={0}
                   max={24}
                   name="wednesday"
-                  disabled={
-                    (timesheetObj && timesheetObj.isSubmitted) ||
-                    row.taskId === null
-                  }
+                  disabled={row.taskId === null}
                   onChange={(e) => inputChange(e, idx)}
                   defaultValue={row.wednesday}
                 />
@@ -400,10 +392,7 @@ export const Table = ({ timesheetObj }) => {
                   min={0}
                   max={24}
                   name="thursday"
-                  disabled={
-                    (timesheetObj && timesheetObj.isSubmitted) ||
-                    row.taskId === null
-                  }
+                  disabled={row.taskId === null}
                   onChange={(e) => inputChange(e, idx)}
                   defaultValue={row.thursday}
                 />
@@ -414,10 +403,7 @@ export const Table = ({ timesheetObj }) => {
                   min={0}
                   max={24}
                   name="friday"
-                  disabled={
-                    (timesheetObj && timesheetObj.isSubmitted) ||
-                    row.taskId === null
-                  }
+                  disabled={row.taskId === null}
                   onChange={(e) => inputChange(e, idx)}
                   defaultValue={row.friday}
                 />
@@ -428,10 +414,7 @@ export const Table = ({ timesheetObj }) => {
                   min={0}
                   max={24}
                   name="saturday"
-                  disabled={
-                    (timesheetObj && timesheetObj.isSubmitted) ||
-                    row.taskId === null
-                  }
+                  disabled={row.taskId === null}
                   onChange={(e) => inputChange(e, idx)}
                   defaultValue={row.saturday}
                 />
@@ -442,10 +425,7 @@ export const Table = ({ timesheetObj }) => {
                   min={0}
                   max={24}
                   name="sunday"
-                  disabled={
-                    (timesheetObj && timesheetObj.isSubmitted) ||
-                    row.taskId === null
-                  }
+                  disabled={row.taskId === null}
                   onChange={(e) => inputChange(e, idx)}
                   defaultValue={row.sunday}
                 />
