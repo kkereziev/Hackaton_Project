@@ -40,21 +40,27 @@ export const login = createAsyncThunk(
 export const fetchCurrentUser = createAsyncThunk(
   "auth/fetchCurrentUser",
   async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/api/users/me`,
-      { withCredentials: true }
-    );
-
+    const response = await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/users/me`, {
+        withCredentials: true,
+      })
+      .catch((err) => {
+        throw new Error(err.response.data.error);
+      });
     return response.data;
   }
 );
 
 export const logout = createAsyncThunk("auth/logout", async () => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BACKEND_URL}/api/users/logout`,
-    {},
-    { withCredentials: true }
-  );
+  const response = await axios
+    .post(
+      `${process.env.REACT_APP_BACKEND_URL}/api/users/logout`,
+      {},
+      { withCredentials: true }
+    )
+    .catch((err) => {
+      throw new Error(err.response.data.error);
+    });
   return response.data;
 });
 
