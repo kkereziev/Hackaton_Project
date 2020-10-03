@@ -1,10 +1,18 @@
 import React from "react";
-import { Title } from "src/components/generic/styles/Title";
-import { NextBtn } from "src/components/generic/styles/Buttons";
+import {
+  SecondTitle,
+  Title,
+  ColumnTitlesDiv,
+} from "src/components/generic/styles/Title";
+import {
+  DeleteBtn,
+  SaveBtn,
+  SubmitBtn,
+} from "src/components/generic/styles/Buttons";
 import { Table } from "src/components/generic/Table/Table";
 import {
-  BtnGroupFlexDiv,
   TitleWithBtnsDiv,
+  BtnGroupFlexDiv,
 } from "src/components/generic/styles/Containers";
 
 /* As we are using dropdown on several places here options are hard coded for the sake of reviewing the UI
@@ -14,11 +22,14 @@ export const CurrentTimesheet = () => {
   return (
     <div>
       <TitleWithBtnsDiv>
-        <Title>Timesheet for week 05/13/2020</Title>
+        <ColumnTitlesDiv>
+          <Title>Timesheet for week {}</Title>
+          <SecondTitle>User: {}</SecondTitle>
+        </ColumnTitlesDiv>
         <BtnGroupFlexDiv>
-          <NextBtn>Delete</NextBtn>
-          <NextBtn>Save</NextBtn>
-          <NextBtn>Submit</NextBtn>
+          <DeleteBtn>Delete</DeleteBtn>
+          <SaveBtn>Save</SaveBtn>
+          <SubmitBtn>Submit</SubmitBtn>
         </BtnGroupFlexDiv>
       </TitleWithBtnsDiv>
       <Table />

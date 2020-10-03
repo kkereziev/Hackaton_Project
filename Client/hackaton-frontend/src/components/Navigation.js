@@ -21,7 +21,7 @@ const Navigation = ({ user, logout }) => {
     <>
       <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
         <Navbar.Brand as={NavLink} to="/dashboard">
-          <Logo width="80px" src={monochrome} alt="logo" />
+          <Logo src={monochrome} alt="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
