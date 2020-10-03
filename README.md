@@ -27,5 +27,5 @@ REACT_APP_BACKEND_URL=[the host URL where the backend is listening]
 
 ## Setup and Running
 
-- Run `` to install all dependencies in the project root
-- Run `` to run the application (both frontend and backend)
+- Run `npm run postinstall` to install all dependencies in the project root
+- Run `npm run app` to run the application (both frontend and backend)
