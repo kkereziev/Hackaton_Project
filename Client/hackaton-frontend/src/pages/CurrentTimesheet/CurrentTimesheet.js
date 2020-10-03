@@ -10,6 +10,7 @@ import {
 import { TitleWithBtnsDiv } from "src/components/generic/styles/Containers";
 import { useSelector } from "react-redux";
 import { Container } from "react-bootstrap";
+import { LoadingSpinner } from "src/components/generic/Spinner";
 
 /* As we are using dropdown on several places here options are hard coded for the sake of reviewing the UI
  * Placeholder should be hardcoded for every dropdown individually where dropdown component is used*/
@@ -37,7 +38,9 @@ export const CurrentTimesheet = () => {
 
   return (
     <div>
-      {!isLoading && (
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
         <Fragment>
           <TitleWithBtnsDiv>
             <Container>

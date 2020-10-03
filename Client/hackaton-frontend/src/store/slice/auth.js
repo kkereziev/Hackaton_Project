@@ -50,11 +50,7 @@ export const fetchCurrentUser = createAsyncThunk(
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/users/me`, {
         withCredentials: true,
       })
-      .catch((err) => {
-        throw new Error(
-          getIn(err, "response.data.error") || FATAL_ERROR_MESSAGE
-        );
-      });
+      .catch((err) => {});
     return response.data;
   }
 );
@@ -109,7 +105,6 @@ const authSlice = createSlice({
       state.user = action.payload;
     },
     [fetchCurrentUser.rejected]: (state, action) => {
-      state.authError = action.error.message;
       state.user = null;
     },
   },

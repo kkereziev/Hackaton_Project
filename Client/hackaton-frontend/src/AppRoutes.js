@@ -8,7 +8,7 @@ import {
   ConnectedRegistrationPage as Register,
 } from "src/pages";
 import { useSelector } from "react-redux";
-import { Spinner } from "react-bootstrap";
+import { LoadingSpinner } from "src/components/generic/Spinner";
 import { Navigation } from "./components/Navigation";
 
 export const AppRoutes = () => {
@@ -39,6 +39,6 @@ export const AppRoutes = () => {
       </div>
     );
   } else {
-    return <Spinner></Spinner>;
+    return <LoadingSpinner />;
   }
 };

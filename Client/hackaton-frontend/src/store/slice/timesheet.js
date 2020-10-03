@@ -40,16 +40,19 @@ export const deleteTimesheet = createAsyncThunk(
 
 const timesheetSlice = createSlice({
   name: "timesheet",
-  initialState: { userTimesheets: [], requestError: "" },
+  initialState: { userTimesheets: [], requestError: "", isLoading: false },
   reducers: {},
   extraReducers: {
     [fetchUserTimesheets.pending]: (state, action) => {
+      state.isLoading = true;
       state.requestError = "";
     },
     [fetchUserTimesheets.fulfilled]: (state, action) => {
+      state.isLoading = false;
       state.userTimesheets = action.payload;
     },
     [fetchUserTimesheets.rejected]: (state, action) => {
+      state.isLoading = false;
       state.requestError = action.error.message;
     },
     [deleteTimesheet.pending]: (state, action) => {

@@ -9,8 +9,9 @@ import {
 import { RiDeleteBinFill, RiEdit2Fill } from "react-icons/ri";
 import { BsFillEyeFill } from "react-icons/bs";
 import { fetchUserTimesheets } from "../../store/slice/timesheet";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { LoadingSpinner } from "../generic/Spinner";
 
 const TableDashboard = ({
   handleOpen,
@@ -20,53 +21,68 @@ const TableDashboard = ({
   useEffect(() => {
     fetchUserTimesheets();
   }, []);
+  const { isLoading } = useSelector((state) => state.timesheet);
   return (
-    <Tbl responsive>
-      <tbody>
-        <tr>
-          <TblHeading> </TblHeading>
-          <TblHeading>Week</TblHeading>
-          <TblHeading>Status</TblHeading>
-          <TblHeading> </TblHeading>
-        </tr>
-        {userTimesheets.map((timesheet) => {
-          return (
-            <tr key={timesheet.id}>
-              {!timesheet.isSubmitted ? (
-                <TblData>
-                  <IconBtnDiv>
-                    <DeleteIconBtn onClick={() => handleOpen(timesheet)}>
-                      <RiDeleteBinFill />
-                    </DeleteIconBtn>
-                  </IconBtnDiv>
-                </TblData>
-              ) : (
-                <TblData></TblData>
-              )}
-              <TblData>{timesheet.name}</TblData>
-              <TblData>{timesheet.isSubmitted ? "Submitted" : "Open"}</TblData>
-              <TblData>
-                {timesheet.isSubmitted ? (
-                  <ViewIconBtn
-                    as={Link}
-                    to={`/timesheet/${timesheet.name.split(" ")[0]}`}
-                  >
-                    <BsFillEyeFill />
-                  </ViewIconBtn>
-                ) : (
-                  <EditIconBtn
-                    as={Link}
-                    to={`/timesheet/${timesheet.name.split(" ")[0]}`}
-                  >
-                    <RiEdit2Fill />
-                  </EditIconBtn>
-                )}
-              </TblData>
+    <div>
+      {isLoading ? (
+        setTimeout(() => <LoadingSpinner />, 0)
+      ) : userTimesheets.length === 0 ? (
+        <div>
+          <h3 style={{ textAlign: "center" }}>
+            You don't have any timesheets yet.
+          </h3>
+        </div>
+      ) : (
+        <Tbl responsive>
+          <tbody>
+            <tr>
+              <TblHeading> </TblHeading>
+              <TblHeading>Week</TblHeading>
+              <TblHeading>Status</TblHeading>
+              <TblHeading> </TblHeading>
             </tr>
-          );
-        })}
-      </tbody>
-    </Tbl>
+            {userTimesheets.map((timesheet) => {
+              return (
+                <tr key={timesheet.id}>
+                  {!timesheet.isSubmitted ? (
+                    <TblData>
+                      <IconBtnDiv>
+                        <DeleteIconBtn onClick={() => handleOpen(timesheet)}>
+                          <RiDeleteBinFill />
+                        </DeleteIconBtn>
+                      </IconBtnDiv>
+                    </TblData>
+                  ) : (
+                    <TblData></TblData>
+                  )}
+                  <TblData>{timesheet.name}</TblData>
+                  <TblData>
+                    {timesheet.isSubmitted ? "Submitted" : "Open"}
+                  </TblData>
+                  <TblData>
+                    {timesheet.isSubmitted ? (
+                      <ViewIconBtn
+                        as={Link}
+                        to={`/timesheet/${timesheet.name.split(" ")[0]}`}
+                      >
+                        <BsFillEyeFill />
+                      </ViewIconBtn>
+                    ) : (
+                      <EditIconBtn
+                        as={Link}
+                        to={`/timesheet/${timesheet.name.split(" ")[0]}`}
+                      >
+                        <RiEdit2Fill />
+                      </EditIconBtn>
+                    )}
+                  </TblData>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Tbl>
+      )}
+    </div>
   );
 };
 
