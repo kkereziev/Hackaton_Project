@@ -7,8 +7,9 @@
     "start": "cross-env NODE_ENV=development pm2 start server.js",
     "linter": "eslint .",
     "stop": "pm2 stop server.js",
-    "startNodemon": "nodemon server.js",
-    "test": "cross-env NODE_ENV=test mocha --exit"
+    "nodemon": "nodemon server.js",
+    "test": "cross-env NODE_ENV=test mocha --exit",
+    "seed": "npx sequelize-cli db:seed:all"
   },
   "keywords": [],
   "author": "",

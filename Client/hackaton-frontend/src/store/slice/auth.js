@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getIn } from "formik";
 import axios from "axios";
+
+const FATAL_ERROR_MESSAGE = "Something went wrong. Please try again later.";
 
 export const register = createAsyncThunk(
   "auth/register",
@@ -10,7 +13,9 @@ export const register = createAsyncThunk(
         password,
       })
       .catch((err) => {
-        throw new Error(err.response.data.error);
+        throw new Error(
+          getIn(err, "response.data.error") || FATAL_ERROR_MESSAGE
+        );
       });
     dispatch(login({ username, password, history }));
     return response.data;
@@ -30,7 +35,9 @@ export const login = createAsyncThunk(
         { withCredentials: true }
       )
       .catch((err) => {
-        throw new Error(err.response.data.error);
+        throw new Error(
+          getIn(err, "response.data.error") || FATAL_ERROR_MESSAGE
+        );
       });
     return response.data;
   }
@@ -44,7 +51,9 @@ export const fetchCurrentUser = createAsyncThunk(
         withCredentials: true,
       })
       .catch((err) => {
-        throw new Error(err.response.data.error);
+        throw new Error(
+          getIn(err, "response.data.error") || FATAL_ERROR_MESSAGE
+        );
       });
     return response.data;
   }
@@ -68,25 +77,39 @@ const authSlice = createSlice({
   initialState: { authError: "" },
   reducers: {},
   extraReducers: {
-    [register.fulfilled]: (state, action) => {},
+    [register.pending]: (state, action) => {
+      state.authError = "";
+    },
     [register.rejected]: (state, action) => {
       state.authError = action.error.message;
     },
+    [login.pending]: (state, action) => {
+      state.authError = "";
+    },
     [login.fulfilled]: (state, action) => {
       state.user = action.payload;
-      state.authError = "";
     },
     [login.rejected]: (state, action) => {
       state.user = null;
       state.authError = action.error.message;
     },
+    [logout.pending]: (state, action) => {
+      state.authError = "";
+    },
     [logout.fulfilled]: (state, action) => {
       state.user = null;
+    },
+    [logout.rejected]: (state, action) => {
+      state.authError = action.error.message;
+    },
+    [fetchCurrentUser.pending]: (state, action) => {
+      state.authError = "";
     },
     [fetchCurrentUser.fulfilled]: (state, action) => {
       state.user = action.payload;
     },
-    [fetchCurrentUser.rejected]: (state) => {
+    [fetchCurrentUser.rejected]: (state, action) => {
+      state.authError = action.error.message;
       state.user = null;
     },
   },
