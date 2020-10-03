@@ -119,7 +119,7 @@ const remove = {
 
       res.send({ success: 'Timesheet deleted' });
     } catch (err) {
-      res.status(400).json({ error: err.message });
+      res.status(409).json({ error: err.message });
     }
   },
 };
