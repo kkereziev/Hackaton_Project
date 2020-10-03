@@ -36,6 +36,16 @@ import { RiDeleteBinFill } from "react-icons/ri";
 import { RiUploadCloud2Line } from "react-icons/ri";
 import { VscSave } from "react-icons/vsc";
 
+const DAYS = [
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+  "sunday",
+];
+
 export const Table = ({ timesheetObj }) => {
   const history = useHistory();
   const initialRow = {
@@ -55,7 +65,6 @@ export const Table = ({ timesheetObj }) => {
   const [tableRows, setTableRows] = useState([initialRow]);
   const [options, setOptions] = useState([]);
   const [requestError, setRequestError] = useState(null);
-  const [hoursError, setHoursError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -101,6 +110,7 @@ export const Table = ({ timesheetObj }) => {
   const taskChange = (e, idx) => {
     const rows = [...tableRows];
     rows[idx].taskId = +e.value;
+    setTableRows(rows);
     if (idx === rows.length - 1) {
       const newRow = { ...initialRow, id: uuid() };
       setTableRows([...rows, newRow]);
@@ -110,13 +120,6 @@ export const Table = ({ timesheetObj }) => {
   const inputChange = (e, idx) => {
     const rows = [...tableRows];
     rows[idx][`${e.target.name}`] = +e.target.value;
-    if (
-      rows.map((row) => row[`${e.target.name}`]).reduce((a, b) => a + b) > 24
-    ) {
-      setHoursError(
-        `${e.target.name.toUpperCase()} cannot have more than 24 hours.`
-      );
-    } else setHoursError(null);
     const {
       monday,
       tuesday,
@@ -196,6 +199,18 @@ export const Table = ({ timesheetObj }) => {
     deleteTimesheet();
     setIsOpen(false);
   };
+
+  let hoursError = "";
+  tableRows
+    .map((row) => DAYS.map((k) => row[k]))
+    .reduce((acc, v) => acc.map((n, i) => n + v[i]), new Array(7).fill(0))
+    .forEach((n, i) => {
+      if (n > 24) {
+        hoursError = `${
+          DAYS[i][0].toUpperCase() + DAYS[i].slice(1)
+        } cannot have more than 24 hours`;
+      }
+    });
 
   return (
     <Container>
