@@ -14,7 +14,10 @@ import {
   YesBtn,
   NoBtn,
 } from "src/components/generic/styles/Buttons";
-import { BtnGroupFlexDiv } from "src/components/generic/styles/Containers";
+import {
+  BtnGroupFlexDiv,
+  BaseDivTopZero,
+} from "src/components/generic/styles/Containers";
 import { ThirdTitle } from "src/components/generic/styles/Title";
 import { Alert, Modal } from "react-bootstrap";
 import {
@@ -30,6 +33,8 @@ import {
   DropDownDiv,
 } from "./table.styles";
 import { RiDeleteBinFill } from "react-icons/ri";
+import { RiUploadCloud2Line } from "react-icons/ri";
+import { VscSave } from "react-icons/vsc";
 
 export const Table = ({ timesheetObj }) => {
   const history = useHistory();
@@ -212,7 +217,11 @@ export const Table = ({ timesheetObj }) => {
         ) : (
           <Container>
             <BtnGroupFlexDiv>
-              <DeleteBtn onClick={handleOpen}>Delete</DeleteBtn>
+              <DeleteBtn onClick={handleOpen}>
+                <BaseDivTopZero>
+                  Delete <RiDeleteBinFill />
+                </BaseDivTopZero>
+              </DeleteBtn>
               <SaveBtn
                 onClick={() => {
                   saveTimesheet(false);
@@ -221,7 +230,9 @@ export const Table = ({ timesheetObj }) => {
                   }, 3000);
                 }}
               >
-                Save
+                <BaseDivTopZero>
+                  Save <VscSave />
+                </BaseDivTopZero>
               </SaveBtn>
               <SubmitBtn
                 onClick={() => {
@@ -231,7 +242,9 @@ export const Table = ({ timesheetObj }) => {
                   }, 3000);
                 }}
               >
-                Submit
+                <BaseDivTopZero>
+                  Submit <RiUploadCloud2Line />
+                </BaseDivTopZero>
               </SubmitBtn>
             </BtnGroupFlexDiv>
           </Container>

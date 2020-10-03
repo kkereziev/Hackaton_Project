@@ -51,31 +51,25 @@ export const EditBtn = styled(NextBtn)`
 export const SaveBtn = styled(NextBtn)`
   margin: 5px 0 5px 15px;
   width: 100px;
-  background-color: #5CBE7D;
-  border-color: #5CBE7D;
+  background-color: #f8f9fa;
+  border-color: #f8f9fa;
+  color: #08374e;
     &:hover {
-    border-color: #008d64;
-    background-color:#008d64;
+    border-color: #ccffff;
+    background-color:#ccffff;
+    color: #08374e;
+    font-weight: bold;
 `;
 
 export const DeleteBtn = styled(SaveBtn)`
-  background-color: #ca4f44;
-  border: solid 2px;
-  border-color: #ca4f44;
   &:hover {
     border-color: #8a1d00;
     background-color: #8a1d00;
+    color: white;
   }
 `;
 
-export const SubmitBtn = styled(SaveBtn)`
-  background-color: #08374e;
-  border-color: #08374e;
-  &:hover {
-    border-color: #669999;
-    background-color: #669999;
-  }
-`;
+export const SubmitBtn = styled(SaveBtn)``;
 
 export const IconBtnDiv = styled.div`
   display: flex;
