@@ -7,19 +7,6 @@ import {
   Title,
   ColumnTitlesDiv,
 } from "src/components/generic/styles/Title";
-import {
-  DeleteBtn,
-  SaveBtn,
-  SubmitBtn,
-} from "src/components/generic/styles/Buttons";
-import { Table } from "src/components/generic/Table/Table";
-import {
-  TitleWithBtnsDiv,
-  BtnGroupFlexDiv,
-  BaseDivTopZero,
-} from "src/components/generic/styles/Containers";
-import { RiDeleteBinFill, RiUploadCloud2Line } from "react-icons/ri";
-import { VscSave } from "react-icons/vsc";
 import { TitleWithBtnsDiv } from "src/components/generic/styles/Containers";
 import { useSelector } from "react-redux";
 import { Container } from "react-bootstrap";

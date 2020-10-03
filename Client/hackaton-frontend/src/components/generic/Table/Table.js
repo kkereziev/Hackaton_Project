@@ -14,7 +14,10 @@ import {
   YesBtn,
   NoBtn,
 } from "src/components/generic/styles/Buttons";
-import { BtnGroupFlexDiv } from "src/components/generic/styles/Containers";
+import {
+  BtnGroupFlexDiv,
+  BaseDivTopZero,
+} from "src/components/generic/styles/Containers";
 import { ThirdTitle } from "src/components/generic/styles/Title";
 import { Alert, Modal } from "react-bootstrap";
 import {
@@ -30,6 +33,8 @@ import {
   DropDownDiv,
 } from "./table.styles";
 import { RiDeleteBinFill } from "react-icons/ri";
+import { RiUploadCloud2Line } from "react-icons/ri";
+import { VscSave } from "react-icons/vsc";
 
 export const Table = ({ timesheetObj }) => {
   const history = useHistory();
