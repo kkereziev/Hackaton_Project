@@ -8,37 +8,29 @@ const { createTimesheet, shouldntCreateTimesheet } = require('./helpers/index').
 chai.should();
 chai.use(chaiHttp);
 
-describe('Timesheet Endpoint', function () {
+describe('Timesheet Endpoint when not logged in', function () {
   const agent = chai.request.agent(app);
 
   before(function (done) {
     setTimeout(async () => {
-      db.models.Timesheet.destroy({
-        where: {},
-        restartIdentity: true,
-      });
-      await agent.post('/api/users/login').send({ username: 'Ivan4o', password: 'validPassword' });
+      await agent.post('/api/users/logout');
       done();
     }, 1000);
   });
 
-  it('should get starting dates of each week', function (done) {
+  it("shouldn't get starting dates of each week", function (done) {
     agent.get('/api/timesheets/getDates').end((err, res) => {
-      res.should.have.status(200);
-      res.should.be.a('object');
+      res.should.have.status(401);
       done();
     });
   });
 
-  it('should create timesheet', function (done) {
+  it("should't create timesheet", function (done) {
     agent
       .post('/api/timesheets/')
       .send(createTimesheet)
       .end((err, res) => {
-        res.should.have.status(201);
-        res.should.be.a('object');
-        res.body.should.have.property('name');
-        res.body.should.have.property('startDate');
+        res.should.have.status(401);
         done();
       });
   });
@@ -48,17 +40,14 @@ describe('Timesheet Endpoint', function () {
       .post('/api/timesheets/')
       .send(shouldntCreateTimesheet)
       .end((err, res) => {
-        res.should.have.status(422);
-        res.should.be.a('object');
-        res.body.should.have.property('err');
+        res.should.have.status(401);
         done();
       });
   });
 
-  it('should get all timesheets', function (done) {
+  it("shouldn't get all timesheets", function (done) {
     agent.get('/api/timesheets/getAll').end((err, res) => {
-      res.should.have.status(200);
-      res.should.be.a('object');
+      res.should.have.status(401);
       done();
     });
   });

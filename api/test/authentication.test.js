@@ -15,7 +15,7 @@ const {
 // assertion style
 chai.should();
 chai.use(chaiHttp);
-describe('Signup Endpoint', function () {
+describe('Auth Endpoint', function () {
   const agent = chai.request.agent(app);
   before(function (done) {
     setTimeout(() => {
