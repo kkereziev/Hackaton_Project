@@ -37,6 +37,13 @@ export const Table = ({ timesheetObj }) => {
 
   const [tableRows, setTableRows] = useState([initialRow]);
   const [options, setOptions] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setError(null);
+    }, 5000);
+  }, []);
 
   useEffect(() => {
     if (timesheetObj) {
@@ -64,7 +71,9 @@ export const Table = ({ timesheetObj }) => {
             })),
           });
         });
-      } catch (error) {}
+      } catch (err) {
+        setError("Something went wrong, please try again in a few minutes");
+      }
       setOptions(projectsOptions);
     };
     fetchProjects();
@@ -120,7 +129,9 @@ export const Table = ({ timesheetObj }) => {
       const res = await deleteCurrentTimesheet(timesheetObj.id);
       history.push("/dashboard");
       console.log(res);
-    } catch (error) {}
+    } catch (err) {
+      setError("Something went wrong, please try again in a few minutes");
+    }
   };
 
   const saveTimesheet = async (isSubmitted) => {
@@ -132,11 +143,26 @@ export const Table = ({ timesheetObj }) => {
       });
       console.log(res);
       if (isSubmitted) history.push("/dashboard");
-    } catch (error) {}
+    } catch (err) {
+      setError("Something went wrong, please try again in a few minutes");
+    }
+  };
+
+  const getWeekDays = (startDate, day = 0) => {
+    const weekStartDate = new Date(startDate);
+
+    const newDate = new Date(
+      weekStartDate.getFullYear(),
+      weekStartDate.getMonth() + 1,
+      weekStartDate.getDate() + day
+    );
+
+    return newDate.toDateString().split(" ")[2];
   };
 
   return (
     <div>
+      {error === null ? "not error" : error}
       {timesheetObj && !timesheetObj.isSubmitted ? (
         <BtnGroupFlexDiv>
           <NextBtn onClick={deleteTimesheet}>Delete</NextBtn>
@@ -146,6 +172,7 @@ export const Table = ({ timesheetObj }) => {
       ) : (
         <h1>Submitted</h1>
       )}
+
       <TableDiv>
         <Tbl>
           <tbody>
@@ -153,13 +180,27 @@ export const Table = ({ timesheetObj }) => {
               <TblHeading></TblHeading>
               <TblHeading>Project</TblHeading>
               <TblHeading>Task</TblHeading>
-              <TblHeading>13 Mon</TblHeading>
-              <TblHeading>14 Tue</TblHeading>
-              <TblHeading>15 Wed</TblHeading>
-              <TblHeading>16 Thu</TblHeading>
-              <TblHeading>17 Fri</TblHeading>
-              <TblHeading>18 Sat</TblHeading>
-              <TblHeading>19 Sun</TblHeading>
+              <TblHeading>
+                {getWeekDays(timesheetObj?.name.split(" ")[0])} Mon
+              </TblHeading>
+              <TblHeading>
+                {getWeekDays(timesheetObj?.name.split(" ")[0], 1)} Tue
+              </TblHeading>
+              <TblHeading>
+                {getWeekDays(timesheetObj?.name.split(" ")[0], 2)} Wed
+              </TblHeading>
+              <TblHeading>
+                {getWeekDays(timesheetObj?.name.split(" ")[0], 3)} Thu
+              </TblHeading>
+              <TblHeading>
+                {getWeekDays(timesheetObj?.name.split(" ")[0], 4)} Fri
+              </TblHeading>
+              <TblHeading>
+                {getWeekDays(timesheetObj?.name.split(" ")[0], 5)} Sat
+              </TblHeading>
+              <TblHeading>
+                {getWeekDays(timesheetObj?.name.split(" ")[0], 6)} Sun
+              </TblHeading>
               <TblHeading>Total</TblHeading>
             </tr>
             {tableRows.map((row, idx) => (
@@ -314,6 +355,33 @@ export const Table = ({ timesheetObj }) => {
               </tr>
             ))}
           </tbody>
+          <TblHeading></TblHeading>
+          <TblHeading></TblHeading>
+          <TblHeading></TblHeading>
+          <TblHeading>
+            {tableRows.map((row) => row.monday).reduce((a, b) => a + b)}
+          </TblHeading>
+          <TblHeading>
+            {tableRows.map((row) => row.tuesday).reduce((a, b) => a + b)}
+          </TblHeading>
+          <TblHeading>
+            {tableRows.map((row) => row.wednesday).reduce((a, b) => a + b)}
+          </TblHeading>
+          <TblHeading>
+            {tableRows.map((row) => row.thursday).reduce((a, b) => a + b)}
+          </TblHeading>
+          <TblHeading>
+            {tableRows.map((row) => row.friday).reduce((a, b) => a + b)}
+          </TblHeading>
+          <TblHeading>
+            {tableRows.map((row) => row.saturday).reduce((a, b) => a + b)}
+          </TblHeading>
+          <TblHeading>
+            {tableRows.map((row) => row.sunday).reduce((a, b) => a + b)}
+          </TblHeading>
+          <TblHeading>
+            {tableRows.map((row) => row.totalRowHours).reduce((a, b) => a + b)}
+          </TblHeading>
         </Tbl>
       </TableDiv>
     </div>

@@ -13,6 +13,7 @@ export const CurrentTimesheet = () => {
     const fetchRows = async () => {
       try {
         const timesheet = await getCurrentTimesheet(name);
+        console.log(timesheet);
         setTimesheet(timesheet);
       } catch (error) {}
     };

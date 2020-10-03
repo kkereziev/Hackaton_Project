@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start server.js",
+    "start": "pm2 start server.js --watch",
     "test": "mocha --exit",
     "linter": "eslint .",
     "stop": "pm2 stop server.js",
