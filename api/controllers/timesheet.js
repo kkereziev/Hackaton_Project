@@ -109,12 +109,13 @@ const remove = {
     try {
       const { timesheetId } = req.params;
 
-      await await models.TimesheetRow.destroy({ where: { timesheetId } }).catch(next);
-      const existsTimesheet = await models.Timesheet.destroy({ where: { id: timesheetId } }).catch(next);
+      const existsTimesheet = await models.Timesheet.findOne({ where: { id: timesheetId } }).catch(next);
 
-      if (!existsTimesheet) {
-        throw new Error('No such Timesheet');
+      if (!existsTimesheet || existsTimesheet.isSubmitted === true) {
+        throw new Error("Can't delete timesheet");
       }
+      await models.Timesheet.destroy({ where: { id: timesheetId } }).catch(next);
+      await models.TimesheetRow.destroy({ where: { timesheetId } }).catch(next);
 
       res.send({ success: 'Timesheet deleted' });
     } catch (err) {
