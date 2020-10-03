@@ -9,6 +9,7 @@ export const BaseDiv = styled.div`
 export const BaseDivTopZero = styled(BaseDiv)`
   padding-top: 0;
   justify-content: space-around;
+  align-items: center;
 `;
 export const MainCard = styled.div`
   padding: 10px 5px;

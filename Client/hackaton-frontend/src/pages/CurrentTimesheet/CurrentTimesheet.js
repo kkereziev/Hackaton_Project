@@ -13,7 +13,11 @@ import { Table } from "src/components/generic/Table/Table";
 import {
   TitleWithBtnsDiv,
   BtnGroupFlexDiv,
+  BaseDivTopZero,
 } from "src/components/generic/styles/Containers";
+import { RiDeleteBinFill, RiUploadCloud2Line } from "react-icons/ri";
+import { VscSave } from "react-icons/vsc";
+import { Container } from "react-bootstrap";
 
 /* As we are using dropdown on several places here options are hard coded for the sake of reviewing the UI
  * Placeholder should be hardcoded for every dropdown individually where dropdown component is used*/
@@ -21,17 +25,30 @@ import {
 export const CurrentTimesheet = () => {
   return (
     <div>
-      <TitleWithBtnsDiv>
+      <Container>
         <ColumnTitlesDiv>
           <Title>Timesheet for week {}</Title>
           <SecondTitle>User: {}</SecondTitle>
         </ColumnTitlesDiv>
         <BtnGroupFlexDiv>
-          <DeleteBtn>Delete</DeleteBtn>
-          <SaveBtn>Save</SaveBtn>
-          <SubmitBtn>Submit</SubmitBtn>
+          <DeleteBtn>
+            <BaseDivTopZero>
+              Delete <RiDeleteBinFill />
+            </BaseDivTopZero>
+          </DeleteBtn>
+          <SaveBtn>
+            <BaseDivTopZero>
+              Save <VscSave />
+            </BaseDivTopZero>
+          </SaveBtn>
+          <SubmitBtn>
+            <BaseDivTopZero>
+              Submit <RiUploadCloud2Line />
+            </BaseDivTopZero>
+          </SubmitBtn>
         </BtnGroupFlexDiv>
-      </TitleWithBtnsDiv>
+      </Container>
+
       <Table />
     </div>
   );
