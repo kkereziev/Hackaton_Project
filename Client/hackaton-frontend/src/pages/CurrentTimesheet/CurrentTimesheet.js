@@ -1,38 +1,55 @@
-import React from "react";
+import React, { useState, useEffect, Fragment } from "react";
+import { Table } from "src/components/generic/Table/Table";
+import { useParams, useHistory } from "react-router-dom";
+import { getCurrentTimesheet } from "src/api_endpoints/timesheets";
 import {
   SecondTitle,
   Title,
   ColumnTitlesDiv,
 } from "src/components/generic/styles/Title";
-import {
-  DeleteBtn,
-  SaveBtn,
-  SubmitBtn,
-} from "src/components/generic/styles/Buttons";
-import { Table } from "src/components/generic/Table/Table";
-import {
-  TitleWithBtnsDiv,
-  BtnGroupFlexDiv,
-} from "src/components/generic/styles/Containers";
+import { TitleWithBtnsDiv } from "src/components/generic/styles/Containers";
+import { useSelector } from "react-redux";
+import { Container } from "react-bootstrap";
 
 /* As we are using dropdown on several places here options are hard coded for the sake of reviewing the UI
  * Placeholder should be hardcoded for every dropdown individually where dropdown component is used*/
 
 export const CurrentTimesheet = () => {
+  const { name } = useParams();
+  const history = useHistory();
+  const [timesheet, setTimesheet] = useState();
+  const { user } = useSelector((state) => state.auth);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRows = async () => {
+      try {
+        const timesheet = await getCurrentTimesheet(name);
+        if (timesheet === null) history.push("/dashboard");
+        setTimesheet(timesheet.result);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+      }
+    };
+    fetchRows();
+  }, []);
+
   return (
     <div>
-      <TitleWithBtnsDiv>
-        <ColumnTitlesDiv>
-          <Title>Timesheet for week {}</Title>
-          <SecondTitle>User: {}</SecondTitle>
-        </ColumnTitlesDiv>
-        <BtnGroupFlexDiv>
-          <DeleteBtn>Delete</DeleteBtn>
-          <SaveBtn>Save</SaveBtn>
-          <SubmitBtn>Submit</SubmitBtn>
-        </BtnGroupFlexDiv>
-      </TitleWithBtnsDiv>
-      <Table />
+      {!isLoading && (
+        <Fragment>
+          <TitleWithBtnsDiv>
+            <Container>
+              <ColumnTitlesDiv>
+                <Title>Timesheet for week {name}</Title>
+                <SecondTitle>User: {user?.username}</SecondTitle>
+              </ColumnTitlesDiv>
+            </Container>
+          </TitleWithBtnsDiv>
+          <Table timesheetObj={timesheet} />
+        </Fragment>
+      )}
     </div>
   );
 };

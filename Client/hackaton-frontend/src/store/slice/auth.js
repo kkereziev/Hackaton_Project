@@ -32,7 +32,6 @@ export const login = createAsyncThunk(
       .catch((err) => {
         throw new Error(err.response.data.error);
       });
-    history.push("/dashboard");
     return response.data;
   }
 );
@@ -66,7 +65,7 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: { user: null, authError: "" },
+  initialState: { authError: "" },
   reducers: {},
   extraReducers: {
     [register.fulfilled]: (state, action) => {},
@@ -78,6 +77,7 @@ const authSlice = createSlice({
       state.authError = "";
     },
     [login.rejected]: (state, action) => {
+      state.user = null;
       state.authError = action.error.message;
     },
     [logout.fulfilled]: (state, action) => {
@@ -85,6 +85,9 @@ const authSlice = createSlice({
     },
     [fetchCurrentUser.fulfilled]: (state, action) => {
       state.user = action.payload;
+    },
+    [fetchCurrentUser.rejected]: (state) => {
+      state.user = null;
     },
   },
 });

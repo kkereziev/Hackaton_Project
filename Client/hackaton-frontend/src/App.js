@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Navigation } from "./components/Navigation";
 import { BrowserRouter } from "react-router-dom";
 import { AppRoutes } from "./AppRoutes";
 import { connect } from "react-redux";
@@ -12,7 +11,6 @@ function App({ fetchCurrentUser }) {
 
   return (
     <BrowserRouter>
-      <Navigation />
       <AppRoutes />
     </BrowserRouter>
   );
