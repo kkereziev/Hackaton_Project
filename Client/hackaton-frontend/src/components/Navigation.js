@@ -60,7 +60,13 @@ const Navigation = ({ user, logout }) => {
                       </NavIconDiv>
                     </NavTabDiv>{" "}
                   </Nav.Link>
-                  <Nav.Link className="ml-5" onClick={logout}>
+                  <Nav.Link
+                    className="ml-5"
+                    onClick={() => {
+                      setExpanded(false);
+                      logout();
+                    }}
+                  >
                     {" "}
                     <NavTabDiv>
                       <NavTab>Logout</NavTab>
