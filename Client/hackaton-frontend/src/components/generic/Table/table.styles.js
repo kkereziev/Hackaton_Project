@@ -65,3 +65,10 @@ export const DropDownDiv = styled.div`
 export const DataSpan = styled.span`
   font-size: 14px;
 `;
+
+export const TotalHours = styled(InputHours)`
+  background-color: transparent;
+  border-color: transparent;
+  color: #08374e;
+  font-weight: bold;
+`;

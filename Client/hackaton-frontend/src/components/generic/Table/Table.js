@@ -31,6 +31,7 @@ import {
   TblData,
   InputHours,
   DropDownDiv,
+  TotalHours,
 } from "./table.styles";
 import { RiDeleteBinFill } from "react-icons/ri";
 import { RiUploadCloud2Line } from "react-icons/ri";
@@ -449,7 +450,11 @@ export const Table = ({ timesheetObj }) => {
                   defaultValue={row.sunday}
                 />
               </TblData>
-              <TblData>{row && <label>{row.totalRowHours}</label>}</TblData>
+              <TblData>
+                {row && (
+                  <TotalHours disabled={true} value={row.totalRowHours} />
+                )}
+              </TblData>
             </tr>
           ))}
           <tr>
