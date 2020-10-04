@@ -4,7 +4,6 @@ import {
   EditIconBtn,
   DeleteIconBtn,
   ViewIconBtn,
-  IconBtnDiv,
 } from "../generic/styles/Buttons";
 import { RiDeleteBinFill, RiEdit2Fill } from "react-icons/ri";
 import { BsFillEyeFill } from "react-icons/bs";

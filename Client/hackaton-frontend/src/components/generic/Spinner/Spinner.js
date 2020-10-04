@@ -13,6 +13,7 @@ export const LoadingSpinner = () => {
         position: "absolute",
         top: "30%",
         left: "calc(50% - 50px)",
+        color: "#669999",
       }}
     />
   );

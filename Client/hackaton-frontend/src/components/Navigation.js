@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut, FiLogIn } from "react-icons/fi";
 import { BsPlusSquare, BsFileCheck } from "react-icons/bs";
+import { RiUserAddFill } from "react-icons/ri";
 import monochrome from "src/assets/monochrome.svg";
 import { connect } from "react-redux";
 import { logout } from "../store/slice/auth";
@@ -84,24 +85,40 @@ const Navigation = ({ user, logout }) => {
               </div>
             </NavFlex>
           ) : (
-            <Nav className="ml-auto">
-              <Nav.Link
-                onClick={() => setExpanded(false)}
-                className="ml-5"
-                as={NavLink}
-                to="/login"
-              >
-                <NavTab>Log in</NavTab>
-              </Nav.Link>
-              <Nav.Link
-                onClick={() => setExpanded(false)}
-                className="ml-5"
-                as={NavLink}
-                to="/register"
-              >
-                <NavTab>Register</NavTab>
-              </Nav.Link>
-            </Nav>
+            <NavFlex>
+              <div>
+                <Nav className="ml-auto">
+                  <Nav.Link
+                    onClick={() => setExpanded(false)}
+                    className="ml-5"
+                    as={NavLink}
+                    to="/login"
+                  >
+                    {" "}
+                    <NavTabDiv>
+                      <NavTab>Log in </NavTab>
+                      <NavIconDiv>
+                        <FiLogIn />
+                      </NavIconDiv>
+                    </NavTabDiv>{" "}
+                  </Nav.Link>
+                  <Nav.Link
+                    onClick={() => setExpanded(false)}
+                    className="ml-5"
+                    as={NavLink}
+                    to="/register"
+                  >
+                    {" "}
+                    <NavTabDiv>
+                      <NavTab>Register</NavTab>
+                      <NavIconDiv>
+                        <RiUserAddFill />
+                      </NavIconDiv>
+                    </NavTabDiv>
+                  </Nav.Link>
+                </Nav>
+              </div>
+            </NavFlex>
           )}
         </Navbar.Collapse>
       </Navbar>
