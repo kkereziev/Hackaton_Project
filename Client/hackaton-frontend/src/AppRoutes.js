@@ -10,6 +10,7 @@ import {
 import { useSelector } from "react-redux";
 import { LoadingSpinner } from "src/components/generic/Spinner";
 import { Navigation } from "./components/Navigation";
+import { Container } from "react-bootstrap";
 
 export const AppRoutes = () => {
   const { user } = useSelector((state) => state.auth);
@@ -39,6 +40,10 @@ export const AppRoutes = () => {
       </div>
     );
   } else {
-    return <LoadingSpinner />;
+    return (
+      <Container>
+        <LoadingSpinner />
+      </Container>
+    );
   }
 };

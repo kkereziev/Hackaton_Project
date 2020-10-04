@@ -29,21 +29,30 @@ const LoginPage = ({ login, authError }) => {
             </TitleDiv>
             <Formik
               initialValues={{ username: "", password: "" }}
+              validate={false}
               onSubmit={handleSubmit}
             >
-              {({ isValid }) => {
+              {({ isValid, values }) => {
                 return (
                   <Form>
-                    <TextInputField name="username" label="Username" />
+                    <TextInputField
+                      name="username"
+                      label="Username"
+                      isTouched={false}
+                    />
                     <TextInputField
                       name="password"
                       type="password"
                       label="Password"
+                      isTouched={false}
                       autoComplete="current password"
                     />
                     {authError && <Alert variant="danger">{authError}</Alert>}
                     <IconBtnDiv>
-                      <NextBtn disabled={!isValid} type="submit">
+                      <NextBtn
+                        disabled={!values.username || !values.password}
+                        type="submit"
+                      >
                         Log In
                       </NextBtn>
                     </IconBtnDiv>

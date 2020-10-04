@@ -6,7 +6,7 @@ export const RegistrationValidationSchema = yup.object({
     .min(5, "Your username should be at least 5 characters long.")
     .matches(
       /^(?!.*\.(?:com|net))[A-Z0-9.]{5,}$/i,
-      "Your username contains prohibited characters."
+      "Your username can contain only '.' and alphanumeric characters."
     )
     .required("This field is required."),
   password: yup
@@ -15,6 +15,6 @@ export const RegistrationValidationSchema = yup.object({
     .required("This field is required."),
   passwordConfirmation: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .oneOf([yup.ref("password"), null], "Passwords must match.")
     .required("This field is required."),
 });

@@ -25,7 +25,7 @@ const TableDashboard = ({
   return (
     <div>
       {isLoading ? (
-        setTimeout(() => <LoadingSpinner />, 0)
+        <LoadingSpinner />
       ) : userTimesheets.length === 0 ? (
         <div>
           <h3 style={{ textAlign: "center" }}>
