@@ -1,13 +1,6 @@
 import styled from "styled-components";
 import { Table as BootstrapTable } from "react-bootstrap";
 
-export const TableDiv = styled.div`
-  margin: 0 auto;
-  width: 95%;
-  display: flex;
-  justify-content: center;
-`;
-
 export const Tbl = styled(BootstrapTable)`
   margin: 0 auto;
   background-color: #f8f9fa;
@@ -60,10 +53,6 @@ export const InputHours = styled.input`
 export const DropDownDiv = styled.div`
   width: 150px;
   min-width: 70px;
-`;
-
-export const DataSpan = styled.span`
-  font-size: 14px;
 `;
 
 export const TotalHours = styled(InputHours)`
