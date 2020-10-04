@@ -13,13 +13,12 @@ export const CreateTimesheet = () => {
   const history = useHistory();
   const [options, setOptions] = useState([]);
 
-  const [startDate, setStartDate] = useState({});
+  const [startDate, setStartDate] = useState(null);
 
   useEffect(() => {
     const fetchDates = async () => {
       const datesOptions = [];
       const dates = await getDates();
-      console.log(dates);
       dates.map((date) => {
         datesOptions.push({
           value: date.startDate,
@@ -29,7 +28,6 @@ export const CreateTimesheet = () => {
       });
       setOptions(datesOptions);
     };
-
     fetchDates();
   }, []);
 
@@ -58,7 +56,9 @@ export const CreateTimesheet = () => {
           onChange={handleChange}
         />
         <LineFlexBaseDiv>
-          <NextBtn onClick={nextBtnClick}>Next</NextBtn>
+          <NextBtn onClick={nextBtnClick} disabled={startDate === null}>
+            Next
+          </NextBtn>
         </LineFlexBaseDiv>
       </ColumnBaseDiv>
     </div>

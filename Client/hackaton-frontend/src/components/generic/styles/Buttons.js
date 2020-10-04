@@ -11,6 +11,10 @@ export const NextBtn = styled.button`
   :focus {
     outline: none;
   }
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
   &:hover {
     color: white;
     border-color: #669999;
@@ -18,12 +22,20 @@ export const NextBtn = styled.button`
   }
 `;
 
-export const NoBtn = styled(NextBtn)`
-  background-color: #8a1d00;
-  border-color: #8a1d00;
+export const YesBtn = styled(NextBtn)`
+  background: #5cbe7d;
+  border-color: #5cbe7d;
   &:hover {
-    border-color: #ca4f44;
-    background-color: #ca4f44;
+    border-color: #008d64;
+    background-color: #008d64;
+  }
+`;
+export const NoBtn = styled(NextBtn)`
+  background-color: #ca4f44;
+  border-color: #ca4f44;
+  &:hover {
+    border-color: #8a1d00;
+    background-color: #8a1d00;
   }
 `;
 
@@ -40,24 +52,28 @@ export const EditBtn = styled(NextBtn)`
   }
 `;
 
-export const DeleteBtn = styled(EditBtn)`
-  background-color: #8a1d00;
-  border: solid 2px;
-  border-color: #8a1d00;
+export const SaveBtn = styled(NextBtn)`
+  margin: 5px 0 5px 15px;
+  width: 100px;
+  background-color: #f8f9fa;
+  border-color: #f8f9fa;
+  color: #08374e;
+    &:hover {
+    border-color: #ccffff;
+    background-color:#ccffff;
+    color: #08374e;
+    font-weight: bold;
+`;
+
+export const DeleteBtn = styled(SaveBtn)`
   &:hover {
-    border-color: #ca4f44;
-    background-color: #ca4f44;
+    border-color: #8a1d00;
+    background-color: #8a1d00;
+    color: white;
   }
 `;
 
-export const ViewBtn = styled(EditBtn)`
-  background-color: dimgray;
-  border-color: dimgray;
-  &:hover {
-    border-color: lightgray;
-    background-color: lightgray;
-  }
-`;
+export const SubmitBtn = styled(SaveBtn)``;
 
 export const IconBtnDiv = styled.div`
   display: flex;

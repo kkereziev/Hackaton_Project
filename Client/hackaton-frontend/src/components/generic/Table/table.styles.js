@@ -1,13 +1,14 @@
 import styled from "styled-components";
+import { Table as BootstrapTable } from "react-bootstrap";
 
 export const TableDiv = styled.div`
   margin: 0 auto;
-  width: 85%;
+  width: 95%;
   display: flex;
   justify-content: center;
 `;
 
-export const Tbl = styled.table`
+export const Tbl = styled(BootstrapTable)`
   margin: 0 auto;
   background-color: #f8f9fa;
   height: fit-content;
@@ -36,7 +37,7 @@ export const TblData = styled.td`
 export const InputHours = styled.input`
   max-width: 30px;
   min-width: 20px;
-  margin: 15px;
+  margin-top: 5px;
   border: solid;
   border-color: lightgrey;
   border-radius: 5px;
@@ -45,6 +46,14 @@ export const InputHours = styled.input`
   color: dimgray;
   :focus {
     outline: none;
+  }
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `;
 
@@ -55,4 +64,11 @@ export const DropDownDiv = styled.div`
 
 export const DataSpan = styled.span`
   font-size: 14px;
+`;
+
+export const TotalHours = styled(InputHours)`
+  background-color: transparent;
+  border-color: transparent;
+  color: #08374e;
+  font-weight: bold;
 `;

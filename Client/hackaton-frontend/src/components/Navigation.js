@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import { BsPlusSquare, BsFileCheck } from "react-icons/bs";
 import monochrome from "src/assets/monochrome.svg";
-import styled from "styled-components";
 import { connect } from "react-redux";
 import { logout } from "../store/slice/auth";
 import {
@@ -17,19 +16,28 @@ import {
 } from "src/components/Navigation/navigation.styles";
 
 const Navigation = ({ user, logout }) => {
+  const [expanded, setExpanded] = useState(false);
   return (
     <>
-      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+      <Navbar expanded={expanded} expand="lg" bg="light" variant="light">
         <Navbar.Brand as={NavLink} to="/dashboard">
-          <Logo width="80px" src={monochrome} alt="logo" />
+          <Logo src={monochrome} alt="logo" />
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Toggle
+          onClick={() => setExpanded(expanded ? false : "expanded")}
+          aria-controls="responsive-navbar-nav"
+        />
         <Navbar.Collapse id="responsive-navbar-nav">
           {user ? (
             <NavFlex>
               <div>
                 <Nav className="ml-auto">
-                  <Nav.Link className="ml-5" as={NavLink} to="/dashboard">
+                  <Nav.Link
+                    onClick={() => setExpanded(false)}
+                    className="ml-5"
+                    as={NavLink}
+                    to="/dashboard"
+                  >
                     {" "}
                     <NavTabDiv>
                       <NavTab>Dashboard </NavTab>
@@ -38,7 +46,12 @@ const Navigation = ({ user, logout }) => {
                       </NavIconDiv>
                     </NavTabDiv>{" "}
                   </Nav.Link>
-                  <Nav.Link className="ml-5" as={NavLink} to="/createTimesheet">
+                  <Nav.Link
+                    onClick={() => setExpanded(false)}
+                    className="ml-5"
+                    as={NavLink}
+                    to="/createTimesheet"
+                  >
                     {" "}
                     <NavTabDiv>
                       <NavTab>Create Timesheet </NavTab>
@@ -47,7 +60,13 @@ const Navigation = ({ user, logout }) => {
                       </NavIconDiv>
                     </NavTabDiv>{" "}
                   </Nav.Link>
-                  <Nav.Link className="ml-5" onClick={logout}>
+                  <Nav.Link
+                    className="ml-5"
+                    onClick={() => {
+                      setExpanded(false);
+                      logout();
+                    }}
+                  >
                     {" "}
                     <NavTabDiv>
                       <NavTab>Logout</NavTab>
@@ -66,10 +85,20 @@ const Navigation = ({ user, logout }) => {
             </NavFlex>
           ) : (
             <Nav className="ml-auto">
-              <Nav.Link className="ml-5" as={NavLink} to="/login">
+              <Nav.Link
+                onClick={() => setExpanded(false)}
+                className="ml-5"
+                as={NavLink}
+                to="/login"
+              >
                 <NavTab>Log in</NavTab>
               </Nav.Link>
-              <Nav.Link className="ml-5" as={NavLink} to="/register">
+              <Nav.Link
+                onClick={() => setExpanded(false)}
+                className="ml-5"
+                as={NavLink}
+                to="/register"
+              >
                 <NavTab>Register</NavTab>
               </Nav.Link>
             </Nav>

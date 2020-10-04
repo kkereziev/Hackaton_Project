@@ -23,7 +23,7 @@ const post = {
       const { username, password } = result;
       const findUser = await findUserByUsername(username);
       if (findUser) {
-        return res.status(409).send({ error: 'username already exists' });
+        return res.status(409).send({ error: 'Username already exists!' });
       }
 
       const newUser = await models.User.create({
@@ -32,12 +32,13 @@ const post = {
       }).catch(next);
 
       newUser.phash = undefined;
-      return res.send(newUser);
+
+      return res.status(201).send(newUser);
     } catch (err) {
       if (err.isJoi === true) {
         return res.status(422).send({ error: `Invalid ${err.details[0].path}` });
       }
-      return res.status(400).send({ error: err.message });
+      res.status(400).send({ error: err.message });
     }
   },
   async login(req, res, next) {
@@ -58,9 +59,9 @@ const post = {
       return res.cookie(authCookieName, token).send({ username: user.username });
     } catch (err) {
       if (err.isJoi === true) {
-        return res.status(422).send({ error: `Invalid credentials` });
+        return res.status(422).send({ error: `Invalid username or password.` });
       }
-      return res.status(400).send({ error: `Invalid credentials` });
+      return res.status(401).send({ error: `Invalid username or password.` });
     }
   },
   async logout(req, res, next) {

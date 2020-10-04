@@ -53,7 +53,7 @@ export const RegistrationPage = ({ register, authError }) => {
                     {authError && <Alert variant="danger">{authError}</Alert>}
                     <IconBtnDiv>
                       <NextBtn disabled={!isValid} type="submit">
-                        Sign in
+                        Register
                       </NextBtn>
                     </IconBtnDiv>
                     <div>
