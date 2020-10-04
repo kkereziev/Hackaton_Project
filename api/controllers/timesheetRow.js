@@ -5,9 +5,10 @@ const get = {
   async getTimesheetRows(req, res, next) {
     try {
       const { name } = req.params;
+      const { id } = req.user.dataValues;
 
       const timesheetRows = await models.Timesheet.findOne({
-        where: { name: { [Op.like]: `${name}%` } },
+        where: { name: { [Op.like]: `${name}%` }, userId: id },
         include: [
           {
             model: models.TimesheetRow,
