@@ -30,6 +30,7 @@ const patch = {
     try {
       const { rows, isSubmitted } = req.body;
       const { timesheetId } = req.params;
+
       const existsTimesheet = await models.Timesheet.findOne({ where: { id: timesheetId } }).catch(next);
       if (!existsTimesheet) {
         throw new Error('There is no timesheet with that id');
