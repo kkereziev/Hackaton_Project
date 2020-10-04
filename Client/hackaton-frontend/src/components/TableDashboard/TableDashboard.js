@@ -46,11 +46,12 @@ const TableDashboard = ({
                 <tr key={timesheet.id}>
                   {!timesheet.isSubmitted ? (
                     <TblData>
-                      <IconBtnDiv>
-                        <DeleteIconBtn onClick={() => handleOpen(timesheet)}>
-                          <RiDeleteBinFill />
-                        </DeleteIconBtn>
-                      </IconBtnDiv>
+                      <DeleteIconBtn
+                        as={Link}
+                        onClick={() => handleOpen(timesheet)}
+                      >
+                        <RiDeleteBinFill />
+                      </DeleteIconBtn>
                     </TblData>
                   ) : (
                     <TblData></TblData>
