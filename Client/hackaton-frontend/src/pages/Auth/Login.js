@@ -13,6 +13,7 @@ import { Alert } from "react-bootstrap";
 import { Title, TitleDiv } from "src/components/generic/styles/Title";
 import monochrome from "../../assets/monochrome.svg";
 import { Row, Col, Container } from "react-bootstrap";
+import { LoginValidationSchema } from "src/validations";
 
 const LoginPage = ({ login, authError }) => {
   const history = useHistory();
@@ -30,6 +31,7 @@ const LoginPage = ({ login, authError }) => {
             <Formik
               initialValues={{ username: "", password: "" }}
               onSubmit={handleSubmit}
+              validationSchema={LoginValidationSchema}
             >
               {({ isValid }) => {
                 return (

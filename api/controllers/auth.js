@@ -59,9 +59,9 @@ const post = {
       return res.cookie(authCookieName, token).send({ username: user.username });
     } catch (err) {
       if (err.isJoi === true) {
-        return res.status(422).send({ error: `Invalid credentials` });
+        return res.status(422).send({ error: `Invalid username or password.` });
       }
-      return res.status(401).send({ error: `Invalid credentials` });
+      return res.status(401).send({ error: `Invalid username or password.` });
     }
   },
   async logout(req, res, next) {
