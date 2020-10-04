@@ -170,9 +170,13 @@ export const Table = ({ timesheetObj }) => {
       if (isSubmitted) history.push("/dashboard");
       setIsSaved(true);
     } catch (err) {
-      setRequestError(
-        "Something went wrong, please try again in a few minutes."
-      );
+      if (tableRows[0].projectId === null || tableRows[0].taskId === null) {
+        setRequestError("Please select project and task!");
+      } else {
+        setRequestError(
+          "Something went wrong, please try again in a few minutes."
+        );
+      }
     }
   };
 

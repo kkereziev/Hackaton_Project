@@ -51,7 +51,7 @@ export const TitleWithBtnsDiv = styled(BaseDiv)`
 export const BtnGroupFlexDiv = styled(LineFlexBaseDiv)`
   flex-wrap: wrap;
   align-self: end;
-  margin-bottom: 38px;
+  margin-bottom: 26px;
   float: left;
 `;
 
