@@ -56,7 +56,12 @@ export const CreateTimesheet = () => {
           onChange={handleChange}
         />
         <LineFlexBaseDiv>
-          <NextBtn onClick={nextBtnClick}>Next</NextBtn>
+          <NextBtn
+            disabled={!Object.keys(startDate).length}
+            onClick={nextBtnClick}
+          >
+            Next
+          </NextBtn>
         </LineFlexBaseDiv>
       </ColumnBaseDiv>
     </div>

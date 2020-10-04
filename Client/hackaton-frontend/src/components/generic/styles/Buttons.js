@@ -11,6 +11,10 @@ export const NextBtn = styled.button`
   :focus {
     outline: none;
   }
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
   &:hover {
     color: white;
     border-color: #669999;
